@@ -23,13 +23,15 @@ public class LoggInnController {
     ObservableList<Bruker> listeMedBrukere = DataHandler.hentListeMedBrukere();
 
 
-
+    //Dårlig innlogging til programmet
     public void loggInnBruker() {
         for (int i = 0; i < listeMedBrukere.size(); i++) {
             if(listeMedBrukere.get(i).getBrukernavn().equals(inputBrukernavn.getText())) {
-                System.out.println("u r winer");
+                if (listeMedBrukere.get(i).getPassord().equals(inputPassord.getText())) {
+                    System.out.println("Gratulerer du er innlogget, " + listeMedBrukere.get(i).getFornavn());
+                }
             }
         }
-
     }
 }
+
