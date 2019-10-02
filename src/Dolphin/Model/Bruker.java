@@ -1,4 +1,4 @@
-package Dolphin.constructors;
+package Dolphin.Model;
 
 public class Bruker {
 

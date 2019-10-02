@@ -1,8 +1,7 @@
-package Dolphin.controller;
+package Dolphin.Controllers;
 
 import Dolphin.DataHandler.DataHandler;
-import Dolphin.constructors.Bruker;
-import javafx.beans.Observable;
+import Dolphin.Model.Bruker;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -19,6 +18,9 @@ public class LoggInnController {
     @FXML
     private Button loggInnBrukerKnapp;
 
+    @FXML
+    private Button loggInnAdminKnapp;
+
     //Få liste med brukere fra DataHandler
     ObservableList<Bruker> listeMedBrukere = DataHandler.hentListeMedBrukere();
 
@@ -32,6 +34,10 @@ public class LoggInnController {
                 }
             }
         }
+    }
+
+    public void loggInnAdmin() {
+        System.out.println("Gratulerer du er admin :)");
     }
 }
 

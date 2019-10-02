@@ -19,7 +19,7 @@
       <AnchorPane prefHeight="542.0" prefWidth="598.0">
          <children>
             <Button id="loggInnBruker" fx:id="loggInnBrukerKnapp" layoutX="220.0" layoutY="375.0" mnemonicParsing="false" onAction="#loggInnBruker" text="Logg inn som bruker" />
-            <Button layoutX="221.0" layoutY="308.0" mnemonicParsing="false" text="Logg inn som admin" />
+            <Button fx:id="loggInnAdminKnapp" layoutX="221.0" layoutY="308.0" mnemonicParsing="false" onAction="#loggInnAdmin" text="Logg inn som admin" />
             <TextField id="inputBrukernavn" fx:id="inputBrukernavn" layoutX="206.0" layoutY="100.0" promptText="Brukernavn" />
             <TextField id="inputPassord" fx:id="inputPassord" layoutX="206.0" layoutY="174.0" promptText="Passord" />
          </children>
