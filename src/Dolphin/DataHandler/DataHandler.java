@@ -29,7 +29,7 @@ public class DataHandler {
 
                 Bruker brukerObj = new Bruker(verdier[0],verdier[1],Integer.parseInt(verdier[2]),verdier[3],verdier[4],verdier[5]);
 
-                System.out.println("fornavn er: " + verdier[0]);
+                //System.out.println("fornavn er: " + verdier[0]);
 
                 listeMedBrukere.add(brukerObj);
                 //arrayListeMedBrukere.add(brukerObj);
