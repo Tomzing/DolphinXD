@@ -1,6 +1,7 @@
 package Dolphin.Controllers;
 
 import Dolphin.DataHandler.DataHandler;
+import Dolphin.Main;
 import Dolphin.Model.Bruker;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -31,13 +32,25 @@ public class LoggInnController {
             if(listeMedBrukere.get(i).getBrukernavn().equals(inputBrukernavn.getText())) {
                 if (listeMedBrukere.get(i).getPassord().equals(inputPassord.getText())) {
                     System.out.println("Gratulerer du er innlogget, " + listeMedBrukere.get(i).getFornavn());
+
+                    gaaTilBrukerHovedvisning();
                 }
             }
         }
     }
+    @FXML
+    public void gaaTilBrukerHovedvisning() {
+        Main minApplikasjon = Main.getInstance();
+
+        minApplikasjon.gaaTilBrukerHovedvisning();
+    }
 
     public void loggInnAdmin() {
         System.out.println("Gratulerer du er admin :)");
+
+        Main minApplikasjon = Main.getInstance();
+
+        minApplikasjon.gaaTilAdminHovedvisning();
     }
 }
 
