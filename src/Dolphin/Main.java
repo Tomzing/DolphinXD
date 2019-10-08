@@ -33,7 +33,7 @@ public class Main extends Application {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("Views/logginn.fxml"));
             primaryStage.setTitle("Logg inn Dolphin");
-            primaryStage.setScene(new Scene(root, 600, 490));
+            primaryStage.setScene(new Scene(root, 600, 480));
             primaryStage.show();
         }
         catch (IOException ioe) {
