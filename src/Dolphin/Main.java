@@ -43,6 +43,7 @@ public class Main extends Application {
 
     public void gaaTilBrukerHovedvisning() {
         try {
+            System.out.println("Brukervisning");
             Parent root = FXMLLoader.load(getClass().getResource("Views/brukerhovedvisning.fxml"));
             primaryStage.setTitle("Hovedvisning for bruker");
             primaryStage.setScene(new Scene(root, 1000, 600));
