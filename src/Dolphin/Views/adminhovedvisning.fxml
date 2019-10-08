@@ -11,6 +11,6 @@
 <AnchorPane prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Dolphin.Controllers.AdminHovedvisningController">
    <children>
       <Button fx:id="gaaTilLoggInnKnapp" layoutX="914.0" layoutY="555.0" mnemonicParsing="false" onAction="#gaaTilLoggInn" text="Logg ut" />
-      <ImageView fx:id="adminBilde" fitHeight="326.0" fitWidth="395.0" layoutX="127.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="adminBilde" fitHeight="576.0" fitWidth="623.0" layoutX="189.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>
