@@ -27,16 +27,20 @@ public class LoggInnController {
 
 
     //Dårlig innlogging til programmet
-    public void loggInnBruker() {
+    public String loggInnBruker() {
         for (int i = 0; i < listeMedBrukere.size(); i++) {
             if(listeMedBrukere.get(i).getBrukernavn().equals(inputBrukernavn.getText())) {
                 if (listeMedBrukere.get(i).getPassord().equals(inputPassord.getText())) {
                     System.out.println("Gratulerer du er innlogget, " + listeMedBrukere.get(i).getFornavn());
 
                     gaaTilBrukerHovedvisning();
+
+                    return "Du er innlogget :D";
                 }
             }
         }
+        System.out.println("Brukernavnet eller passord er feil");
+        return "Brukernavnet eller passord er feil";
     }
     @FXML
     public void gaaTilBrukerHovedvisning() {
