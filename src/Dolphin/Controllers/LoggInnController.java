@@ -49,6 +49,7 @@ public class LoggInnController {
         minApplikasjon.gaaTilBrukerHovedvisning();
     }
 
+    @FXML
     public void loggInnAdmin() {
         System.out.println("Gratulerer du er admin :)");
 
