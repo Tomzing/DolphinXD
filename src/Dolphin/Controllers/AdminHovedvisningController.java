@@ -1,6 +1,11 @@
 package Dolphin.Controllers;
 
+import Dolphin.DataHandler.DataHandler;
 import Dolphin.Main;
+import Dolphin.Model.Arrangement;
+import Dolphin.Model.ArrangementAnnet;
+import Dolphin.Model.ArrangementSykkelritt;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -19,6 +24,14 @@ public class AdminHovedvisningController {
     private ImageView adminBilde;
 
     public void initialize() {
+
+        //Få liste med arrangementer fra Datahandler
+        ObservableList<ArrangementSykkelritt> listeMedSykkelrittArrangementer = DataHandler.hentListeMedSykkelrittArrangementer();
+        ObservableList<ArrangementAnnet> listeMedAnnetArrangementer = DataHandler.hentListeMedAnnetArrangementer();
+
+        //System.out.println(listeMedSykkelrittArrangementer.get(1).getNavn());
+        //System.out.println(listeMedAnnetArrangementer.get(1).getNavn());
+
         //String path = "src\\Dolphin\\Ressurser\\cooldude.jpg";
         String path = "https://c7.alamy.com/comp/A1WBAM/cool-dude-young-boy-approaching-his-teenage-years-A1WBAM.jpg";
         Image image = new Image(path);

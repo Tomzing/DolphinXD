@@ -1,22 +1,26 @@
 package Dolphin.Model;
 
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.util.concurrent.atomic.AtomicInteger;
 
-public class Arrangement {
+public abstract class Arrangement {
+    private static final AtomicInteger teller = new AtomicInteger(0);
     private int arrangementId;
     private String navn;
     //TYPE MÅ MEST SANNSYNLIG ENDRES
     private String type;
     private int antallPlasser;
-    private Date dato;
+    private LocalDateTime startDato;
+    private LocalDateTime sluttDato;
     private String plassering;
 
-    public Arrangement(int arrangementId, String navn, String type, int antallPlasser, Date dato, String plassering) {
-        this.arrangementId = arrangementId;
+    public Arrangement(String navn, String type, int antallPlasser, LocalDateTime startDato, LocalDateTime sluttDato, String plassering) {
+        this.arrangementId = teller.incrementAndGet();
         this.navn = navn;
         this.type = type;
         this.antallPlasser = antallPlasser;
-        this.dato = dato;
+        this.startDato = startDato;
+        this.sluttDato = sluttDato;
         this.plassering = plassering;
     }
 
@@ -52,12 +56,12 @@ public class Arrangement {
         this.antallPlasser = antallPlasser;
     }
 
-    public Date getDato() {
-        return dato;
+    public LocalDateTime getStartDato() {
+        return startDato;
     }
 
-    public void setDato(Date dato) {
-        this.dato = dato;
+    public void setStartDato(LocalDateTime startDato) {
+        this.startDato = startDato;
     }
 
     public String getPlassering() {
@@ -66,5 +70,13 @@ public class Arrangement {
 
     public void setPlassering(String plassering) {
         this.plassering = plassering;
+    }
+
+    public LocalDateTime getSluttDato() {
+        return sluttDato;
+    }
+
+    public void setSluttDato(LocalDateTime sluttDato) {
+        this.sluttDato = sluttDato;
     }
 }

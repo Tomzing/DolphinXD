@@ -2,6 +2,9 @@ package Dolphin.Controllers;
 
 import Dolphin.DataHandler.DataHandler;
 import Dolphin.Main;
+import Dolphin.Model.Arrangement;
+import Dolphin.Model.ArrangementAnnet;
+import Dolphin.Model.ArrangementSykkelritt;
 import Dolphin.Model.Bruker;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -24,6 +27,11 @@ public class LoggInnController {
 
     //Få liste med brukere fra DataHandler
     ObservableList<Bruker> listeMedBrukere = DataHandler.hentListeMedBrukere();
+
+    //Få liste med arrangementer fra Datahandler
+    //ENDRE DATAHANDLER FOR Å LEGGE INN ALLE ARRANGEMENTER INN I EN OBSERVABLELISTE
+    ObservableList<ArrangementSykkelritt> listeMedSykkelrittArrangementer = DataHandler.hentListeMedSykkelrittArrangementer();
+    ObservableList<ArrangementAnnet> listeMedAnnetArrangementer = DataHandler.hentListeMedAnnetArrangementer();
 
 
     //Dårlig innlogging til programmet
