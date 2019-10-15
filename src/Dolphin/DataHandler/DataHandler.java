@@ -6,7 +6,6 @@ import Dolphin.Model.ArrangementSykkelritt;
 import Dolphin.Model.Bruker;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.util.converter.LocalDateTimeStringConverter;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
