@@ -1,7 +1,7 @@
 import org.junit.Test;
 
 
-class Controller {
+class Controllers {
 
     @Test
     public void kjorerSystemet() {
