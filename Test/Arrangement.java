@@ -1,20 +1,22 @@
+import Dolphin.DataHandler.DataHandler;
 import Dolphin.Model.ArrangementAnnet;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class Arrangement {
     @Test
     public void lagNyAnnetArrangement() {
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        LocalDateTime dateTime = LocalDateTime.parse("2002-06-28 20:15", formatter);
+        LocalDateTime fraDato = DataHandler.formaterDato("2002-06-28 20:00");
+        LocalDateTime  tilDato = DataHandler.formaterDato("2002-06-30 20:00");
 
         ArrangementAnnet test1 = new ArrangementAnnet ("Kult Arrangement","Ekstrem stryking",
-                1000,dateTime, dateTime, "Stedesen 8",
+                1000, fraDato, tilDato, "Stedesen 8",
                 "Stryke raskt og fort med utrolige varmer!");
-        Assert.assertNotNull(test1);
+        assertNotNull(test1);
     }
 }
