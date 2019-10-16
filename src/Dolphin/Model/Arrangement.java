@@ -16,6 +16,7 @@ public abstract class Arrangement {
     private LocalDateTime startDato;
     private LocalDateTime sluttDato;
     private String plassering;
+    //Den her blir vrien, for nå må vi vel danne en "database" for denne listen, slik at brukere forblir oppmeldt
     private ObservableList<Bruker> deltakereOppmeldt = FXCollections.observableArrayList();
 
     public Arrangement(String navn, String type, int antallPlasser, LocalDateTime startDato, LocalDateTime sluttDato, String plassering) {
