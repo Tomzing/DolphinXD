@@ -1,5 +1,8 @@
 package Dolphin.Model;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.time.LocalDateTime;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -13,6 +16,7 @@ public abstract class Arrangement {
     private LocalDateTime startDato;
     private LocalDateTime sluttDato;
     private String plassering;
+    private ObservableList<Bruker> deltakereOppmeldt = FXCollections.observableArrayList();
 
     public Arrangement(String navn, String type, int antallPlasser, LocalDateTime startDato, LocalDateTime sluttDato, String plassering) {
         this.arrangementId = teller.incrementAndGet();
@@ -78,5 +82,13 @@ public abstract class Arrangement {
 
     public void setSluttDato(LocalDateTime sluttDato) {
         this.sluttDato = sluttDato;
+    }
+
+    public ObservableList<Bruker> getDeltakereOppmeldt() {
+        return deltakereOppmeldt;
+    }
+
+    public void setDeltakereOppmeldt(ObservableList<Bruker> deltakereOppmeldt) {
+        this.deltakereOppmeldt = deltakereOppmeldt;
     }
 }
