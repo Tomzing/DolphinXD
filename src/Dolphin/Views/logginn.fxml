@@ -16,12 +16,13 @@
       <RowConstraints />
    </rowConstraints>
    <children>
-      <AnchorPane prefHeight="542.0" prefWidth="598.0">
+      <AnchorPane prefHeight="480.0" prefWidth="600.0">
          <children>
             <Button id="loggInnBruker" fx:id="loggInnBrukerKnapp" layoutX="220.0" layoutY="375.0" mnemonicParsing="false" onAction="#loggInnBruker" text="Logg inn som bruker" />
             <Button fx:id="loggInnAdminKnapp" layoutX="221.0" layoutY="308.0" mnemonicParsing="false" onAction="#loggInnAdmin" text="Logg inn som admin" />
             <TextField id="inputBrukernavn" fx:id="inputBrukernavn" layoutX="206.0" layoutY="100.0" promptText="Brukernavn" />
             <TextField id="inputPassord" fx:id="inputPassord" layoutX="206.0" layoutY="174.0" promptText="Passord" />
+            <Button fx:id="nyBrukerKnapp" layoutX="500.0" layoutY="435.0" mnemonicParsing="false" onAction="#gaaTilNyBruker" text="Ny bruker" />
          </children>
       </AnchorPane>
    </children>

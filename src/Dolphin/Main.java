@@ -66,6 +66,19 @@ public class Main extends Application {
         }
     }
 
+    public void gaaTilNyBruker() {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("Views/nybruker.fxml"));
+            primaryStage.setTitle("Lag ny bruker");
+            primaryStage.setScene(new Scene(root, 1000, 600));
+            primaryStage.show();
+        }
+
+        catch(IOException ioe) {
+            System.out.println(ioe.getMessage());
+        }
+    }
+
 
     public static void main(String[] args) {
         launch(args);

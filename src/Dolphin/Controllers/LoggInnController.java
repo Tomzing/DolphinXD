@@ -25,6 +25,9 @@ public class LoggInnController {
     @FXML
     private Button loggInnAdminKnapp;
 
+    @FXML
+    private Button nyBrukerKnapp;
+
     //Få liste med brukere fra DataHandler
     ObservableList<Bruker> listeMedBrukere = DataHandler.hentListeMedBrukere();
 
@@ -64,6 +67,13 @@ public class LoggInnController {
         Main minApplikasjon = Main.getInstance();
 
         minApplikasjon.gaaTilAdminHovedvisning();
+    }
+
+    @FXML
+    public void gaaTilNyBruker() {
+        Main minApplikasjon = Main.getInstance();
+
+        minApplikasjon.gaaTilNyBruker();
     }
 }
 
