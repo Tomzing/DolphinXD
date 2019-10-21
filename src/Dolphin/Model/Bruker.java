@@ -1,7 +1,11 @@
 package Dolphin.Model;
 
-public class Bruker {
+import java.util.concurrent.atomic.AtomicInteger;
 
+public class Bruker {
+    private static final AtomicInteger teller = new AtomicInteger(0);
+
+    private int brukerId;
     private String fornavn;
     private String etternavn;
     private int alder;
@@ -10,12 +14,21 @@ public class Bruker {
     private String passord;
 
     public Bruker(String fornavn, String etternavn, int alder, String kjonn, String brukernavn, String passord) {
+        this.brukerId = teller.incrementAndGet();
         this.fornavn = fornavn;
         this.etternavn = etternavn;
         this.alder = alder;
         this.kjonn = kjonn;
         this.brukernavn = brukernavn;
         this.passord = passord;
+    }
+
+    public int getBrukerId() {
+        return brukerId;
+    }
+
+    public void setBrukerId(int brukerId) {
+        this.brukerId = brukerId;
     }
 
     public String getFornavn() {

@@ -1,5 +1,7 @@
 package Dolphin.Model;
 
+import javafx.collections.ObservableList;
+
 import java.time.LocalDateTime;
 
 public class ArrangementAnnet extends Arrangement {

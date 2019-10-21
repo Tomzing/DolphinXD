@@ -57,7 +57,9 @@ public class DataHandler {
     public static LocalDateTime formaterDato(String dato) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
-        return LocalDateTime.parse(dato, formatter);
+        LocalDateTime datoForFormatering = LocalDateTime.parse(dato, formatter);
+
+        return datoForFormatering;
     }
 
     //Lese sykkelritt arrangementer fra fil

@@ -16,10 +16,12 @@ public abstract class Arrangement {
     private LocalDateTime startDato;
     private LocalDateTime sluttDato;
     private String plassering;
-    //Den her blir vrien, for nå må vi vel danne en "database" for denne listen, slik at brukere forblir oppmeldt
+    //Den her blir vrien, for nå må vi vel danne en "database" for denne listen, slik at brukere forblir oppmeldt.
+    //Kanskje lage logikk som tar i mot bruker objekter i listen, når man legger til at brukere kan melde seg på arrangementet.
     private ObservableList<Bruker> deltakereOppmeldt = FXCollections.observableArrayList();
 
-    public Arrangement(String navn, String type, int antallPlasser, LocalDateTime startDato, LocalDateTime sluttDato, String plassering) {
+    public Arrangement(String navn, String type, int antallPlasser, LocalDateTime startDato, LocalDateTime sluttDato,
+                       String plassering) {
         this.arrangementId = teller.incrementAndGet();
         this.navn = navn;
         this.type = type;
