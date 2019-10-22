@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Dolphin.Controller.NyBrukerController">
+   <children>
+      <GridPane layoutX="314.0" layoutY="155.0" prefHeight="291.0" prefWidth="372.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <TextField fx:id="inputFornavn" promptText="Fornavn" />
+            <TextField fx:id="inputEtternavn" promptText="Etternavn" GridPane.rowIndex="1" />
+            <TextField fx:id="inputAar" promptText="Antall år" GridPane.rowIndex="2" />
+            <TextField fx:id="inputPassord" promptText="Passord" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="inputBrukernavn" promptText="Brukernavn" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <ChoiceBox fx:id="valgBoksKjonn" prefHeight="31.0" prefWidth="205.0" GridPane.columnIndex="1" />
+         </children>
+      </GridPane>
+      <Button fx:id="knappLagre" layoutX="14.0" layoutY="555.0" mnemonicParsing="false" onAction="#lagreNyBruker" text="Lagre" />
+      <Button fx:id="knappAvbryt" layoutX="922.0" layoutY="555.0" mnemonicParsing="false" text="Avbryt" />
+      <Text layoutX="297.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Opprett ny bruker">
+         <font>
+            <Font size="51.0" />
+         </font>
+      </Text>
+   </children>
+</AnchorPane>
