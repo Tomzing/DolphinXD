@@ -27,8 +27,7 @@ public class AdminHovedvisningController {
         //System.out.println(listeMedSykkelrittArrangementer.get(1).getNavn());
         //System.out.println(listeMedAnnetArrangementer.get(1).getNavn());
 
-        //String path = "src\\Dolphin\\Ressurser\\cooldude.jpg";
-        String path = "https://c7.alamy.com/comp/A1WBAM/cool-dude-young-boy-approaching-his-teenage-years-A1WBAM.jpg";
+        String path = "Bilder/cooldude.jpg";
         Image image = new Image(path);
         adminBilde.setImage(image);
     }

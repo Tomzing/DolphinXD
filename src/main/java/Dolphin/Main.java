@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.scene.image.Image;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,7 +36,10 @@ public class Main extends Application {
     public void gaaTilLoggInn() {
         try {
             URL url = new File("src/main/java/Dolphin/View/logginn.fxml").toURI().toURL();
+
             Parent root = FXMLLoader.load(url);
+
+            primaryStage.getIcons().add(new Image("Bilder/cooldudeicon.png"));
             primaryStage.setTitle("Logg inn Dolphin");
             primaryStage.setScene(new Scene(root, 600, 480));
             primaryStage.show();
