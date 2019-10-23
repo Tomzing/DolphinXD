@@ -8,7 +8,7 @@ class Controllers {
     @Test
     public void sjekkerFungererErTall() {
         NyBrukerController controller1 = new NyBrukerController();
-        Assert.assertEquals("24", NyBrukerController.erTall("24") );
+        Assert.assertTrue(NyBrukerController.erTall("24") );
         Assert.assertFalse(NyBrukerController.erTall("Hello"));
     }
 }
