@@ -38,22 +38,29 @@ public class LoggInnController {
 
     //Dårlig innlogging til programmet
     public String loggInnBruker() {
-       return loggInnKjorer(inputBrukernavn.getText(),inputPassord.getText());
+
+       if(loggInnKjorer(inputBrukernavn.getText(),inputPassord.getText())){
+           gaaTilBrukerHovedvisning();
+           //Tekst for suksessfull login
+           return "Du er innlogget :D";
+       }
+       else {
+           //Tekst for failet login
+           return "Brukernavnet eller passord er feil";
+       }
     }
-    public String loggInnKjorer(String brukerNavn, String brukerPassord){
+    public Boolean loggInnKjorer(String brukerNavn, String brukerPassord){
         for (int i = 0; i < listeMedBrukere.size(); i++) {
             if(listeMedBrukere.get(i).getBrukernavn().equals(brukerNavn)) {
                 if (listeMedBrukere.get(i).getPassord().equals(brukerPassord)) {
                     System.out.println("Gratulerer du er innlogget, " + listeMedBrukere.get(i).getFornavn());
 
-                    gaaTilBrukerHovedvisning();
-
-                    return "Du er innlogget :D";
+                    return true;
                 }
             }
         }
         System.out.println("Brukernavnet eller passord er feil");
-        return "Brukernavnet eller passord er feil";
+        return false;
     }
     @FXML
     public void gaaTilBrukerHovedvisning() {
