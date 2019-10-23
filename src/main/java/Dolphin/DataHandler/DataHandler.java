@@ -1,9 +1,7 @@
 package Dolphin.DataHandler;
 
-import Dolphin.Model.Arrangement;
-import Dolphin.Model.ArrangementAnnet;
-import Dolphin.Model.ArrangementSykkelritt;
-import Dolphin.Model.Bruker;
+import Dolphin.Model.*;
+import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -21,7 +19,7 @@ public class DataHandler {
     private static final ObservableList<Arrangement> listeMedAlleArrangementer = FXCollections.observableArrayList();
     private static final ObservableList<ArrangementSykkelritt> listeMedSykkelrittArrangementer = FXCollections.observableArrayList();
     private static final ObservableList<ArrangementAnnet> listeMedAnnetArrangementer = FXCollections.observableArrayList();
-
+    private static final ObservableList<ArrangementLop> listeMedLopsArrangementer = FXCollections.observableArrayList();
 
     //Lese brukere fra fil
     public static ObservableList<Bruker> hentListeMedBrukere() {
@@ -87,6 +85,37 @@ public class DataHandler {
             e.printStackTrace();
         }
         return listeMedSykkelrittArrangementer;
+    }
+
+    //Lese Løps arrangementer fra fil
+    public static ObservableList<ArrangementLop> hentListeMedLopsArrangementer() {
+
+        String path = "src\\main\\resources\\Database\\loparrangementer.csv";
+        BufferedReader br = null;
+        String line = "";
+        String CsvSplittetMed = ";";
+
+        try {
+
+            br = new BufferedReader(new FileReader(path));
+            while ((line = br.readLine()) != null) {
+
+                String[] arrangementVerdier = line.split(CsvSplittetMed);
+
+
+                ArrangementLop arrangementObj = new ArrangementLop(
+                        arrangementVerdier[0],arrangementVerdier[1], Integer.parseInt(arrangementVerdier[2]),
+                        formaterDato(arrangementVerdier[3]),formaterDato(arrangementVerdier[4]),
+                        arrangementVerdier[5],arrangementVerdier[6]);
+
+                //System.out.println("Navn på arrangementet er: " + arrangementVerdier[1]);
+
+                listeMedLopsArrangementer.add(arrangementObj);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return listeMedLopsArrangementer;
     }
 
     //Lese annet arrangementer fra fil

@@ -3,6 +3,7 @@ package Dolphin.Controller;
 import Dolphin.DataHandler.DataHandler;
 import Dolphin.Main;
 import Dolphin.Model.ArrangementAnnet;
+import Dolphin.Model.ArrangementLop;
 import Dolphin.Model.ArrangementSykkelritt;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -22,7 +23,9 @@ public class AdminHovedvisningController {
 
         //Få liste med arrangementer fra Datahandler
         ObservableList<ArrangementSykkelritt> listeMedSykkelrittArrangementer = DataHandler.hentListeMedSykkelrittArrangementer();
+        ObservableList<ArrangementLop> listeMedLopsArrangementer = DataHandler.hentListeMedLopsArrangementer();
         ObservableList<ArrangementAnnet> listeMedAnnetArrangementer = DataHandler.hentListeMedAnnetArrangementer();
+
 
         //System.out.println(listeMedSykkelrittArrangementer.get(1).getNavn());
         //System.out.println(listeMedAnnetArrangementer.get(1).getNavn());
