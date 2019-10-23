@@ -38,9 +38,12 @@ public class LoggInnController {
 
     //Dårlig innlogging til programmet
     public String loggInnBruker() {
+       return loggInnKjorer(inputBrukernavn.getText(),inputPassord.getText());
+    }
+    public String loggInnKjorer(String brukerNavn, String brukerPassord){
         for (int i = 0; i < listeMedBrukere.size(); i++) {
-            if(listeMedBrukere.get(i).getBrukernavn().equals(inputBrukernavn.getText())) {
-                if (listeMedBrukere.get(i).getPassord().equals(inputPassord.getText())) {
+            if(listeMedBrukere.get(i).getBrukernavn().equals(brukerNavn)) {
+                if (listeMedBrukere.get(i).getPassord().equals(brukerPassord)) {
                     System.out.println("Gratulerer du er innlogget, " + listeMedBrukere.get(i).getFornavn());
 
                     gaaTilBrukerHovedvisning();
