@@ -94,4 +94,9 @@ public abstract class Arrangement {
     public void setDeltakereOppmeldt(ObservableList<Bruker> deltakereOppmeldt) {
         this.deltakereOppmeldt = deltakereOppmeldt;
     }
+
+    @Override
+    public String toString() {
+        return "ID: " + this.arrangementId + " " + "Navn: " + this.navn;
+    }
 }

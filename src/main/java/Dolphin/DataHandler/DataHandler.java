@@ -14,15 +14,10 @@ import java.time.format.DateTimeFormatter;
 
 public class DataHandler {
 
-    private static final ObservableList<Bruker> listeMedBrukere = FXCollections.observableArrayList();
-    //private static final ArrayList<Bruker> arrayListeMedBrukere = null;
-    private static final ObservableList<Arrangement> listeMedAlleArrangementer = FXCollections.observableArrayList();
-    private static final ObservableList<ArrangementSykkelritt> listeMedSykkelrittArrangementer = FXCollections.observableArrayList();
-    private static final ObservableList<ArrangementAnnet> listeMedAnnetArrangementer = FXCollections.observableArrayList();
-    private static final ObservableList<ArrangementLop> listeMedLopsArrangementer = FXCollections.observableArrayList();
-
     //Lese brukere fra fil
     public static ObservableList<Bruker> hentListeMedBrukere() {
+
+        ObservableList<Bruker> listeMedBrukere = FXCollections.observableArrayList();
 
         String path = "src\\main\\resources\\Database\\brukere.csv";
         BufferedReader br = null;
@@ -59,6 +54,8 @@ public class DataHandler {
     //Lese sykkelritt arrangementer fra fil
     public static ObservableList<ArrangementSykkelritt> hentListeMedSykkelrittArrangementer() {
 
+        ObservableList<ArrangementSykkelritt>listeMedSykkelrittArrangementer = FXCollections.observableArrayList();
+
         String path = "src\\main\\resources\\Database\\sykkelrittarrangementer.csv";
         BufferedReader br = null;
         String line = "";
@@ -89,6 +86,8 @@ public class DataHandler {
 
     //Lese Løps arrangementer fra fil
     public static ObservableList<ArrangementLop> hentListeMedLopsArrangementer() {
+
+        ObservableList<ArrangementLop> listeMedLopsArrangementer = FXCollections.observableArrayList();
 
         String path = "src\\main\\resources\\Database\\loparrangementer.csv";
         BufferedReader br = null;
@@ -121,6 +120,8 @@ public class DataHandler {
     //Lese annet arrangementer fra fil
     public static ObservableList<ArrangementAnnet> hentListeMedAnnetArrangementer() {
 
+        ObservableList<ArrangementAnnet> listeMedAnnetArrangementer = FXCollections.observableArrayList();
+
         String path = "src\\main\\resources\\Database\\annetarrangementer.csv";
         BufferedReader br = null;
         String line = "";
@@ -146,6 +147,21 @@ public class DataHandler {
             e.printStackTrace();
         }
         return listeMedAnnetArrangementer;
+    }
+
+    public static ObservableList<Arrangement> hentListeMedAlleArrangementer() {
+
+        ObservableList<Arrangement> listeMedAlleArrangementer = FXCollections.observableArrayList();
+
+        ObservableList<ArrangementSykkelritt>listeSykkelritt = hentListeMedSykkelrittArrangementer();
+        ObservableList<ArrangementAnnet> listeAnnet = hentListeMedAnnetArrangementer();
+        //ObservableList<ArrangementLop> listeLop = hentListeMedLopsArrangementer();
+
+        listeMedAlleArrangementer.addAll(listeSykkelritt);
+        listeMedAlleArrangementer.addAll(listeAnnet);
+        //listeMedAlleArrangementer.addAll(listeLop);
+
+        return listeMedAlleArrangementer;
     }
 
 }

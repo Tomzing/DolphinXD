@@ -2,9 +2,7 @@ package Dolphin.Controller;
 
 import Dolphin.DataHandler.DataHandler;
 import Dolphin.Main;
-import Dolphin.Model.ArrangementAnnet;
-import Dolphin.Model.ArrangementSykkelritt;
-import Dolphin.Model.Bruker;
+import Dolphin.Model.*;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -32,9 +30,22 @@ public class LoggInnController {
 
     //Få liste med arrangementer fra Datahandler
     //ENDRE DATAHANDLER FOR Å LEGGE INN ALLE ARRANGEMENTER INN I EN OBSERVABLELISTE
-    ObservableList<ArrangementSykkelritt> listeMedSykkelrittArrangementer = DataHandler.hentListeMedSykkelrittArrangementer();
-    ObservableList<ArrangementAnnet> listeMedAnnetArrangementer = DataHandler.hentListeMedAnnetArrangementer();
 
+    //Alt inne i initialize kan slettes, blitt brukt til å teste innhenting av alle arrangementene
+    public void initialize() {
+        /*
+        ObservableList<ArrangementSykkelritt> listeMedSykkelrittArrangementer = DataHandler.hentListeMedSykkelrittArrangementer();
+        ObservableList<ArrangementAnnet> listeMedAnnetArrangementer = DataHandler.hentListeMedAnnetArrangementer();
+        //ObservableList<ArrangementLop> listeMedLopArrangementer = DataHandler.hentListeMedLopsArrangementer();
+        ObservableList<Arrangement> listeMedAlleArrangementer = DataHandler.hentListeMedAlleArrangementer();
+
+        System.out.println(listeMedSykkelrittArrangementer.get(0));
+        System.out.println(listeMedAnnetArrangementer.get(0));
+        System.out.println(listeMedAnnetArrangementer.get(0));
+        //System.out.println(listeMedLopArrangementer.get(0));
+        System.out.println(listeMedAlleArrangementer.get(0));
+        */
+    }
 
     //Dårlig innlogging til programmet
     public String loggInnBruker() {
