@@ -21,12 +21,6 @@ public class AdminHovedvisningController {
 
     public void initialize() {
 
-        //Få liste med arrangementer fra Datahandler
-        ObservableList<ArrangementSykkelritt> listeMedSykkelrittArrangementer = DataHandler.hentListeMedSykkelrittArrangementer();
-        ObservableList<ArrangementLop> listeMedLopsArrangementer = DataHandler.hentListeMedLopsArrangementer();
-        ObservableList<ArrangementAnnet> listeMedAnnetArrangementer = DataHandler.hentListeMedAnnetArrangementer();
-
-
         //System.out.println(listeMedSykkelrittArrangementer.get(1).getNavn());
         //System.out.println(listeMedAnnetArrangementer.get(1).getNavn());
 
