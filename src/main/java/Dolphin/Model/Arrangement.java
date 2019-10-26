@@ -97,6 +97,6 @@ public abstract class Arrangement {
 
     @Override
     public String toString() {
-        return "ID: " + this.arrangementId + " " + "Navn: " + this.navn;
+        return "ID: " + this.arrangementId + " " + "Navn: " + this.navn + " " + this.deltakereOppmeldt;
     }
 }

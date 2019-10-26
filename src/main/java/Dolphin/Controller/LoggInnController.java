@@ -25,11 +25,10 @@ public class LoggInnController {
     @FXML
     private Button nyBrukerKnapp;
 
+    String brukerNavnIBruk;
+
     //Få liste med brukere fra DataHandler
     ObservableList<Bruker> listeMedBrukere = DataHandler.hentListeMedBrukere();
-
-    //Få liste med arrangementer fra Datahandler
-    //ENDRE DATAHANDLER FOR Å LEGGE INN ALLE ARRANGEMENTER INN I EN OBSERVABLELISTE
 
     //Alt inne i initialize kan slettes, blitt brukt til å teste innhenting av alle arrangementene
     public void initialize() {
@@ -66,6 +65,8 @@ public class LoggInnController {
                 if (listeMedBrukere.get(i).getPassord().equals(brukerPassord)) {
                     System.out.println("Gratulerer du er innlogget, " + listeMedBrukere.get(i).getFornavn());
 
+                    setBrukernavnIBruk(brukerNavn);
+
                     return true;
                 }
             }
@@ -73,11 +74,20 @@ public class LoggInnController {
         System.out.println("Brukernavnet eller passord er feil");
         return false;
     }
+    //Overføre brukernavnet fra LoggInnController til BrukerHovedVisningController hvis vellykket pålogging
+    public void setBrukernavnIBruk(String brukernavn) {
+        brukerNavnIBruk = brukernavn;
+    }
+
+    public String getBrukernavnIBruk() {
+        return brukerNavnIBruk;
+    }
+
     @FXML
     public void gaaTilBrukerHovedvisning() {
         Main minApplikasjon = Main.getInstance();
 
-        minApplikasjon.gaaTilBrukerHovedvisning();
+        minApplikasjon.gaaTilBrukerHovedvisning(getBrukernavnIBruk());
     }
 
     @FXML

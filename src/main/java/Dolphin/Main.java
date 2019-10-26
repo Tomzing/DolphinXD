@@ -1,5 +1,6 @@
 package Dolphin;
 
+import Dolphin.Controller.BrukerHovedvisningController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -38,7 +39,6 @@ public class Main extends Application {
             URL url = new File("src/main/java/Dolphin/View/logginn.fxml").toURI().toURL();
 
             Parent root = FXMLLoader.load(url);
-
             primaryStage.getIcons().add(new Image("Bilder/cooldudeicon.png"));
             primaryStage.setTitle("Logg inn Dolphin");
             primaryStage.setScene(new Scene(root, 600, 480));
@@ -49,8 +49,11 @@ public class Main extends Application {
         }
     }
 
-    public void gaaTilBrukerHovedvisning() {
+    public void gaaTilBrukerHovedvisning(String brukerNavn) {
         try {
+
+            BrukerHovedvisningController.setBrukerNavn(brukerNavn);
+
             System.out.println("Brukervisning");
             URL url = new File("src/main/java/Dolphin/View/brukerhovedvisning.fxml").toURI().toURL();
             Parent root = FXMLLoader.load(url);
