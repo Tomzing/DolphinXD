@@ -106,7 +106,7 @@ public class NyBrukerController{
 
     @FXML
     private void avbryt() {
-        //Lagret bruker, returnerer til logg inn
+        //Ikke laget bruker, returnerer til logg inn
         Main minApplikasjon = Main.getInstance();
 
         minApplikasjon.gaaTilLoggInn();

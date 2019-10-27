@@ -13,11 +13,14 @@ import java.util.ArrayList;
 
 public class DataHandler {
 
+    private static ObservableList<Bruker> listeMedBrukere = FXCollections.observableArrayList();
+
+    private static ObservableList<ArrangementSykkelritt>listeMedSykkelrittArrangementer = FXCollections.observableArrayList();
+    private static ObservableList<ArrangementLop> listeMedLopsArrangementer = FXCollections.observableArrayList();
+    private static ObservableList<ArrangementAnnet> listeMedAnnetArrangementer = FXCollections.observableArrayList();
+
     //Lese brukere fra fil
     public static ObservableList<Bruker> hentListeMedBrukere() {
-
-        ObservableList<Bruker> listeMedBrukere = FXCollections.observableArrayList();
-
         String path = "src/main/resources/Database/brukere.csv";
         BufferedReader br;
         String line;
@@ -25,24 +28,20 @@ public class DataHandler {
         boolean erHeader = true;
 
         try {
-            br = new BufferedReader(new FileReader(path));
+            if(listeMedBrukere.isEmpty()) {
+                br = new BufferedReader(new FileReader(path));
+                while ((line = br.readLine()) != null) {
+                    if (erHeader) {
+                        erHeader = false;
+                        continue;
+                    }
+                    String[] verdier = line.split(CsvSplittetMed);
 
-            while ((line = br.readLine()) != null) {
-                if (erHeader) {
-                    erHeader = false;
-                    continue;
+                    Bruker brukerObj = new Bruker(verdier[0], verdier[1], Integer.parseInt(verdier[2]), verdier[3], verdier[4], verdier[5]);
+
+                    listeMedBrukere.add(brukerObj);
                 }
-                String[] verdier = line.split(CsvSplittetMed);
-
-                Bruker brukerObj = new Bruker(verdier[0],verdier[1],Integer.parseInt(verdier[2]),verdier[3],verdier[4],verdier[5]);
-
-                //System.out.println("fornavn er: " + verdier[0]);
-
-                listeMedBrukere.add(brukerObj);
-                //arrayListeMedBrukere.add(brukerObj);
             }
-
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -58,9 +57,6 @@ public class DataHandler {
 
     //Lese sykkelritt arrangementer fra fil
     public static ObservableList<ArrangementSykkelritt> hentListeMedSykkelrittArrangementer() {
-
-        ObservableList<ArrangementSykkelritt> listeMedSykkelrittArrangementer = FXCollections.observableArrayList();
-
         String path = "src\\main\\resources\\Database\\sykkelrittarrangementer.csv";
         BufferedReader br;
         String line;
@@ -68,27 +64,26 @@ public class DataHandler {
         boolean erHeader = true;
 
         try {
+            if(listeMedSykkelrittArrangementer.isEmpty()) {
+                br = new BufferedReader(new FileReader(path));
+                while ((line = br.readLine()) != null) {
+                    if (erHeader) {
+                        erHeader = false;
+                        continue;
+                    }
 
-            br = new BufferedReader(new FileReader(path));
-            while ((line = br.readLine()) != null) {
-                if (erHeader) {
-                    erHeader = false;
-                    continue;
+                    String[] arrangementVerdier = line.split(CsvSplittetMed);
+
+
+                    ArrangementSykkelritt arrangementObj = new ArrangementSykkelritt(
+                            Integer.parseInt(arrangementVerdier[0]), arrangementVerdier[1], arrangementVerdier[2],
+                            Integer.parseInt(arrangementVerdier[3]), formaterDato(arrangementVerdier[4]),
+                            formaterDato(arrangementVerdier[5]), arrangementVerdier[6], arrangementVerdier[7]);
+
+                    arrangementObj.setDeltakereOppmeldt(hentArrangementDeltagere(arrangementObj));
+
+                    listeMedSykkelrittArrangementer.add(arrangementObj);
                 }
-
-                String[] arrangementVerdier = line.split(CsvSplittetMed);
-
-
-                ArrangementSykkelritt arrangementObj = new ArrangementSykkelritt(
-                        Integer.parseInt(arrangementVerdier[0]), arrangementVerdier[1], arrangementVerdier[2],
-                        Integer.parseInt(arrangementVerdier[3]), formaterDato(arrangementVerdier[4]),
-                        formaterDato(arrangementVerdier[5]), arrangementVerdier[6], arrangementVerdier[7]);
-
-                arrangementObj.setDeltakereOppmeldt(hentArrangementDeltagere(arrangementObj));
-
-                //System.out.println("Navn på arrangementet er: " + arrangementVerdier[1]);
-
-                listeMedSykkelrittArrangementer.add(arrangementObj);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -98,9 +93,6 @@ public class DataHandler {
 
     //Lese Løps arrangementer fra fil
     public static ObservableList<ArrangementLop> hentListeMedLopsArrangementer() {
-
-        ObservableList<ArrangementLop> listeMedLopsArrangementer = FXCollections.observableArrayList();
-
         String path = "src/main/resources/Database/loparrangementer.csv";
         BufferedReader br;
         String line;
@@ -108,27 +100,25 @@ public class DataHandler {
         boolean erHeader = true;
 
         try {
+            if(listeMedLopsArrangementer.isEmpty()) {
+                br = new BufferedReader(new FileReader(path));
+                while ((line = br.readLine()) != null) {
+                    if (erHeader) {
+                        erHeader = false;
+                        continue;
+                    }
 
-            br = new BufferedReader(new FileReader(path));
-            while ((line = br.readLine()) != null) {
-                if (erHeader) {
-                    erHeader = false;
-                    continue;
+                    String[] arrangementVerdier = line.split(CsvSplittetMed);
+
+                    ArrangementLop arrangementObj = new ArrangementLop(
+                            Integer.parseInt(arrangementVerdier[0]), arrangementVerdier[1], arrangementVerdier[2],
+                            Integer.parseInt(arrangementVerdier[3]), formaterDato(arrangementVerdier[4]),
+                            formaterDato(arrangementVerdier[5]), arrangementVerdier[6], arrangementVerdier[7]);
+
+                    arrangementObj.setDeltakereOppmeldt(hentArrangementDeltagere(arrangementObj));
+
+                    listeMedLopsArrangementer.add(arrangementObj);
                 }
-
-                String[] arrangementVerdier = line.split(CsvSplittetMed);
-
-
-                ArrangementLop arrangementObj = new ArrangementLop(
-                        Integer.parseInt(arrangementVerdier[0]), arrangementVerdier[1],arrangementVerdier[2],
-                        Integer.parseInt(arrangementVerdier[3]), formaterDato(arrangementVerdier[4]),
-                        formaterDato(arrangementVerdier[5]), arrangementVerdier[6], arrangementVerdier[7]);
-
-                arrangementObj.setDeltakereOppmeldt(hentArrangementDeltagere(arrangementObj));
-
-                //System.out.println("Navn på arrangementet er: " + arrangementVerdier[1]);
-
-                listeMedLopsArrangementer.add(arrangementObj);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -138,9 +128,6 @@ public class DataHandler {
 
     //Lese annet arrangementer fra fil
     public static ObservableList<ArrangementAnnet> hentListeMedAnnetArrangementer() {
-
-        ObservableList<ArrangementAnnet> listeMedAnnetArrangementer = FXCollections.observableArrayList();
-
         String path = "src/main/resources/Database/annetarrangementer.csv";
         BufferedReader br;
         String line;
@@ -148,26 +135,25 @@ public class DataHandler {
         boolean erHeader = true;
 
         try {
+            if(listeMedAnnetArrangementer.isEmpty()) {
+                br = new BufferedReader(new FileReader(path));
+                while ((line = br.readLine()) != null) {
+                    if (erHeader) {
+                        erHeader = false;
+                        continue;
+                    }
 
-            br = new BufferedReader(new FileReader(path));
-            while ((line = br.readLine()) != null) {
-                if (erHeader) {
-                    erHeader = false;
-                    continue;
+                    String[] arrangementVerdier = line.split(CsvSplittetMed);
+
+                    ArrangementAnnet arrangementObj = new ArrangementAnnet(
+                            Integer.parseInt(arrangementVerdier[0]), arrangementVerdier[1], arrangementVerdier[2],
+                            Integer.parseInt(arrangementVerdier[3]), formaterDato(arrangementVerdier[4]),
+                            formaterDato(arrangementVerdier[5]), arrangementVerdier[6], arrangementVerdier[7]);
+
+                    arrangementObj.setDeltakereOppmeldt(hentArrangementDeltagere(arrangementObj));
+
+                    listeMedAnnetArrangementer.add(arrangementObj);
                 }
-
-                String[] arrangementVerdier = line.split(CsvSplittetMed);
-
-                ArrangementAnnet arrangementObj = new ArrangementAnnet(
-                        Integer.parseInt(arrangementVerdier[0]), arrangementVerdier[1],arrangementVerdier[2],
-                        Integer.parseInt(arrangementVerdier[3]), formaterDato(arrangementVerdier[4]),
-                        formaterDato(arrangementVerdier[5]), arrangementVerdier[6],arrangementVerdier[7]);
-
-                arrangementObj.setDeltakereOppmeldt(hentArrangementDeltagere(arrangementObj));
-
-                //System.out.println("fornavn er: " + verdier[0]);
-
-                listeMedAnnetArrangementer.add(arrangementObj);
             }
         } catch (IOException e) {
             e.printStackTrace();
