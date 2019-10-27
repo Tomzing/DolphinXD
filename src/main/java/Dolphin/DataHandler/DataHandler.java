@@ -14,10 +14,16 @@ import java.time.format.DateTimeFormatter;
 
 public class DataHandler {
 
+    static ObservableList<Bruker> listeMedBrukere = FXCollections.observableArrayList();
+
+    static ObservableList<ArrangementSykkelritt>listeMedSykkelrittArrangementer = FXCollections.observableArrayList();
+    static ObservableList<ArrangementLop> listeMedLopsArrangementer = FXCollections.observableArrayList();
+    static ObservableList<ArrangementAnnet> listeMedAnnetArrangementer = FXCollections.observableArrayList();
+
+
+
     //Lese brukere fra fil
     public static ObservableList<Bruker> hentListeMedBrukere() {
-
-        ObservableList<Bruker> listeMedBrukere = FXCollections.observableArrayList();
 
         String path = "src\\main\\resources\\Database\\brukere.csv";
         BufferedReader br = null;
@@ -25,18 +31,17 @@ public class DataHandler {
         String CsvSplittetMed = ";";
 
         try {
-            br = new BufferedReader(new FileReader(path));
-            while ((line = br.readLine()) != null) {
-                String[] verdier = line.split(CsvSplittetMed);
+            if(listeMedBrukere.isEmpty()) {
+                br = new BufferedReader(new FileReader(path));
+                while ((line = br.readLine()) != null) {
+                    String[] verdier = line.split(CsvSplittetMed);
 
-                Bruker brukerObj = new Bruker(verdier[0],verdier[1],Integer.parseInt(verdier[2]),verdier[3],verdier[4],verdier[5]);
+                    Bruker brukerObj = new Bruker(verdier[0], verdier[1], Integer.parseInt(verdier[2]), verdier[3], verdier[4], verdier[5]);
 
-                //System.out.println("fornavn er: " + verdier[0]);
-
-                listeMedBrukere.add(brukerObj);
-                //arrayListeMedBrukere.add(brukerObj);
+                    listeMedBrukere.add(brukerObj);
+                    //System.out.println("fornavn er: " +
+                }
             }
-
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -54,29 +59,28 @@ public class DataHandler {
     //Lese sykkelritt arrangementer fra fil
     public static ObservableList<ArrangementSykkelritt> hentListeMedSykkelrittArrangementer() {
 
-        ObservableList<ArrangementSykkelritt>listeMedSykkelrittArrangementer = FXCollections.observableArrayList();
-
         String path = "src\\main\\resources\\Database\\sykkelrittarrangementer.csv";
         BufferedReader br = null;
         String line = "";
         String CsvSplittetMed = ";";
 
         try {
+            if(listeMedSykkelrittArrangementer.isEmpty()) {
+                br = new BufferedReader(new FileReader(path));
+                while ((line = br.readLine()) != null) {
 
-            br = new BufferedReader(new FileReader(path));
-            while ((line = br.readLine()) != null) {
-
-                String[] arrangementVerdier = line.split(CsvSplittetMed);
+                    String[] arrangementVerdier = line.split(CsvSplittetMed);
 
 
-                ArrangementSykkelritt arrangementObj = new ArrangementSykkelritt(
-                        arrangementVerdier[0],arrangementVerdier[1], Integer.parseInt(arrangementVerdier[2]),
-                        formaterDato(arrangementVerdier[3]),formaterDato(arrangementVerdier[4]),
-                        arrangementVerdier[5],arrangementVerdier[6]);
+                    ArrangementSykkelritt arrangementObj = new ArrangementSykkelritt(
+                            arrangementVerdier[0], arrangementVerdier[1], Integer.parseInt(arrangementVerdier[2]),
+                            formaterDato(arrangementVerdier[3]), formaterDato(arrangementVerdier[4]),
+                            arrangementVerdier[5], arrangementVerdier[6]);
 
-                //System.out.println("Navn på arrangementet er: " + arrangementVerdier[1]);
+                    //System.out.println("Navn på arrangementet er: " + arrangementVerdier[1]);
 
-                listeMedSykkelrittArrangementer.add(arrangementObj);
+                    listeMedSykkelrittArrangementer.add(arrangementObj);
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -87,29 +91,28 @@ public class DataHandler {
     //Lese Løps arrangementer fra fil
     public static ObservableList<ArrangementLop> hentListeMedLopsArrangementer() {
 
-        ObservableList<ArrangementLop> listeMedLopsArrangementer = FXCollections.observableArrayList();
-
         String path = "src\\main\\resources\\Database\\loparrangementer.csv";
         BufferedReader br = null;
         String line = "";
         String CsvSplittetMed = ";";
 
         try {
+            if(listeMedLopsArrangementer.isEmpty()) {
+                br = new BufferedReader(new FileReader(path));
+                while ((line = br.readLine()) != null) {
 
-            br = new BufferedReader(new FileReader(path));
-            while ((line = br.readLine()) != null) {
-
-                String[] arrangementVerdier = line.split(CsvSplittetMed);
+                    String[] arrangementVerdier = line.split(CsvSplittetMed);
 
 
-                ArrangementLop arrangementObj = new ArrangementLop(
-                        arrangementVerdier[0],arrangementVerdier[1], Integer.parseInt(arrangementVerdier[2]),
-                        formaterDato(arrangementVerdier[3]),formaterDato(arrangementVerdier[4]),
-                        arrangementVerdier[5],arrangementVerdier[6]);
+                    ArrangementLop arrangementObj = new ArrangementLop(
+                            arrangementVerdier[0], arrangementVerdier[1], Integer.parseInt(arrangementVerdier[2]),
+                            formaterDato(arrangementVerdier[3]), formaterDato(arrangementVerdier[4]),
+                            arrangementVerdier[5], arrangementVerdier[6]);
 
-                //System.out.println("Navn på arrangementet er: " + arrangementVerdier[1]);
+                    //System.out.println("Navn på arrangementet er: " + arrangementVerdier[1]);
 
-                listeMedLopsArrangementer.add(arrangementObj);
+                    listeMedLopsArrangementer.add(arrangementObj);
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -120,28 +123,27 @@ public class DataHandler {
     //Lese annet arrangementer fra fil
     public static ObservableList<ArrangementAnnet> hentListeMedAnnetArrangementer() {
 
-        ObservableList<ArrangementAnnet> listeMedAnnetArrangementer = FXCollections.observableArrayList();
-
         String path = "src\\main\\resources\\Database\\annetarrangementer.csv";
         BufferedReader br = null;
         String line = "";
         String CsvSplittetMed = ";";
 
         try {
+            if(listeMedAnnetArrangementer.isEmpty()) {
+                br = new BufferedReader(new FileReader(path));
+                while ((line = br.readLine()) != null) {
 
-            br = new BufferedReader(new FileReader(path));
-            while ((line = br.readLine()) != null) {
+                    String[] arrangementVerdier = line.split(CsvSplittetMed);
 
-                String[] arrangementVerdier = line.split(CsvSplittetMed);
+                    ArrangementAnnet arrangementObj = new ArrangementAnnet(
+                            arrangementVerdier[0], arrangementVerdier[1], Integer.parseInt(arrangementVerdier[2]),
+                            formaterDato(arrangementVerdier[3]), formaterDato(arrangementVerdier[4]),
+                            arrangementVerdier[5], arrangementVerdier[6]);
 
-                ArrangementAnnet arrangementObj = new ArrangementAnnet(
-                        arrangementVerdier[0],arrangementVerdier[1], Integer.parseInt(arrangementVerdier[2]),
-                        formaterDato(arrangementVerdier[3]),formaterDato(arrangementVerdier[4]),
-                        arrangementVerdier[5],arrangementVerdier[6]);
+                    //System.out.println("fornavn er: " + verdier[0]);
 
-                //System.out.println("fornavn er: " + verdier[0]);
-
-                listeMedAnnetArrangementer.add(arrangementObj);
+                    listeMedAnnetArrangementer.add(arrangementObj);
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
