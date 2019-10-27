@@ -1,20 +1,10 @@
 package Dolphin.Controller;
 
-import Dolphin.DataHandler.DataHandler;
-import Dolphin.Main;
-import Dolphin.Model.ArrangementAnnet;
-import Dolphin.Model.ArrangementLop;
-import Dolphin.Model.ArrangementSykkelritt;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class AdminHovedvisningController {
-
-    @FXML
-    private Button gaaTilLoggInnKnapp;
+public class AdminHovedvisningController extends InnloggetController {
 
     @FXML
     private ImageView adminBilde;
@@ -27,15 +17,5 @@ public class AdminHovedvisningController {
         String path = "Bilder/cooldude.jpg";
         Image image = new Image(path);
         adminBilde.setImage(image);
-    }
-
-    @FXML
-    public void gaaTilLoggInn() {
-
-        System.out.println("Du har nå logget ut :)");
-
-        Main minApplikasjon = Main.getInstance();
-
-        minApplikasjon.gaaTilLoggInn();
     }
 }

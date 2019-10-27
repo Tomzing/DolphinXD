@@ -1,13 +1,10 @@
 package Dolphin.Model;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-
 import java.time.LocalDateTime;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.ArrayList;
 
 public abstract class Arrangement {
-    private static final AtomicInteger teller = new AtomicInteger(0);
+    private static int teller = 0;
     private int arrangementId;
     private String navn;
     //TYPE MÅ MEST SANNSYNLIG ENDRES
@@ -16,19 +13,36 @@ public abstract class Arrangement {
     private LocalDateTime startDato;
     private LocalDateTime sluttDato;
     private String plassering;
-    //Den her blir vrien, for nå må vi vel danne en "database" for denne listen, slik at brukere forblir oppmeldt.
-    //Kanskje lage logikk som tar i mot bruker objekter i listen, når man legger til at brukere kan melde seg på arrangementet.
-    private ObservableList<Bruker> deltakereOppmeldt = FXCollections.observableArrayList();
+    private ArrayList<Bruker> deltakereOppmeldt;
 
-    public Arrangement(String navn, String type, int antallPlasser, LocalDateTime startDato, LocalDateTime sluttDato,
+    public Arrangement(int arrangementId, String navn, String type, int antallPlasser, LocalDateTime startDato, LocalDateTime sluttDato,
                        String plassering) {
-        this.arrangementId = teller.incrementAndGet();
+        this.arrangementId = arrangementId;
         this.navn = navn;
         this.type = type;
         this.antallPlasser = antallPlasser;
         this.startDato = startDato;
         this.sluttDato = sluttDato;
         this.plassering = plassering;
+        this.deltakereOppmeldt = new ArrayList<>();
+    }
+
+    public Arrangement(String navn, String type, int antallPlasser, LocalDateTime startDato, LocalDateTime sluttDato,
+                       String plassering) {
+        this.arrangementId = ++teller;
+        this.navn = navn;
+        this.type = type;
+        this.antallPlasser = antallPlasser;
+        this.startDato = startDato;
+        this.sluttDato = sluttDato;
+        this.plassering = plassering;
+        this.deltakereOppmeldt = new ArrayList<>();
+    }
+
+    public void leggTilNyDeltager(Bruker bruker) {
+        if (!deltakereOppmeldt.contains(bruker)) {
+            deltakereOppmeldt.add(bruker);
+        }
     }
 
     public int getArrangementId() {
@@ -87,11 +101,11 @@ public abstract class Arrangement {
         this.sluttDato = sluttDato;
     }
 
-    public ObservableList<Bruker> getDeltakereOppmeldt() {
+    public ArrayList<Bruker> getDeltakereOppmeldt() {
         return deltakereOppmeldt;
     }
 
-    public void setDeltakereOppmeldt(ObservableList<Bruker> deltakereOppmeldt) {
+    public void setDeltakereOppmeldt(ArrayList<Bruker> deltakereOppmeldt) {
         this.deltakereOppmeldt = deltakereOppmeldt;
     }
 

@@ -5,7 +5,6 @@ import Dolphin.Main;
 import Dolphin.Model.*;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
 public class LoggInnController {
@@ -16,19 +15,10 @@ public class LoggInnController {
     @FXML
     private TextField inputPassord;
 
-    @FXML
-    private Button loggInnBrukerKnapp;
-
-    @FXML
-    private Button loggInnAdminKnapp;
-
-    @FXML
-    private Button nyBrukerKnapp;
-
-    String brukerNavnIBruk;
+    private Main minApplikasjon = Main.getInstance();
 
     //Få liste med brukere fra DataHandler
-    ObservableList<Bruker> listeMedBrukere = DataHandler.hentListeMedBrukere();
+    private ObservableList<Bruker> listeMedBrukere = DataHandler.hentListeMedBrukere();
 
     //Alt inne i initialize kan slettes, blitt brukt til å teste innhenting av alle arrangementene
     public void initialize() {
@@ -59,13 +49,15 @@ public class LoggInnController {
            return "Brukernavnet eller passord er feil";
        }
     }
-    public Boolean loggInnKjorer(String brukerNavn, String brukerPassord){
-        for (int i = 0; i < listeMedBrukere.size(); i++) {
-            if(listeMedBrukere.get(i).getBrukernavn().equals(brukerNavn)) {
-                if (listeMedBrukere.get(i).getPassord().equals(brukerPassord)) {
-                    System.out.println("Gratulerer du er innlogget, " + listeMedBrukere.get(i).getFornavn());
 
-                    setBrukernavnIBruk(brukerNavn);
+    private Boolean loggInnKjorer(String brukerNavn, String brukerPassord){
+        for (Bruker bruker : listeMedBrukere) {
+            if (bruker.getBrukernavn().equals(brukerNavn)) {
+                if (bruker.getPassord().equals(brukerPassord)) {
+
+                    setAktivBruker(bruker);
+
+                    System.out.println("Gratulerer du er innlogget, " + bruker.getFornavn());
 
                     return true;
                 }
@@ -74,36 +66,26 @@ public class LoggInnController {
         System.out.println("Brukernavnet eller passord er feil");
         return false;
     }
-    //Overføre brukernavnet fra LoggInnController til BrukerHovedVisningController hvis vellykket pålogging
-    public void setBrukernavnIBruk(String brukernavn) {
-        brukerNavnIBruk = brukernavn;
-    }
-
-    public String getBrukernavnIBruk() {
-        return brukerNavnIBruk;
-    }
 
     @FXML
-    public void gaaTilBrukerHovedvisning() {
-        Main minApplikasjon = Main.getInstance();
-
-        minApplikasjon.gaaTilBrukerHovedvisning(getBrukernavnIBruk());
+    private void gaaTilBrukerHovedvisning() {
+        minApplikasjon.gaaTilBrukerHovedvisning();
     }
 
     @FXML
     public void loggInnAdmin() {
         System.out.println("Gratulerer du er admin :)");
 
-        Main minApplikasjon = Main.getInstance();
-
         minApplikasjon.gaaTilAdminHovedvisning();
     }
 
     @FXML
     public void gaaTilNyBruker() {
-        Main minApplikasjon = Main.getInstance();
-
         minApplikasjon.gaaTilNyBruker();
+    }
+
+    public void setAktivBruker(Bruker bruker) {
+        minApplikasjon.setAktivBruker(bruker);
     }
 }
 

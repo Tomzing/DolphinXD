@@ -26,8 +26,8 @@
             <ChoiceBox fx:id="valgBoksKjonn" prefHeight="31.0" prefWidth="205.0" GridPane.columnIndex="1" />
          </children>
       </GridPane>
-      <Button fx:id="knappLagre" layoutX="14.0" layoutY="555.0" mnemonicParsing="false" onAction="#lagreNyBruker" text="Lagre" />
-      <Button fx:id="knappAvbryt" layoutX="922.0" layoutY="555.0" mnemonicParsing="false" onAction="#avbryt" text="Avbryt" />
+      <Button layoutX="14.0" layoutY="555.0" mnemonicParsing="false" onAction="#lagreNyBruker" text="Lagre" />
+      <Button layoutX="922.0" layoutY="555.0" mnemonicParsing="false" onAction="#avbryt" text="Avbryt" />
       <Text layoutX="297.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Opprett ny bruker">
          <font>
             <Font size="51.0" />

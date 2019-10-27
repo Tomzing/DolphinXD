@@ -4,7 +4,6 @@ import Dolphin.Main;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 
@@ -13,9 +12,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import static java.lang.Integer.parseInt;
-
-public class NyBrukerController {
+public class NyBrukerController{
 
     @FXML
     private TextField inputFornavn;
@@ -35,12 +32,6 @@ public class NyBrukerController {
     @FXML
     private TextField inputPassord;
 
-    @FXML
-    private Button knappLagre;
-
-    @FXML
-    private Button knappAvbryt;
-
     private static final String filnavn = "src/main/resources/Database/brukere.csv";
 
     public void initialize() {
@@ -50,7 +41,7 @@ public class NyBrukerController {
     }
 
     //Metode for å sjekke om en string er et tall
-    public static boolean erTall (final String str) {
+    private static boolean erTall(final String str) {
         if (str == null || str.length() == 0) {
             return false;
         }
@@ -58,7 +49,7 @@ public class NyBrukerController {
     }
 
     @FXML
-    private void lagreNyBruker() throws IOException {
+    private void lagreNyBruker() {
         String fornavn = inputFornavn.getText();
         String etternavn = inputEtternavn.getText();
         String aar = "";
@@ -79,8 +70,8 @@ public class NyBrukerController {
         }
         String kjonnValgt = valgBoksKjonn.getValue();
 
-        String string = "\n" + fornavn + ";" + etternavn + ";" + aar + ";" + kjonnValgt
-                + ";" + brukernavn + ";" + passord;
+        String string = fornavn + ";" + etternavn + ";" + aar + ";" + kjonnValgt
+                + ";" + brukernavn + ";" + passord + "\n";
 
         System.out.println(string);
 
@@ -115,7 +106,7 @@ public class NyBrukerController {
 
     @FXML
     private void avbryt() {
-        //Ikke laget ny bruker, returner til logg inn
+        //Lagret bruker, returnerer til logg inn
         Main minApplikasjon = Main.getInstance();
 
         minApplikasjon.gaaTilLoggInn();
