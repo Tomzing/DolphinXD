@@ -1,17 +1,19 @@
 package Dolphin.DataHandler;
 
+import Dolphin.Main;
 import Dolphin.Model.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class DataHandler {
+
+    private static final String filsti = "src/main/resources/Database/";
+    private static final String CsvSplittetMed = ";";
 
     private static ObservableList<Bruker> listeMedBrukere = FXCollections.observableArrayList();
 
@@ -21,15 +23,14 @@ public class DataHandler {
 
     //Lese brukere fra fil
     public static ObservableList<Bruker> hentListeMedBrukere() {
-        String path = "src/main/resources/Database/brukere.csv";
+        String filnavn = "brukere.csv";
         BufferedReader br;
         String line;
-        String CsvSplittetMed = ";";
         boolean erHeader = true;
 
         try {
             if(listeMedBrukere.isEmpty()) {
-                br = new BufferedReader(new FileReader(path));
+                br = new BufferedReader(new FileReader(filsti + filnavn));
                 while ((line = br.readLine()) != null) {
                     if (erHeader) {
                         erHeader = false;
@@ -57,15 +58,14 @@ public class DataHandler {
 
     //Lese sykkelritt arrangementer fra fil
     public static ObservableList<ArrangementSykkelritt> hentListeMedSykkelrittArrangementer() {
-        String path = "src\\main\\resources\\Database\\sykkelrittarrangementer.csv";
+        String filnavn = "sykkelrittarrangementer.csv";
         BufferedReader br;
         String line;
-        String CsvSplittetMed = ";";
         boolean erHeader = true;
 
         try {
             if(listeMedSykkelrittArrangementer.isEmpty()) {
-                br = new BufferedReader(new FileReader(path));
+                br = new BufferedReader(new FileReader(filsti + filnavn));
                 while ((line = br.readLine()) != null) {
                     if (erHeader) {
                         erHeader = false;
@@ -93,15 +93,14 @@ public class DataHandler {
 
     //Lese Løps arrangementer fra fil
     public static ObservableList<ArrangementLop> hentListeMedLopsArrangementer() {
-        String path = "src/main/resources/Database/loparrangementer.csv";
+        String filnavn = "loparrangementer.csv";
         BufferedReader br;
         String line;
-        String CsvSplittetMed = ";";
         boolean erHeader = true;
 
         try {
             if(listeMedLopsArrangementer.isEmpty()) {
-                br = new BufferedReader(new FileReader(path));
+                br = new BufferedReader(new FileReader(filsti + filnavn));
                 while ((line = br.readLine()) != null) {
                     if (erHeader) {
                         erHeader = false;
@@ -128,15 +127,14 @@ public class DataHandler {
 
     //Lese annet arrangementer fra fil
     public static ObservableList<ArrangementAnnet> hentListeMedAnnetArrangementer() {
-        String path = "src/main/resources/Database/annetarrangementer.csv";
+        String filnavn = "annetarrangementer.csv";
         BufferedReader br;
         String line;
-        String CsvSplittetMed = ";";
         boolean erHeader = true;
 
         try {
             if(listeMedAnnetArrangementer.isEmpty()) {
-                br = new BufferedReader(new FileReader(path));
+                br = new BufferedReader(new FileReader(filsti + filnavn));
                 while ((line = br.readLine()) != null) {
                     if (erHeader) {
                         erHeader = false;
@@ -178,13 +176,27 @@ public class DataHandler {
 
     public static ArrayList<Bruker> hentArrangementDeltagere(Arrangement arrangement) {
         ArrayList<Bruker> deltagere = new ArrayList<>();
+        ArrayList<String> deltagerListe = hentDeltagerListe();
         ObservableList<Bruker> brukere = hentListeMedBrukere();
 
-        BufferedReader br;
-        String line;
-        String CsvSplittetMed = ";";
         boolean erHeader = true;
 
+        for (String deltagerInfo : deltagerListe) {
+            if (erHeader) {
+                erHeader = false;
+                continue;
+            }
+            String[] deltagerVerdier = deltagerInfo.split(CsvSplittetMed);
+            if (Integer.parseInt(deltagerVerdier[0]) == arrangement.getArrangementId()) {
+                for (Bruker bruker : brukere) {
+                    if (bruker.getBrukernavn().equals(deltagerVerdier[1])) {
+                        deltagere.add(bruker);
+                    }
+                }
+            }
+        }
+
+        /*
         try {
             br = new BufferedReader(new FileReader("src/main/resources/Database/deltagere.csv"));
             while ((line = br.readLine()) != null) {
@@ -202,12 +214,74 @@ public class DataHandler {
                         }
                     }
                 }
+
+
+
             }
         }
         catch (IOException ioe) {
             System.out.println(ioe.getMessage());
         }
+
+         */
+
         return deltagere;
+    }
+
+    public static void fjernPaameldingTilArrangement(Arrangement arrangement, Bruker bruker) {
+        ArrayList<String> deltagerListe = hentDeltagerListe();
+
+        boolean erHeader = true;
+
+        StringBuilder deltagere = new StringBuilder();
+
+        for (String deltagerInfo : deltagerListe) {
+            if (erHeader) {
+                erHeader = false;
+                deltagere.append(deltagerInfo).append("\n");
+                continue;
+            }
+            String[] deltagerVerdier = deltagerInfo.split(";");
+            if (arrangement.getArrangementId() == Integer.parseInt(deltagerVerdier[0]) && bruker.getBrukernavn().equals(deltagerVerdier[1])) {
+                continue;
+            }
+            deltagere.append(deltagerInfo).append("\n");
+        }
+
+        String filnavn = "deltagere.csv";
+
+        try {
+            FileWriter filSkriver = new FileWriter(new File(filsti + filnavn));
+            BufferedWriter bufferedCsvSkriver = new BufferedWriter(filSkriver);
+
+            bufferedCsvSkriver.write(deltagere.toString());
+
+            bufferedCsvSkriver.flush();
+            bufferedCsvSkriver.close();
+
+            System.out.println(arrangement.getDeltakereOppmeldt());
+        }
+        catch (IOException ioe) {
+            System.out.println(ioe.getMessage());
+        }
+    }
+
+    public static ArrayList<String> hentDeltagerListe() {
+        ArrayList<String> deltagerListe = new ArrayList<>();
+
+        BufferedReader br;
+        String line;
+
+        try {
+            br = new BufferedReader(new FileReader(filsti + "deltagere.csv"));
+            while ((line = br.readLine()) != null) {
+                deltagerListe.add(line);
+            }
+        }
+        catch (IOException ioe) {
+            System.out.println(ioe.getMessage());
+        }
+        return deltagerListe;
     }
 
 }

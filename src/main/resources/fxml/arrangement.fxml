@@ -17,7 +17,8 @@
       </Label>
       <Label fx:id="ledigePlasser" layoutX="433.0" layoutY="27.0" prefHeight="27.0" prefWidth="153.0" text="Ledige plasser" />
       <Text fx:id="beskrivelse" layoutX="14.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Beskrivelse..." />
-      <Button layoutX="502.0" layoutY="347.0" mnemonicParsing="false" onAction="#bliMed" text="Bli med" />
+      <Button layoutX="413.0" layoutY="347.0" mnemonicParsing="false" onAction="#meldPaa" text="Meld på" />
       <Button layoutX="14.0" layoutY="347.0" mnemonicParsing="false" onAction="#tilbakeTilArrangement" text="Tilbake til arrangementliste" />
+      <Button layoutX="510.0" layoutY="347.0" mnemonicParsing="false" onAction="#meldAv" text="Meld av" />
    </children>
 </AnchorPane>

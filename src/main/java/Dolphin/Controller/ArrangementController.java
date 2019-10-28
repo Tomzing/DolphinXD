@@ -45,7 +45,7 @@ public class ArrangementController extends InnloggetController {
     }
 
     @FXML
-    public void bliMed() {
+    public void meldPaa() {
         ArrayList<Bruker> deltagere = DataHandler.hentArrangementDeltagere(valgtArrangement);
         Bruker aktiv = getMinApplikasjon().getAktivBruker();
 
@@ -63,6 +63,15 @@ public class ArrangementController extends InnloggetController {
             oppdaterListe();
             lagreDeltager();
         }
+    }
+
+    @FXML
+    public void meldAv() {
+        Bruker aktiv = getMinApplikasjon().getAktivBruker();
+        valgtArrangement.fjernDeltager(aktiv);
+        DataHandler.fjernPaameldingTilArrangement(valgtArrangement, aktiv);
+
+        oppdaterListe();
     }
 
     private void lagreDeltager() {
