@@ -39,7 +39,7 @@ public class LoggInnController {
     //Dårlig innlogging til programmet
     public String loggInnBruker() {
 
-       if(loggInnKjorer(inputBrukernavn.getText(),inputPassord.getText())){
+       if(loggInnKjorer(inputBrukernavn.getText(),inputPassord.getText(),false)){
            gaaTilBrukerHovedvisning();
            //Tekst for suksessfull login
            return "Du er innlogget :D";
@@ -50,13 +50,13 @@ public class LoggInnController {
        }
     }
 
-    private Boolean loggInnKjorer(String brukerNavn, String brukerPassord){
+    public boolean loggInnKjorer(String brukerNavn, String brukerPassord, boolean testBoolean){
         for (Bruker bruker : listeMedBrukere) {
             if (bruker.getBrukernavn().equals(brukerNavn)) {
                 if (bruker.getPassord().equals(brukerPassord)) {
-
-                    setAktivBruker(bruker);
-
+                    if(!testBoolean) {
+                        setAktivBruker(bruker);
+                    }
                     System.out.println("Gratulerer du er innlogget, " + bruker.getFornavn());
 
                     return true;

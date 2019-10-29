@@ -41,7 +41,7 @@ public class NyBrukerController{
     }
 
     //Metode for å sjekke om en string er et tall
-    private static boolean erTall(final String str) {
+    public static boolean erTall(final String str) {
         if (str == null || str.length() == 0) {
             return false;
         }
