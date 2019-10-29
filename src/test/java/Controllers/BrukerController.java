@@ -9,8 +9,8 @@ class BrukerController {
 
     @Test
     public void sjekkerFungererErTall() {
-        //Assert.assertTrue(NyBrukerController.erTall("24") );
-        //Assert.assertFalse(NyBrukerController.erTall("Hello"));
+        assertTrue(NyBrukerController.erTall("24") );
+        assertFalse(NyBrukerController.erTall("Hello"));
     }
 
 }
