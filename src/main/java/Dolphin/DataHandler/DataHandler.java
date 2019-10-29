@@ -188,11 +188,11 @@ public class DataHandler {
 
         ObservableList<ArrangementSykkelritt>listeSykkelritt = hentListeMedSykkelrittArrangementer();
         ObservableList<ArrangementAnnet> listeAnnet = hentListeMedAnnetArrangementer();
-        //ObservableList<ArrangementLop> listeLop = hentListeMedLopsArrangementer();
+        ObservableList<ArrangementLop> listeLop = hentListeMedLopsArrangementer();
 
         listeMedAlleArrangementer.addAll(listeSykkelritt);
         listeMedAlleArrangementer.addAll(listeAnnet);
-        //listeMedAlleArrangementer.addAll(listeLop);
+        listeMedAlleArrangementer.addAll(listeLop);
 
         return listeMedAlleArrangementer;
     }
