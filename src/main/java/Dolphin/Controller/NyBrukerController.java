@@ -50,36 +50,26 @@ public class NyBrukerController{
 
     @FXML
     private void lagreNyBruker() {
-        String fornavn = inputFornavn.getText();
-        String etternavn = inputEtternavn.getText();
-        String aar = "";
-        String brukernavn = inputBrukernavn.getText();
-        String passord = inputPassord.getText();
-
-
         if (erTall(inputAar.getText())) {
-            aar = inputAar.getText();
+            nyBruker(inputFornavn.getText(),inputEtternavn.getText(),inputAar.getText(),inputBrukernavn.getText(),inputPassord.getText(),valgBoksKjonn.getValue(), false);
         }
         else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Feil!");
-            alert.setHeaderText("Feil format i antall år");
-            alert.setContentText("Bare skriv inn antall år du er, i feltet 'antall år'");
-
-            alert.showAndWait();
+            alertError("Feil!","Feil format i antall år", "Bare skriv inn antall år du er, i feltet 'antall år'");
         }
-        String kjonnValgt = valgBoksKjonn.getValue();
 
-        String string = fornavn + ";" + etternavn + ";" + aar + ";" + kjonnValgt
+
+
+    }
+    private void nyBruker(String fornavn, String etternavn, String aar, String brukernavn, String passord, String kjonn, boolean testBoolean){
+
+
+        String string = fornavn + ";" + etternavn + ";" + aar + ";" + kjonn
                 + ";" + brukernavn + ";" + passord + "\n";
 
         System.out.println(string);
 
         if (fornavn.equals("") || etternavn.equals("") || aar.equals("") || brukernavn.equals("") || passord.equals("")) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Feil!");
-            alert.setHeaderText("Manglende innhold");
-            alert.setContentText("Et av feltene har ingen innhold.");
+            alertError("Feil!","Manglende innhold","Et av feltene har ingen innhold.");
         }
         else {
             try {
@@ -92,17 +82,27 @@ public class NyBrukerController{
 
                 bufferedCsvSkriver.flush();
                 bufferedCsvSkriver.close();
-
-                //Lagret bruker, returnerer til logg inn
-                Main minApplikasjon = Main.getInstance();
-
-                minApplikasjon.gaaTilLoggInn();
+                if(!testBoolean) {
+                    //Lagret bruker, returnerer til logg inn
+                    Main minApplikasjon = Main.getInstance();
+                    minApplikasjon.gaaTilLoggInn();
+                }
             }
             catch (IOException e) {
                 e.printStackTrace();
             }
         }
+
     }
+    @FXML
+    private void alertError(String title, String header, String content){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+
+        alert.showAndWait();
+        }
 
     @FXML
     private void avbryt() {
