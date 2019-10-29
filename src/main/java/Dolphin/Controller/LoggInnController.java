@@ -83,7 +83,7 @@ public class LoggInnController {
     public void gaaTilNyBruker() {
         minApplikasjon.gaaTilNyBruker();
     }
-
+    @FXML
     public void setAktivBruker(Bruker bruker) {
         minApplikasjon.setAktivBruker(bruker);
     }

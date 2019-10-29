@@ -60,7 +60,7 @@ public class NyBrukerController{
 
 
     }
-    private void nyBruker(String fornavn, String etternavn, String aar, String brukernavn, String passord, String kjonn, boolean testBoolean){
+    public boolean nyBruker(String fornavn, String etternavn, String aar, String brukernavn, String passord, String kjonn, boolean testBoolean){
 
 
         String string = fornavn + ";" + etternavn + ";" + aar + ";" + kjonn
@@ -68,10 +68,18 @@ public class NyBrukerController{
 
         System.out.println(string);
 
+
         if (fornavn.equals("") || etternavn.equals("") || aar.equals("") || brukernavn.equals("") || passord.equals("")) {
-            alertError("Feil!","Manglende innhold","Et av feltene har ingen innhold.");
+            if (!testBoolean){
+                alertError("Feil!","Manglende innhold","Et av feltene har ingen innhold.");
+                return false;
+            }
+            else {
+                return false;
+            }
         }
         else {
+
             try {
                 File file = new File(filnavn);
 
@@ -86,13 +94,15 @@ public class NyBrukerController{
                     //Lagret bruker, returnerer til logg inn
                     Main minApplikasjon = Main.getInstance();
                     minApplikasjon.gaaTilLoggInn();
+                    return true;
                 }
             }
             catch (IOException e) {
                 e.printStackTrace();
+
             }
         }
-
+        return true;
     }
     @FXML
     private void alertError(String title, String header, String content){
