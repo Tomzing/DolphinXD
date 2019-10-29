@@ -74,11 +74,18 @@ public class DataHandler {
 
                     String[] arrangementVerdier = line.split(CsvSplittetMed);
 
+                    String arrangementNavn = arrangementVerdier[0];
+                    String arrangementType = arrangementVerdier[1];
+                    int arrangementAntallPlasser = Integer.parseInt(arrangementVerdier[2]);
+                    LocalDateTime arrangementStartTid = formaterDato(arrangementVerdier[3]);
+                    LocalDateTime arrangementSluttTid = formaterDato(arrangementVerdier[4]);
+                    String arrangementPlassering = arrangementVerdier[5];
+                    String arrangementVanskelighetsgrad = arrangementVerdier[6];
 
                     ArrangementSykkelritt arrangementObj = new ArrangementSykkelritt(
-                            Integer.parseInt(arrangementVerdier[0]), arrangementVerdier[1], arrangementVerdier[2],
-                            Integer.parseInt(arrangementVerdier[3]), formaterDato(arrangementVerdier[4]),
-                            formaterDato(arrangementVerdier[5]), arrangementVerdier[6], arrangementVerdier[7]);
+                            arrangementNavn, arrangementType, arrangementAntallPlasser,
+                            arrangementStartTid, arrangementSluttTid,
+                            arrangementPlassering, arrangementVanskelighetsgrad);
 
                     arrangementObj.setDeltakereOppmeldt(hentArrangementDeltagere(arrangementObj));
 
@@ -109,10 +116,18 @@ public class DataHandler {
 
                     String[] arrangementVerdier = line.split(CsvSplittetMed);
 
+                    String arrangementNavn = arrangementVerdier[0];
+                    String arrangementType = arrangementVerdier[1];
+                    int arrangementAntallPlasser = Integer.parseInt(arrangementVerdier[2]);
+                    LocalDateTime arrangementStartTid = formaterDato(arrangementVerdier[3]);
+                    LocalDateTime arrangementSluttTid = formaterDato(arrangementVerdier[4]);
+                    String arrangementPlassering = arrangementVerdier[5];
+                    String arrangementVanskelighetsgrad = arrangementVerdier[6];
+
                     ArrangementLop arrangementObj = new ArrangementLop(
-                            Integer.parseInt(arrangementVerdier[0]), arrangementVerdier[1], arrangementVerdier[2],
-                            Integer.parseInt(arrangementVerdier[3]), formaterDato(arrangementVerdier[4]),
-                            formaterDato(arrangementVerdier[5]), arrangementVerdier[6], arrangementVerdier[7]);
+                            arrangementNavn, arrangementType, arrangementAntallPlasser,
+                            arrangementStartTid, arrangementSluttTid, arrangementPlassering,
+                            arrangementVanskelighetsgrad);
 
                     arrangementObj.setDeltakereOppmeldt(hentArrangementDeltagere(arrangementObj));
 
@@ -143,10 +158,18 @@ public class DataHandler {
 
                     String[] arrangementVerdier = line.split(CsvSplittetMed);
 
+                    String arrangementNavn = arrangementVerdier[0];
+                    String arrangementType = arrangementVerdier[1];
+                    int arrangementAntallPlasser = Integer.parseInt(arrangementVerdier[2]);
+                    LocalDateTime arrangementStartTid = formaterDato(arrangementVerdier[3]);
+                    LocalDateTime arrangementSluttTid = formaterDato(arrangementVerdier[4]);
+                    String arrangementPlassering = arrangementVerdier[5];
+                    String arrangementAltText = arrangementVerdier[6];
+
                     ArrangementAnnet arrangementObj = new ArrangementAnnet(
-                            Integer.parseInt(arrangementVerdier[0]), arrangementVerdier[1], arrangementVerdier[2],
-                            Integer.parseInt(arrangementVerdier[3]), formaterDato(arrangementVerdier[4]),
-                            formaterDato(arrangementVerdier[5]), arrangementVerdier[6], arrangementVerdier[7]);
+                            arrangementNavn, arrangementType, arrangementAntallPlasser,
+                            arrangementStartTid, arrangementSluttTid, arrangementPlassering,
+                            arrangementAltText);
 
                     arrangementObj.setDeltakereOppmeldt(hentArrangementDeltagere(arrangementObj));
 

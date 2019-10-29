@@ -2,9 +2,10 @@ package Dolphin.Model;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class Arrangement {
-    private static int teller = 0;
+    private static final AtomicInteger teller = new AtomicInteger(0);
     private int arrangementId;
     private String navn;
     //TYPE MÅ MEST SANNSYNLIG ENDRES
@@ -15,9 +16,9 @@ public abstract class Arrangement {
     private String plassering;
     private ArrayList<Bruker> deltakereOppmeldt;
 
-    public Arrangement(int arrangementId, String navn, String type, int antallPlasser, LocalDateTime startDato, LocalDateTime sluttDato,
+    public Arrangement(String navn, String type, int antallPlasser, LocalDateTime startDato, LocalDateTime sluttDato,
                        String plassering) {
-        this.arrangementId = arrangementId;
+        this.arrangementId = teller.incrementAndGet();
         this.navn = navn;
         this.type = type;
         this.antallPlasser = antallPlasser;
@@ -27,9 +28,9 @@ public abstract class Arrangement {
         this.deltakereOppmeldt = new ArrayList<>();
     }
 
-    public Arrangement(String navn, String type, int antallPlasser, LocalDateTime startDato, LocalDateTime sluttDato,
+    /*public Arrangement(String navn, String type, int antallPlasser, LocalDateTime startDato, LocalDateTime sluttDato,
                        String plassering) {
-        this.arrangementId = ++teller;
+        this.arrangementId = teller.incrementAndGet();
         this.navn = navn;
         this.type = type;
         this.antallPlasser = antallPlasser;
@@ -37,7 +38,7 @@ public abstract class Arrangement {
         this.sluttDato = sluttDato;
         this.plassering = plassering;
         this.deltakereOppmeldt = new ArrayList<>();
-    }
+    }*/
 
     public void leggTilNyDeltager(Bruker bruker) {
         if (deltakereOppmeldt.size() < antallPlasser) {
