@@ -57,8 +57,6 @@ public class NyBrukerController{
             alertError("Feil!","Feil format i antall år", "Bare skriv inn antall år du er, i feltet 'antall år'");
         }
 
-
-
     }
     public boolean nyBruker(String fornavn, String etternavn, String aar, String brukernavn, String passord, String kjonn, boolean testBoolean){
 

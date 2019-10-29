@@ -1,8 +1,9 @@
 package Controllers;
 
 import Dolphin.Controller.NyBrukerController;
-
 import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -16,9 +17,18 @@ class BrukerController {
         assertFalse(NyBrukerController.erTall("Hello"));
     }
     @Test
-    public void fungererLagNyBruker(){
+    public void fungererLagNyBruker() throws IOException {
         NyBrukerController test = new NyBrukerController();
         assertTrue(test.nyBruker("Testy","Test","18","Test","Test","Mann",true));
+        /*BufferedReader bufferedReader = new BufferedReader(new FileReader("../../../resources/Database/brukere.csv"));
+        String input;
+        int count = 0;
+        while((input = bufferedReader.readLine()) != null)
+        {
+            count++;
+        }
+
+        System.out.println("Count : "+count);*/
     }
     @Test
     public void fangerNyBrukerTommeFelt() {
