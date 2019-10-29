@@ -20,8 +20,8 @@
          <children>
             <Button id="loggInnBruker" layoutX="220.0" layoutY="375.0" mnemonicParsing="false" onAction="#loggInnBruker" text="Logg inn som bruker" />
             <Button layoutX="221.0" layoutY="308.0" mnemonicParsing="false" onAction="#loggInnAdmin" text="Logg inn som admin" />
-            <TextField id="inputBrukernavn" fx:id="inputBrukernavn" layoutX="206.0" layoutY="100.0" promptText="Brukernavn" />
-            <TextField id="inputPassord" fx:id="inputPassord" layoutX="206.0" layoutY="174.0" promptText="Passord" />
+            <TextField id="inputBrukernavn" fx:id="inputBrukernavn" layoutX="206.0" layoutY="100.0" promptText="Brukernavn" text="t" />
+            <TextField id="inputPassord" fx:id="inputPassord" layoutX="206.0" layoutY="174.0" promptText="Passord" text="t" />
             <Button layoutX="500.0" layoutY="435.0" mnemonicParsing="false" onAction="#gaaTilNyBruker" text="Ny bruker" />
          </children>
       </AnchorPane>
