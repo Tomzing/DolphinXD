@@ -37,7 +37,7 @@ public class ArrangementController extends InnloggetController {
         if (valgtArrangement != null) {
             navn.setText(valgtArrangement.getNavn());
             beskrivelse.setText("Hei");
-            ledigePlasser.setText("Ledige plasser: " + valgtArrangement.getAntallPlasser());
+            ledigePlasser.setText("Ledige plasser: " + (valgtArrangement.getAntallPlasser() - valgtArrangement.getDeltakereOppmeldt().size()));
         }
 
         System.out.println("xD");
@@ -94,6 +94,7 @@ public class ArrangementController extends InnloggetController {
     private void oppdaterListe() {
         ObservableList<Bruker> deltagereObservableList = FXCollections.observableArrayList(valgtArrangement.getDeltakereOppmeldt());
         deltagere.setItems(deltagereObservableList);
+        ledigePlasser.setText("Ledige plasser: " + (valgtArrangement.getAntallPlasser() - valgtArrangement.getDeltakereOppmeldt().size()));
     }
 
     @FXML

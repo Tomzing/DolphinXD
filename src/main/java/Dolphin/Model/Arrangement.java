@@ -40,15 +40,17 @@ public abstract class Arrangement {
     }
 
     public void leggTilNyDeltager(Bruker bruker) {
-        boolean erPaameldt = false;
-        for (Bruker deltager : deltakereOppmeldt) {
-            if (deltager.getBrukernavn().equals(bruker.getBrukernavn())) {
-                erPaameldt = true;
-                break;
+        if (deltakereOppmeldt.size() < antallPlasser) {
+            boolean erPaameldt = false;
+            for (Bruker deltager : deltakereOppmeldt) {
+                if (deltager.getBrukernavn().equals(bruker.getBrukernavn())) {
+                    erPaameldt = true;
+                    break;
+                }
             }
-        }
-        if (!erPaameldt) {
-            deltakereOppmeldt.add(bruker);
+            if (!erPaameldt) {
+                deltakereOppmeldt.add(bruker);
+            }
         }
     }
 
