@@ -6,8 +6,7 @@ import Dolphin.Model.Bruker;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.text.Text;
 
 import java.io.BufferedWriter;
@@ -15,6 +14,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class ArrangementController extends InnloggetController {
     @FXML
@@ -42,6 +42,37 @@ public class ArrangementController extends InnloggetController {
 
         System.out.println("xD");
 
+    }
+
+    //Betalingsmetode hvor hvis man "betaler" så returnerer den true, hvis ikke false
+    @FXML
+    private boolean betalForArrangement() {
+        Alert bekreftBetaling = new Alert(Alert.AlertType.CONFIRMATION);
+        bekreftBetaling.setTitle("Betaling");
+        bekreftBetaling.setHeaderText("Bekreft betaling for påmelding");
+        bekreftBetaling.setContentText("Her så ville det vært en mulighet for å betale for " +
+                "valgte arrangement. Trykk betal for å 'betale', trykk avbryt for å feile 'betalingen'");
+        bekreftBetaling.setWidth(600);
+        bekreftBetaling.setHeight(600);
+
+        ButtonType bekreftBetalingBtn = new ButtonType("Bekreft betaling");
+        ButtonType avbrytBetalingBtn = new ButtonType("Avbryt", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+        bekreftBetaling.getButtonTypes().setAll(bekreftBetalingBtn,avbrytBetalingBtn);
+
+        Optional<ButtonType> resultat = bekreftBetaling.showAndWait();
+
+        if(resultat.get() == bekreftBetalingBtn) {
+            meldPaa();
+
+            bekreftBetaling.close();
+
+            return true;
+        }
+        else if(resultat.get() == avbrytBetalingBtn) {
+            // :(
+        }
+        return false;
     }
 
     @FXML
