@@ -57,7 +57,7 @@ public class Main extends Application {
             FXMLLoader fxmlLaster = new FXMLLoader();
             fxmlLaster.setLocation(getClass().getResource("/fxml/brukerhovedvisning.fxml"));
             primaryStage.setTitle("Hovedvisning for bruker");
-            primaryStage.setScene(new Scene(fxmlLaster.load(), 540, 600));
+            primaryStage.setScene(new Scene(fxmlLaster.load(), 1000, 600));
 
             arrangementlisteController = fxmlLaster.getController();
 
