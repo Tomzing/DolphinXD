@@ -52,8 +52,8 @@ public class ArrangementController extends InnloggetController {
         bekreftBetaling.setHeaderText("Bekreft betaling for påmelding");
         bekreftBetaling.setContentText("Her så ville det vært en mulighet for å betale for " +
                 "valgte arrangement. Trykk betal for å 'betale', trykk avbryt for å feile 'betalingen'");
-        bekreftBetaling.setWidth(600);
-        bekreftBetaling.setHeight(600);
+        bekreftBetaling.setWidth(250);
+        bekreftBetaling.setHeight(250);
 
         ButtonType bekreftBetalingBtn = new ButtonType("Bekreft betaling");
         ButtonType avbrytBetalingBtn = new ButtonType("Avbryt", ButtonBar.ButtonData.CANCEL_CLOSE);
