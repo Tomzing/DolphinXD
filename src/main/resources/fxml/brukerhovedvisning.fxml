@@ -12,5 +12,6 @@
       <Text fx:id="paaloggetSomText" layoutX="14.0" layoutY="596.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Brukernavn" />
       <Button layoutX="14.0" layoutY="530.0" mnemonicParsing="false" onAction="#visMerInfo" text="Se mer info" />
       <CheckBox fx:id="utlopteArrangementerChkBx" layoutX="538.0" layoutY="459.0" mnemonicParsing="false" onAction="#gjemUtgatteArrangementer" text="Gjem utgåtte arrangementer" />
+      <ComboBox fx:id="velgSorteringCB" layoutX="606.0" layoutY="55.0" prefWidth="150.0" />
    </children>
 </AnchorPane>

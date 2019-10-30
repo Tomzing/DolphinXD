@@ -3,12 +3,11 @@ package Dolphin.Controller;
 import Dolphin.DataHandler.DataHandler;
 import Dolphin.Model.Arrangement;
 import Dolphin.Model.Bruker;
+import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.text.Text;
 
 import java.time.Clock;
@@ -26,6 +25,9 @@ public class arrangementlisteController extends InnloggetController {
     @FXML
     private CheckBox utlopteArrangementerChkBx;
 
+    @FXML
+    private ComboBox velgSorteringCB;
+
     private Bruker aktivBruker;
 
     private Arrangement valgtArrangement;
@@ -36,10 +38,12 @@ public class arrangementlisteController extends InnloggetController {
     public void initialize() {
         aktivBruker = finnAktivBruker();
 
-
         arrangementListView.setItems(listeMedAlleArrangementer);
 
         paaloggetSomText.setText("Aktiv bruker: " + aktivBruker.toString());
+
+        velgSorteringCB.setItems(FXCollections.observableArrayList("Sorter alfabetisk på navn",
+                "Sorter på type alfabetisk","Sorter på antall plasser igjen"));
 
     }
 
@@ -63,15 +67,16 @@ public class arrangementlisteController extends InnloggetController {
             return true;
         }
         else {
-                arrangementListView.setItems(listeMedAlleArrangementer);
+            arrangementListView.setItems(listeMedAlleArrangementer);
 
-                arrangementListView.refresh();
+            arrangementListView.refresh();
 
-                return false;
+            return false;
+
             }
         }
 
-    @FXML
+        @FXML
     public void velgArrangement() {
         valgtArrangement = arrangementListView.getSelectionModel().getSelectedItem();
     }

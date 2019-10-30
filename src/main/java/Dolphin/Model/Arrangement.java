@@ -130,6 +130,6 @@ public abstract class Arrangement {
 
     @Override
     public String toString() {
-        return "ID: " + this.arrangementId + " | " + "Navn: " + this.navn + " Antall plasser: " + this.antallPlasser + " | " + "Startdato: " + this.startDato;
+        return "ID: " + this.arrangementId + " | " + "Navn: " + this.navn + " Antall plasser: " + this.antallPlasser + "| Type " + this.type + " | " + "Startdato: " + this.startDato;
     }
 }
