@@ -14,7 +14,7 @@ import java.time.Clock;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-public class arrangementlisteController extends InnloggetController {
+public class ArrangementlisteController extends InnloggetController {
 
     @FXML
     private ListView<Arrangement> arrangementListView;

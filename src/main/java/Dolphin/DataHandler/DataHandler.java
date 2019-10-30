@@ -214,6 +214,9 @@ public class DataHandler {
                 for (Bruker bruker : brukere) {
                     if (bruker.getBrukernavn().equals(deltagerVerdier[1])) {
                         deltagere.add(bruker);
+
+                        int antallPlasserArrangement = arrangement.getAntallPlasser() - 1;
+                        arrangement.setAntallPlasser(antallPlasserArrangement);
                     }
                 }
             }

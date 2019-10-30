@@ -81,6 +81,6 @@ public class Bruker {
 
     @Override
     public String toString() {
-        return fornavn + " " + etternavn + " med brukernavnet " + brukernavn;
+        return "ID: " + brukerId + " Navn: " + fornavn + " " + etternavn + " Brukernavn: " + brukernavn;
     }
 }

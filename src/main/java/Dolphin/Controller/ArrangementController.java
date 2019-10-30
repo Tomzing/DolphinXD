@@ -70,7 +70,7 @@ public class ArrangementController extends InnloggetController {
             return true;
         }
         else if(resultat.get() == avbrytBetalingBtn) {
-            // :(
+            System.out.println("Betaling feilet, du er ikke meldt på");
         }
         return false;
     }

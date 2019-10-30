@@ -1,6 +1,6 @@
 package Dolphin;
 
-import Dolphin.Controller.arrangementlisteController;
+import Dolphin.Controller.ArrangementlisteController;
 import Dolphin.Model.Arrangement;
 import Dolphin.Model.Bruker;
 import javafx.application.Application;
@@ -19,7 +19,7 @@ public class Main extends Application {
 
     private Bruker aktivBruker;
 
-    private static arrangementlisteController arrangementlisteController;
+    private static ArrangementlisteController arrangementlisteController;
 
     public Main() {
         minApplikasjon = this;

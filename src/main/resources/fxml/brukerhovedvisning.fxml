@@ -5,7 +5,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Dolphin.Controller.arrangementlisteController">
+<AnchorPane prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Dolphin.Controller.ArrangementlisteController">
    <children>
       <Button layoutX="435.0" layoutY="530.0" mnemonicParsing="false" onAction="#gaaTilLoggInn" text="Logg ut" />
       <ListView fx:id="arrangementListView" layoutX="14.0" layoutY="14.0" onMouseClicked="#velgArrangement" prefHeight="510.0" prefWidth="507.0" />
