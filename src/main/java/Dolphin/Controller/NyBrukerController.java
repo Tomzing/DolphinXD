@@ -1,7 +1,10 @@
 package Dolphin.Controller;
 
+import Dolphin.DataHandler.DataHandler;
 import Dolphin.Main;
+import Dolphin.Model.Bruker;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
@@ -31,6 +34,8 @@ public class NyBrukerController{
 
     @FXML
     private TextField inputPassord;
+
+    ObservableList<Bruker> listeMedBrukere = DataHandler.hentListeMedBrukere();
 
     private static final String filnavn = "src/main/resources/Database/brukere.csv";
 
@@ -79,6 +84,8 @@ public class NyBrukerController{
         else {
 
             try {
+                listeMedBrukere.add(new Bruker(fornavn, etternavn, Integer.parseInt(aar), kjonn, brukernavn, passord));
+
                 File file = new File(filnavn);
 
                 FileWriter filSkriver = new FileWriter(file.getAbsoluteFile(), true);
