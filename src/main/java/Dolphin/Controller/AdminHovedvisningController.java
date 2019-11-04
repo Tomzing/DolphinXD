@@ -7,7 +7,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class AdminHovedvisningController extends InnloggetController {
+public class AdminHovedvisningController {
 
     @FXML
     private ImageView adminBilde;

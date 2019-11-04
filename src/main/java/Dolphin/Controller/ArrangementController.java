@@ -1,6 +1,7 @@
 package Dolphin.Controller;
 
 import Dolphin.DataHandler.DataHandler;
+import Dolphin.Main;
 import Dolphin.Model.Arrangement;
 import Dolphin.Model.Bruker;
 import javafx.collections.FXCollections;
@@ -16,7 +17,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
 
-public class ArrangementController extends InnloggetController {
+public class ArrangementController {
+
+    private Main minApplikasjon = Main.getInstance();
+
     @FXML
     private Label navn, ledigePlasser;
 
@@ -30,7 +34,7 @@ public class ArrangementController extends InnloggetController {
 
     @FXML
     public void initialize() {
-        setValgtArrangement();
+        valgtArrangement = minApplikasjon.getValgtArrangement();
         oppdaterListe();
         System.out.println(deltagere.getItems());
 
@@ -78,7 +82,7 @@ public class ArrangementController extends InnloggetController {
     @FXML
     public void meldPaa() {
         ArrayList<Bruker> deltagere = DataHandler.hentArrangementDeltagere(valgtArrangement);
-        Bruker aktiv = getMinApplikasjon().getAktivBruker();
+        Bruker aktiv = minApplikasjon.getAktivBruker();
 
         boolean paameldt = false;
 
@@ -90,7 +94,7 @@ public class ArrangementController extends InnloggetController {
         }
 
         if (!paameldt) {
-            valgtArrangement.leggTilNyDeltager(getMinApplikasjon().getAktivBruker());
+            valgtArrangement.leggTilNyDeltager(minApplikasjon.getAktivBruker());
             oppdaterListe();
             lagreDeltager();
         }
@@ -98,7 +102,7 @@ public class ArrangementController extends InnloggetController {
 
     @FXML
     public void meldAv() {
-        Bruker aktiv = getMinApplikasjon().getAktivBruker();
+        Bruker aktiv = minApplikasjon.getAktivBruker();
         valgtArrangement.fjernDeltager(aktiv);
         DataHandler.fjernPaameldingTilArrangement(valgtArrangement, aktiv);
 
@@ -111,7 +115,7 @@ public class ArrangementController extends InnloggetController {
 
             FileWriter filSkriver = new FileWriter(file.getAbsoluteFile(), true);
             BufferedWriter bufretCsvSkriver = new BufferedWriter(filSkriver);
-            bufretCsvSkriver.write(valgtArrangement.getArrangementId() + ";" + getMinApplikasjon().getAktivBruker().getBrukernavn() + "\n");
+            bufretCsvSkriver.write(valgtArrangement.getArrangementId() + ";" + minApplikasjon.getAktivBruker().getBrukernavn() + "\n");
 
             bufretCsvSkriver.flush();
             bufretCsvSkriver.close();
@@ -130,10 +134,6 @@ public class ArrangementController extends InnloggetController {
 
     @FXML
     public void tilbakeTilArrangement() {
-        getMinApplikasjon().gaaTilBrukerHovedvisning();
-    }
-
-    public void setValgtArrangement() {
-        valgtArrangement = getMinApplikasjon().getValgtArrangement();
+        minApplikasjon.aapneNyttVindu("arrangementliste");
     }
 }

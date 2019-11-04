@@ -9,7 +9,6 @@
 
 <AnchorPane prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Dolphin.Controller.AdminHovedvisningController">
    <children>
-      <Button layoutX="914.0" layoutY="555.0" mnemonicParsing="false" onAction="#gaaTilLoggInn" text="Logg ut" />
       <ImageView fx:id="adminBilde" fitHeight="62.0" fitWidth="48.0" layoutX="938.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
       <ListView fx:id="brukerListView" layoutX="53.0" layoutY="45.0" prefHeight="436.0" prefWidth="377.0" />
       <ListView fx:id="arrangementListView" layoutX="501.0" layoutY="45.0" prefHeight="436.0" prefWidth="377.0" />

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="650.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Dolphin.Controller.ArrangementlisteController">
+   <children>
+      <Pane fx:id="innloggetInfo" layoutY="8.0" prefHeight="60.0" prefWidth="1000.0"/>
+      <ListView fx:id="arrangementListView" layoutX="10.0" layoutY="10.0" onMouseClicked="#velgArrangement" prefHeight="450.0" prefWidth="507.0" />
+      <Button layoutX="10.0" layoutY="470" mnemonicParsing="false" onAction="#visMerInfo" text="Se mer info" />
+      <CheckBox fx:id="utlopteArrangementerChkBx" layoutX="550.0" layoutY="450.0" mnemonicParsing="false" onAction="#gjemUtgatteArrangementer" text="Gjem utgåtte arrangementer" />
+      <ComboBox fx:id="velgSorteringCB" layoutX="600.0" layoutY="10.0" prefWidth="150.0" />
+   </children>
+</AnchorPane>

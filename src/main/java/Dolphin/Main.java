@@ -1,11 +1,13 @@
 package Dolphin;
 
 import Dolphin.Controller.ArrangementlisteController;
+import Dolphin.Controller.InnloggetController;
 import Dolphin.Model.Arrangement;
 import Dolphin.Model.Bruker;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
 
@@ -19,7 +21,9 @@ public class Main extends Application {
 
     private Bruker aktivBruker;
 
-    private static ArrangementlisteController arrangementlisteController;
+    private Arrangement valgtArrangement;
+
+    private InnloggetController innloggetController;
 
     public Main() {
         minApplikasjon = this;
@@ -55,11 +59,11 @@ public class Main extends Application {
 
             System.out.println("Brukervisning");
             FXMLLoader fxmlLaster = new FXMLLoader();
-            fxmlLaster.setLocation(getClass().getResource("/fxml/brukerhovedvisning.fxml"));
+            fxmlLaster.setLocation(getClass().getResource("/fxml/innlogget.fxml"));
             primaryStage.setTitle("Hovedvisning for bruker");
-            primaryStage.setScene(new Scene(fxmlLaster.load(), 1000, 600));
+            primaryStage.setScene(new Scene(fxmlLaster.load(), 800, 570));
 
-            arrangementlisteController = fxmlLaster.getController();
+            innloggetController = fxmlLaster.getController();
 
             primaryStage.show();
         }
@@ -95,6 +99,7 @@ public class Main extends Application {
         }
     }
 
+    /*
     public void gaaTilArrangement() {
         try {
             FXMLLoader fxmlLaster = new FXMLLoader();
@@ -107,9 +112,10 @@ public class Main extends Application {
             System.out.println(ioe.getMessage());
         }
     }
+     */
 
-    public Arrangement getValgtArrangement() {
-        return arrangementlisteController.getValgtArrangement();
+    public void aapneNyttVindu(String filnavn) {
+        innloggetController.lastInnVindu(filnavn);
     }
 
     public void setAktivBruker(Bruker bruker) {
@@ -120,8 +126,15 @@ public class Main extends Application {
         return aktivBruker;
     }
 
+    public void setValgtArrangement(Arrangement arrangement) {
+        valgtArrangement = arrangement;
+    }
+
+    public Arrangement getValgtArrangement() {
+        return valgtArrangement;
+    }
+
     public static void main(String[] args) {
         launch(args);
     }
-
 }
