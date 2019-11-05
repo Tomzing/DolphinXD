@@ -9,7 +9,6 @@ public class Arrangement {
     private int arrangementId;
     private String navn;
     private Bruker arrangor;
-    //TYPE MÅ MEST SANNSYNLIG ENDRES
     private String type;
     private int antallPlasser;
     private long pris;
