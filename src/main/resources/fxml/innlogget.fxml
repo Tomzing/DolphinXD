@@ -7,9 +7,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Dolphin.Controller.InnloggetController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Dolphin.Controller.InnloggetController">
    <children>
-   <GridPane>
+   <GridPane prefHeight="50.0" prefWidth="900.0">
      <columnConstraints>
        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="150.0" />
        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="150.0" />
@@ -22,12 +22,13 @@
          <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
      </rowConstraints>
       <children>
-         <Button mnemonicParsing="false" text="Nytt arrangement" GridPane.rowIndex="1" />
+         <Button mnemonicParsing="false" onAction="#gaaTilNyttArrangement" text="Nytt arrangement" GridPane.rowIndex="1" />
          <Button mnemonicParsing="false" text="Gå til profilen din" GridPane.columnIndex="3" GridPane.rowIndex="1" />
          <Button mnemonicParsing="false" onAction="#gaaTilLoggInn" text="Logg ut" GridPane.columnIndex="4" GridPane.rowIndex="1" />
          <Text fx:id="txtBruker" strokeType="OUTSIDE" strokeWidth="0.0" text="Du er logget inn som: Bruker" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <Button mnemonicParsing="false" text="Se alle arrangementer" GridPane.columnIndex="1" GridPane.rowIndex="1" />
       </children>
    </GridPane>
-      <Pane fx:id="vindu" layoutY="50.0" prefHeight="650.0" prefWidth="1000.0" />
+      <Pane fx:id="vindu" layoutY="50.0" prefHeight="550.0" prefWidth="900.0" />
    </children>
 </AnchorPane>

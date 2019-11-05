@@ -61,7 +61,7 @@ public class Main extends Application {
             FXMLLoader fxmlLaster = new FXMLLoader();
             fxmlLaster.setLocation(getClass().getResource("/fxml/innlogget.fxml"));
             primaryStage.setTitle("Hovedvisning for bruker");
-            primaryStage.setScene(new Scene(fxmlLaster.load(), 800, 570));
+            primaryStage.setScene(new Scene(fxmlLaster.load(), 900, 600));
 
             innloggetController = fxmlLaster.getController();
 

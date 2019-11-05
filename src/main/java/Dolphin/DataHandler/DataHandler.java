@@ -56,8 +56,55 @@ public class DataHandler {
         return LocalDateTime.parse(dato, formatter);
     }
 
+    public static ObservableList<Arrangement> hentArrangementer() {
+        ObservableList<Arrangement> arrangementer = FXCollections.observableArrayList();
+
+        String filnavn = "arrangementer.csv";
+        BufferedReader br;
+        String line;
+        boolean erHeader = true;
+
+        try {
+            br = new BufferedReader(new FileReader(filsti + filnavn));
+            while ((line = br.readLine()) != null) {
+                if (erHeader) {
+                    erHeader = false;
+                    continue;
+                }
+
+                String[] arrangementVerdier = line.split(CsvSplittetMed);
+
+                //NAVN;ARRANGØR;TYPE;VANSKELIGHETSGRAD;ANTALL PLASSER;PRIS;STARTTID;SLUTTID;STED
+
+                String navn = arrangementVerdier[0];
+                Bruker arrangor = null;
+                for (Bruker b : hentListeMedBrukere()) {
+                    if (arrangementVerdier[1].equals(b.getBrukernavn())) {
+                        arrangor = b;
+                    }
+                }
+                String type = arrangementVerdier[2];
+                String vanskelighetsgrad = arrangementVerdier[3];
+                int antallPlasser = Integer.parseInt(arrangementVerdier[4]);
+                long pris = Long.parseLong(arrangementVerdier[5]);
+                LocalDateTime starttid = LocalDateTime.parse(arrangementVerdier[6]);
+                LocalDateTime sluttid = LocalDateTime.parse(arrangementVerdier[7]);
+                String sted = arrangementVerdier[8];
+
+                Arrangement arrangementObj = new Arrangement(navn, arrangor, type, vanskelighetsgrad, antallPlasser, pris, starttid, sluttid, sted);
+
+                arrangementObj.setDeltakereOppmeldt(hentArrangementDeltagere(arrangementObj));
+
+                arrangementer.add(arrangementObj);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return arrangementer;
+    }
+
     //Lese sykkelritt arrangementer fra fil
-    public static ObservableList<ArrangementSykkelritt> hentListeMedSykkelrittArrangementer() {
+    /*public static ObservableList<ArrangementSykkelritt> hentListeMedSykkelrittArrangementer() {
         String filnavn = "sykkelrittarrangementer.csv";
         BufferedReader br;
         String line;
@@ -96,10 +143,10 @@ public class DataHandler {
             e.printStackTrace();
         }
         return listeMedSykkelrittArrangementer;
-    }
+    }*/
 
     //Lese Løps arrangementer fra fil
-    public static ObservableList<ArrangementLop> hentListeMedLopsArrangementer() {
+    /*public static ObservableList<ArrangementLop> hentListeMedLopsArrangementer() {
         String filnavn = "loparrangementer.csv";
         BufferedReader br;
         String line;
@@ -138,10 +185,10 @@ public class DataHandler {
             e.printStackTrace();
         }
         return listeMedLopsArrangementer;
-    }
+    }*/
 
     //Lese annet arrangementer fra fil
-    public static ObservableList<ArrangementAnnet> hentListeMedAnnetArrangementer() {
+    /*public static ObservableList<ArrangementAnnet> hentListeMedAnnetArrangementer() {
         String filnavn = "annetarrangementer.csv";
         BufferedReader br;
         String line;
@@ -180,12 +227,13 @@ public class DataHandler {
             e.printStackTrace();
         }
         return listeMedAnnetArrangementer;
-    }
+    }*/
 
     public static ObservableList<Arrangement> hentListeMedAlleArrangementer() {
 
         ObservableList<Arrangement> listeMedAlleArrangementer = FXCollections.observableArrayList();
 
+        /*
         ObservableList<ArrangementSykkelritt>listeSykkelritt = hentListeMedSykkelrittArrangementer();
         ObservableList<ArrangementAnnet> listeAnnet = hentListeMedAnnetArrangementer();
         ObservableList<ArrangementLop> listeLop = hentListeMedLopsArrangementer();
@@ -193,6 +241,7 @@ public class DataHandler {
         listeMedAlleArrangementer.addAll(listeSykkelritt);
         listeMedAlleArrangementer.addAll(listeAnnet);
         listeMedAlleArrangementer.addAll(listeLop);
+         */
 
         return listeMedAlleArrangementer;
     }

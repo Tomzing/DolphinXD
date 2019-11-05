@@ -4,27 +4,33 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public abstract class Arrangement {
+public class Arrangement {
     private static final AtomicInteger teller = new AtomicInteger(0);
     private int arrangementId;
     private String navn;
+    private Bruker arrangor;
     //TYPE MÅ MEST SANNSYNLIG ENDRES
     private String type;
     private int antallPlasser;
-    private LocalDateTime startDato;
-    private LocalDateTime sluttDato;
-    private String plassering;
+    private long pris;
+    private LocalDateTime starttid;
+    private LocalDateTime sluttid;
+    private String sted;
+    private String vanskelighetsgrad;
     private ArrayList<Bruker> deltakereOppmeldt;
 
-    public Arrangement(String navn, String type, int antallPlasser, LocalDateTime startDato, LocalDateTime sluttDato,
-                       String plassering) {
+    public Arrangement(String navn, Bruker arrangor, String type, String vanskelighetsgrad, int antallPlasser,
+                       long pris, LocalDateTime starttid, LocalDateTime sluttid, String sted) {
         this.arrangementId = teller.incrementAndGet();
         this.navn = navn;
+        this.arrangor = arrangor;
         this.type = type;
         this.antallPlasser = antallPlasser;
-        this.startDato = startDato;
-        this.sluttDato = sluttDato;
-        this.plassering = plassering;
+        this.pris = pris;
+        this.starttid = starttid;
+        this.sluttid = sluttid;
+        this.sted = sted;
+        this.vanskelighetsgrad = vanskelighetsgrad;
         this.deltakereOppmeldt = new ArrayList<>();
     }
 
@@ -96,28 +102,28 @@ public abstract class Arrangement {
         this.antallPlasser = antallPlasser;
     }
 
-    public LocalDateTime getStartDato() {
-        return startDato;
+    public LocalDateTime getStarttid() {
+        return starttid;
     }
 
-    public void setStartDato(LocalDateTime startDato) {
-        this.startDato = startDato;
+    public void setStarttid(LocalDateTime starttid) {
+        this.starttid = starttid;
     }
 
-    public String getPlassering() {
-        return plassering;
+    public String getSted() {
+        return sted;
     }
 
-    public void setPlassering(String plassering) {
-        this.plassering = plassering;
+    public void setSted(String sted) {
+        this.sted = sted;
     }
 
-    public LocalDateTime getSluttDato() {
-        return sluttDato;
+    public LocalDateTime getSluttid() {
+        return sluttid;
     }
 
-    public void setSluttDato(LocalDateTime sluttDato) {
-        this.sluttDato = sluttDato;
+    public void setSluttid(LocalDateTime sluttid) {
+        this.sluttid = sluttid;
     }
 
     public ArrayList<Bruker> getDeltakereOppmeldt() {
@@ -130,6 +136,30 @@ public abstract class Arrangement {
 
     @Override
     public String toString() {
-        return "ID: " + this.arrangementId + " | " + "Navn: " + this.navn + " Antall plasser: " + this.antallPlasser + "| Type " + this.type + " | " + "Startdato: " + this.startDato;
+        return "ID: " + this.arrangementId + " | " + "Navn: " + this.navn + " Antall plasser: " + this.antallPlasser + "| Type " + this.type + " | " + "Startdato: " + this.starttid;
+    }
+
+    public Bruker getArrangor() {
+        return arrangor;
+    }
+
+    public void setArrangor(Bruker arrangor) {
+        this.arrangor = arrangor;
+    }
+
+    public long getPris() {
+        return pris;
+    }
+
+    public void setPris(long pris) {
+        this.pris = pris;
+    }
+
+    public String getVanskelighetsgrad() {
+        return vanskelighetsgrad;
+    }
+
+    public void setVanskelighetsgrad(String vanskelighetsgrad) {
+        this.vanskelighetsgrad = vanskelighetsgrad;
     }
 }

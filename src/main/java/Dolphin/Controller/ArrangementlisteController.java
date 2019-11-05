@@ -32,18 +32,20 @@ public class ArrangementlisteController {
     private CheckBox utlopteArrangementerChkBx;
 
     @FXML
-    private ComboBox velgSorteringCB;
+    private ComboBox<String> velgSorteringCB;
 
     private Bruker aktivBruker;
 
     private Arrangement valgtArrangement;
 
-    private ObservableList<Arrangement> listeMedAlleArrangementer = DataHandler.hentListeMedAlleArrangementer();
+    //private ObservableList<Arrangement> listeMedAlleArrangementer = DataHandler.hentListeMedAlleArrangementer();
+    private ObservableList<Arrangement> arrangementListe = DataHandler.hentArrangementer();
 
     public void initialize() {
         aktivBruker = minApplikasjon.getAktivBruker();
 
-        arrangementListView.setItems(listeMedAlleArrangementer);
+        //arrangementListView.setItems(listeMedAlleArrangementer);
+        arrangementListView.setItems(arrangementListe);
 
         velgSorteringCB.setItems(FXCollections.observableArrayList("Sorter alfabetisk på navn",
                 "Sorter på type alfabetisk", "Sorter på antall plasser igjen"));
@@ -57,19 +59,22 @@ public class ArrangementlisteController {
         ObservableList<Arrangement> tempListeMedAlleArrangementer = FXCollections.observableArrayList();
 
         if (utlopteArrangementerChkBx.isSelected()) {
-            for (int i = 0; i < listeMedAlleArrangementer.size(); i++) {
+            //for (int i = 0; i < listeMedAlleArrangementer.size(); i++) {
+            for (int i = 0; i < arrangementListe.size(); i++) {
                 LocalDateTime naa = LocalDateTime.now();
-                LocalDateTime objTid = arrangementListView.getItems().get(i).getStartDato();
+                LocalDateTime objTid = arrangementListView.getItems().get(i).getStarttid();
 
                 if (objTid.compareTo(naa) > 0) {
-                    tempListeMedAlleArrangementer.add(listeMedAlleArrangementer.get(i));
+                    //tempListeMedAlleArrangementer.add(listeMedAlleArrangementer.get(i));
+                    tempListeMedAlleArrangementer.add(arrangementListe.get(i));
                 }
             }
             arrangementListView.setItems(tempListeMedAlleArrangementer);
 
             return true;
         } else {
-            arrangementListView.setItems(listeMedAlleArrangementer);
+            //arrangementListView.setItems(listeMedAlleArrangementer);
+            arrangementListView.setItems(arrangementListe);
 
             arrangementListView.refresh();
 

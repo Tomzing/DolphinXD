@@ -2,10 +2,10 @@ package Dolphin.Model;
 
 import java.time.LocalDateTime;
 
-public class ArrangementAnnet extends Arrangement {
+public class ArrangementAnnet /*extends Arrangement*/ {
     private String annetArrangementTekst;
 
-    public ArrangementAnnet(String navn, String type, int antallPlasser, LocalDateTime startDato, LocalDateTime sluttDato,
+    /*public ArrangementAnnet(String navn, String type, int antallPlasser, LocalDateTime startDato, LocalDateTime sluttDato,
                             String plassering, String annetArrangementTekst) {
         super(navn, type, antallPlasser, startDato, sluttDato, plassering);
 
