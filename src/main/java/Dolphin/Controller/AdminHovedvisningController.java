@@ -1,6 +1,7 @@
 package Dolphin.Controller;
 
 import Dolphin.DataHandler.DataHandler;
+import Dolphin.Main;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
@@ -8,6 +9,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class AdminHovedvisningController {
+
+    private Main minApplikasjon = Main.getInstance();
 
     @FXML
     private ImageView adminBilde;
@@ -38,9 +41,6 @@ public class AdminHovedvisningController {
 
     public void initialize() {
 
-        //System.out.println(listeMedSykkelrittArrangementer.get(1).getNavn());
-        //System.out.println(listeMedAnnetArrangementer.get(1).getNavn());
-
         String path = "Bilder/cooldude.jpg";
         Image image = new Image(path);
         adminBilde.setImage(image);
@@ -49,4 +49,10 @@ public class AdminHovedvisningController {
 
         arrangementListView.setItems(DataHandler.hentArrangementer());
     }
+
+    @FXML
+    public void tilbakeTilLoggInn() {
+        minApplikasjon.gaaTilLoggInn();
+    }
 }
+
