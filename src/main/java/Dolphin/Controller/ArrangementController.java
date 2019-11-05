@@ -38,12 +38,6 @@ public class ArrangementController {
         oppdaterListe();
         System.out.println(deltagere.getItems());
 
-        if (valgtArrangement != null) {
-            navn.setText(valgtArrangement.getNavn());
-            beskrivelse.setText("Hei");
-            ledigePlasser.setText("Ledige plasser: " + (valgtArrangement.getAntallPlasser() - valgtArrangement.getDeltakereOppmeldt().size()));
-        }
-
         System.out.println("xD");
 
     }

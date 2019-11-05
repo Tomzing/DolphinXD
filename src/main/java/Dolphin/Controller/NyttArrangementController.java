@@ -1,5 +1,6 @@
 package Dolphin.Controller;
 
+import Dolphin.DataHandler.DataHandler;
 import Dolphin.Main;
 import Dolphin.Model.Arrangement;
 import Dolphin.Model.Bruker;
@@ -67,12 +68,16 @@ public class NyttArrangementController {
         LocalDateTime starttid = LocalDateTime.parse(txtStarttid.getText(), formatter);
         LocalDateTime sluttid = LocalDateTime.parse(txtSluttid.getText(), formatter);
         long pris = Long.parseLong(txtPris.getText());
+        String beskrivelse = txtBeskrivelse.getText();
 
-        Arrangement arrangement = new Arrangement(navn, arrangor, kategori,  vanskelighetsgrad, antallPlasser, pris, starttid, sluttid, sted);
+        Arrangement arrangement = new Arrangement(navn, arrangor, kategori,  vanskelighetsgrad, antallPlasser, pris,
+                starttid, sluttid, sted, beskrivelse);
+
+        DataHandler.arrangementer.add(arrangement);
 
         lagreArrangement(arrangement);
         minApplikasjon.setValgtArrangement(arrangement);
-        minApplikasjon.aapneNyttVindu("arrangement");
+        minApplikasjon.aapneNyttVindu("arrangementliste");
     }
 
     private void lagreArrangement(Arrangement arrangement) {
@@ -90,7 +95,8 @@ public class NyttArrangementController {
                     arrangement.getPris() + ";" +
                     arrangement.getStarttid() + ";" +
                     arrangement.getSluttid() + ";" +
-                    arrangement.getSted() + "\n"
+                    arrangement.getSted() + ";" +
+                    arrangement.getBeskrivelse() + "\n"
             );
 
             bufferedCsvSkriver.flush();

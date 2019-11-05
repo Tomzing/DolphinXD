@@ -47,6 +47,6 @@ public class AdminHovedvisningController {
 
         brukerListView.setItems(DataHandler.hentListeMedBrukere());
 
-        arrangementListView.setItems(DataHandler.hentListeMedAlleArrangementer());
+        arrangementListView.setItems(DataHandler.hentArrangementer());
     }
 }

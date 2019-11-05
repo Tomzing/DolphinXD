@@ -1,3 +1,4 @@
-NAVN;ARRANGØR;TYPE;VANSKELIGHETSGRAD;ANTALL PLASSER;PRIS;STARTTID;SLUTTID;STED
-Beste arrangementet;t;Sykkelritt;Vanskelig;50;150;2019-11-11T12:45;2019-11-11T16:00;Halden
-Fotballkamp;t;Fotballkamp;Middels;24;50;2019-11-03T11:00;2019-11-03T14:00;Fredrikstad
+NAVN;ARRANGØR;TYPE;VANSKELIGHETSGRAD;ANTALL PLASSER;PRIS;STARTTID;SLUTTID;STED;BESKRIVELSE
+Beste arrangementet;t;Sykkelritt;Vanskelig;50;150;2019-11-11T12:45;2019-11-11T16:00;Halden;Heseblesende action i dette sykkelrittet!
+Fotballkamp;t;Fotballkamp;Middels;24;50;2019-11-03T11:00;2019-11-03T14:00;Fredrikstad;Vi kommer til å sparke noen ballær, som vi sier i Fredrikstad
+Rå løping;t;løp;Vanskelig;10;200;2020-02-02T16:00;2020-02-03T16:00;Sted 11;Løpe fort teehee

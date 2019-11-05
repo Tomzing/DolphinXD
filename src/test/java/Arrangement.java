@@ -14,9 +14,9 @@ public class Arrangement {
         LocalDateTime fraDato = DataHandler.formaterDato("2002-06-28 20:00");
         LocalDateTime  tilDato = DataHandler.formaterDato("2002-06-30 20:00");
 
-        ArrangementAnnet test1 = new ArrangementAnnet ("Kult Arrangement","Ekstrem stryking",
+        /*ArrangementAnnet test1 = new ArrangementAnnet ("Kult Arrangement","Ekstrem stryking",
                 1000, fraDato, tilDato, "Stedesen 8",
                 "Stryke raskt og fort med utrolige varmer!");
-        assertNotNull(test1);
+        assertNotNull(test1);*/
     }
 }

@@ -18,9 +18,10 @@ public class Arrangement {
     private String sted;
     private String vanskelighetsgrad;
     private ArrayList<Bruker> deltakereOppmeldt;
+    private String beskrivelse;
 
     public Arrangement(String navn, Bruker arrangor, String type, String vanskelighetsgrad, int antallPlasser,
-                       long pris, LocalDateTime starttid, LocalDateTime sluttid, String sted) {
+                       long pris, LocalDateTime starttid, LocalDateTime sluttid, String sted, String beskrivelse) {
         this.arrangementId = teller.incrementAndGet();
         this.navn = navn;
         this.arrangor = arrangor;
@@ -32,6 +33,7 @@ public class Arrangement {
         this.sted = sted;
         this.vanskelighetsgrad = vanskelighetsgrad;
         this.deltakereOppmeldt = new ArrayList<>();
+        this.beskrivelse = beskrivelse;
     }
 
     /*public Arrangement(String navn, String type, int antallPlasser, LocalDateTime startDato, LocalDateTime sluttDato,
@@ -161,5 +163,13 @@ public class Arrangement {
 
     public void setVanskelighetsgrad(String vanskelighetsgrad) {
         this.vanskelighetsgrad = vanskelighetsgrad;
+    }
+
+    public String getBeskrivelse() {
+        return beskrivelse;
+    }
+
+    public void setBeskrivelse(String beskrivelse) {
+        this.beskrivelse = beskrivelse;
     }
 }
