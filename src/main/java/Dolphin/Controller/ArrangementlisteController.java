@@ -7,20 +7,9 @@ import Dolphin.Model.Bruker;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.text.Text;
-import org.w3c.dom.ls.LSOutput;
-
-import java.io.IOException;
-import java.time.Clock;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class ArrangementlisteController {
@@ -51,12 +40,19 @@ public class ArrangementlisteController {
 
     public void initialize() {
         aktivBruker = minApplikasjon.getAktivBruker();
+        valgtArrangement = minApplikasjon.getValgtArrangement();
 
         //arrangementListView.setItems(listeMedAlleArrangementer);
         arrangementListView.setItems(arrangementListe);
 
+        if (valgtArrangement != null) {
+            arrangementListView.getSelectionModel().select(valgtArrangement);
+            fyllUtFilmInfo(valgtArrangement);
+        }
+
         velgSorteringCB.setItems(FXCollections.observableArrayList("Sorter alfabetisk på navn",
                 "Sorter på type alfabetisk", "Sorter på antall plasser igjen"));
+
 
         arrangementListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Arrangement>() {
                     public void changed(ObservableValue<? extends Arrangement> observable,
@@ -67,18 +63,13 @@ public class ArrangementlisteController {
 
                             velgArrangement();
 
-                            txtNavn.setText(valgteArrangementet.getNavn());
-                            txtSportskategori.setText(valgteArrangementet.getType());
-                            txtAntallPlasser.setText(String.valueOf(valgteArrangementet.getAntallPlasser()));
-                            txtSted.setText(valgteArrangementet.getSted());
-                            txtStarttid.setText(valgteArrangementet.getStarttid().toString());
-                            txtSluttid.setText(valgteArrangementet.getSluttid().toString());
-                            txtPris.setText(String.valueOf(valgteArrangementet.getPris()));
-                            txtBeskrivelse.setText(valgteArrangementet.getBeskrivelse());
-                            txtVanskelighetsgrad.setText(valgteArrangementet.getVanskelighetsgrad());
+                            fyllUtFilmInfo(valgteArrangementet);
+
+                            minApplikasjon.setValgtArrangement(valgteArrangementet);
                         }
                     }
                 });
+
     }
 
     //Metode for å "fjerne" utgåtte datoer fra listviewet, returnerer true eller false basert på om sjekkboksen
@@ -111,15 +102,27 @@ public class ArrangementlisteController {
         }
     }
 
+    private void fyllUtFilmInfo(Arrangement arrangement) {
+        txtNavn.setText(arrangement.getNavn());
+        txtSportskategori.setText(arrangement.getType());
+        txtAntallPlasser.setText(String.valueOf(arrangement.getAntallPlasser()));
+        txtSted.setText(arrangement.getSted());
+        txtStarttid.setText(arrangement.getStarttid().toString());
+        txtSluttid.setText(arrangement.getSluttid().toString());
+        txtPris.setText(String.valueOf(arrangement.getPris()));
+        txtBeskrivelse.setText(arrangement.getBeskrivelse());
+        txtVanskelighetsgrad.setText(arrangement.getVanskelighetsgrad());
+    }
+
     @FXML
     public void velgArrangement() {
         valgtArrangement = arrangementListView.getSelectionModel().getSelectedItem();
+        minApplikasjon.setValgtArrangement(valgtArrangement);
     }
 
     @FXML
     public void visMerInfo() {
         if (valgtArrangement != null) {
-            minApplikasjon.setValgtArrangement(valgtArrangement);
             minApplikasjon.aapneNyttVindu("arrangement");
         }
     }

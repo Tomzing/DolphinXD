@@ -36,6 +36,6 @@
             <ListView fx:id="lvArrangementer" prefHeight="288.0" prefWidth="239.0" />
          </children>
       </VBox>
-      <Button fx:id="btnArrangement" layoutX="492.0" layoutY="427.0" mnemonicParsing="false" text="Gå til arrangement" />
+      <Button onAction="#gaaTilValgtArrangement" layoutX="492.0" layoutY="427.0" mnemonicParsing="false" text="Gå til arrangement" />
    </children>
 </AnchorPane>
