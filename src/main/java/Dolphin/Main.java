@@ -21,6 +21,8 @@ public class Main extends Application {
 
     private Bruker aktivBruker;
 
+    private Bruker valgtBruker;
+
     private Arrangement valgtArrangement;
 
     private InnloggetController innloggetController;
@@ -124,6 +126,14 @@ public class Main extends Application {
 
     public Bruker getAktivBruker() {
         return aktivBruker;
+    }
+
+    public void setValgtBruker(Bruker bruker) {
+        valgtBruker = bruker;
+    }
+
+    public Bruker getValgtBruker() {
+        return valgtBruker;
     }
 
     public void setValgtArrangement(Arrangement arrangement) {

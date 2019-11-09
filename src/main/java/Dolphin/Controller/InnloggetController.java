@@ -39,19 +39,20 @@ public class InnloggetController {
         }
     }
 
-    @FXML
     public void gaaTilNyttArrangement() {
         lastInnVindu("nyttarrangement");
     }
 
-    @FXML
+    public void gaaTilArrangementliste() {
+        lastInnVindu("arrangementliste");
+    }
+
     public void gaaTilDinProfil() {
+        minApplikasjon.setValgtBruker(minApplikasjon.getAktivBruker());
         lastInnVindu("brukerprofil");
     }
 
-    @FXML
     public void gaaTilLoggInn() {
-
         System.out.println("Du har nå logget ut :)");
         minApplikasjon.gaaTilLoggInn();
     }

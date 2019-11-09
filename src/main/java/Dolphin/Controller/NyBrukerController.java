@@ -8,12 +8,14 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
 
 public class NyBrukerController{
 
@@ -24,7 +26,7 @@ public class NyBrukerController{
     private TextField inputEtternavn;
 
     @FXML
-    private TextField inputAar;
+    private DatePicker dpFodselsdato;
 
     @FXML
     private ChoiceBox<String> valgBoksKjonn;
@@ -36,8 +38,6 @@ public class NyBrukerController{
     private TextField inputPassord;
 
     ObservableList<Bruker> listeMedBrukere = DataHandler.hentListeMedBrukere();
-
-    private static final String filnavn = "src/main/resources/Database/brukere.csv";
 
     public void initialize() {
         valgBoksKjonn.setItems(FXCollections.observableArrayList("Mann", "Kvinne","Annet"));
@@ -55,24 +55,16 @@ public class NyBrukerController{
 
     @FXML
     private void lagreNyBruker() {
-        if (erTall(inputAar.getText())) {
-            nyBruker(inputFornavn.getText(),inputEtternavn.getText(),inputAar.getText(),inputBrukernavn.getText(),inputPassord.getText(),valgBoksKjonn.getValue(), false);
-        }
-        else {
-            alertError("Feil!","Feil format i antall år", "Bare skriv inn antall år du er, i feltet 'antall år'");
-        }
-
+        //if (erTall(inputAar.getText())) {
+            nyBruker(inputFornavn.getText(),inputEtternavn.getText(), dpFodselsdato.getValue(),inputBrukernavn.getText(),inputPassord.getText(),valgBoksKjonn.getValue(), false);
+        //}
+        //else {
+        //    alertError("Feil!","Feil format i antall år", "Bare skriv inn antall år du er, i feltet 'antall år'");
+        //}
     }
-    public boolean nyBruker(String fornavn, String etternavn, String aar, String brukernavn, String passord, String kjonn, boolean testBoolean){
 
-
-        String string = fornavn + ";" + etternavn + ";" + aar + ";" + kjonn
-                + ";" + brukernavn + ";" + passord + "\n";
-
-        System.out.println(string);
-
-
-        if (fornavn.equals("") || etternavn.equals("") || aar.equals("") || brukernavn.equals("") || passord.equals("")) {
+    public boolean nyBruker(String fornavn, String etternavn, LocalDate fodselsdato, String brukernavn, String passord, String kjonn, boolean testBoolean){
+        if (fornavn.equals("") || etternavn.equals("") || fodselsdato.toString().equals("") || brukernavn.equals("") || passord.equals("")) {
             if (!testBoolean){
                 alertError("Feil!","Manglende innhold","Et av feltene har ingen innhold.");
                 return false;
@@ -82,29 +74,16 @@ public class NyBrukerController{
             }
         }
         else {
+            Bruker bruker = new Bruker(fornavn, etternavn, fodselsdato, kjonn, brukernavn, passord);
+            listeMedBrukere.add(bruker);
 
-            try {
-                listeMedBrukere.add(new Bruker(fornavn, etternavn, Integer.parseInt(aar), kjonn, brukernavn, passord));
+            DataHandler.lagreBruker(bruker);
 
-                File file = new File(filnavn);
-
-                FileWriter filSkriver = new FileWriter(file.getAbsoluteFile(), true);
-                BufferedWriter bufferedCsvSkriver = new BufferedWriter(filSkriver);
-
-                bufferedCsvSkriver.write(string);
-
-                bufferedCsvSkriver.flush();
-                bufferedCsvSkriver.close();
-                if(!testBoolean) {
-                    //Lagret bruker, returnerer til logg inn
-                    Main minApplikasjon = Main.getInstance();
-                    minApplikasjon.gaaTilLoggInn();
-                    return true;
-                }
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-
+            if(!testBoolean) {
+                //Lagret bruker, returnerer til logg inn
+                Main minApplikasjon = Main.getInstance();
+                minApplikasjon.gaaTilLoggInn();
+                return true;
             }
         }
         return true;

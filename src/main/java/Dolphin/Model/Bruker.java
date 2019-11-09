@@ -1,5 +1,6 @@
 package Dolphin.Model;
 
+import java.time.LocalDate;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Bruker {
@@ -8,16 +9,16 @@ public class Bruker {
     private int brukerId;
     private String fornavn;
     private String etternavn;
-    private int alder;
+    private LocalDate fodselsdato;
     private String kjonn;
     private String brukernavn;
     private String passord;
 
-    public Bruker(String fornavn, String etternavn, int alder, String kjonn, String brukernavn, String passord) {
+    public Bruker(String fornavn, String etternavn, LocalDate fodselsdato, String kjonn, String brukernavn, String passord) {
         this.brukerId = teller.incrementAndGet();
         this.fornavn = fornavn;
         this.etternavn = etternavn;
-        this.alder = alder;
+        this.fodselsdato = fodselsdato;
         this.kjonn = kjonn;
         this.brukernavn = brukernavn;
         this.passord = passord;
@@ -47,12 +48,12 @@ public class Bruker {
         this.etternavn = etternavn;
     }
 
-    public int getAlder() {
-        return alder;
+    public LocalDate getFodselsdato() {
+        return fodselsdato;
     }
 
-    public void setAlder(int alder) {
-        this.alder = alder;
+    public void setFodselsdato(LocalDate fodselsdato) {
+        this.fodselsdato = fodselsdato;
     }
 
     public String getKjonn() {

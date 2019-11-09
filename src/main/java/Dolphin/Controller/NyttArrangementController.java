@@ -73,37 +73,9 @@ public class NyttArrangementController {
         Arrangement arrangement = new Arrangement(navn, arrangor, kategori,  vanskelighetsgrad, antallPlasser, pris,
                 starttid, sluttid, sted, beskrivelse);
 
-        DataHandler.arrangementer.add(arrangement);
+        DataHandler.lagreArrangement(arrangement);
 
-        lagreArrangement(arrangement);
         minApplikasjon.setValgtArrangement(arrangement);
         minApplikasjon.aapneNyttVindu("arrangementliste");
-    }
-
-    private void lagreArrangement(Arrangement arrangement) {
-        try {
-            File file = new File("src/main/resources/Database/arrangementer.csv");
-
-            FileWriter filSkriver = new FileWriter(file.getAbsoluteFile(), true);
-            BufferedWriter bufferedCsvSkriver = new BufferedWriter(filSkriver);
-
-            bufferedCsvSkriver.write(arrangement.getNavn() + ";" +
-                    arrangement.getArrangor().getBrukernavn() + ";" +
-                    arrangement.getType() + ";" +
-                    arrangement.getVanskelighetsgrad() + ";" +
-                    arrangement.getAntallPlasser() + ";" +
-                    arrangement.getPris() + ";" +
-                    arrangement.getStarttid() + ";" +
-                    arrangement.getSluttid() + ";" +
-                    arrangement.getSted() + ";" +
-                    arrangement.getBeskrivelse() + "\n"
-            );
-
-            bufferedCsvSkriver.flush();
-            bufferedCsvSkriver.close();
-        }
-        catch (IOException ioe) {
-            System.out.println(ioe.getMessage());
-        }
     }
 }

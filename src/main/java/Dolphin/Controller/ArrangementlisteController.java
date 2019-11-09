@@ -81,7 +81,6 @@ public class ArrangementlisteController {
                 });
     }
 
-    @FXML
     //Metode for å "fjerne" utgåtte datoer fra listviewet, returnerer true eller false basert på om sjekkboksen
     //er sjekket av eller ikke. Hvis sjekket, filtrer listview. Ikke sjekket, "legg tilbake" forrige oppsett
     public boolean gjemUtgatteArrangementer() {

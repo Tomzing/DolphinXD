@@ -1,14 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="799.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Dolphin.Controller.BrukerprofilController">
+<AnchorPane prefHeight="550.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Dolphin.Controller.BrukerprofilController">
    <children>
-      <Pane prefHeight="60.0" prefWidth="799.0" />
+      <Text fx:id="txtNavn" layoutX="14.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Navn">
+         <font>
+            <Font size="48.0" />
+         </font>
+      </Text>
+      <GridPane layoutX="14.0" layoutY="78.0" prefHeight="146.0" prefWidth="256.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="109.0" minWidth="0.0" prefWidth="61.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="223.0" minWidth="10.0" prefWidth="162.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="Brukernavn:" />
+            <Label text="Fødselsdato:" GridPane.rowIndex="1" />
+            <Text fx:id="txtBrukernavn" strokeType="OUTSIDE" strokeWidth="0.0" text="brukernavn" GridPane.columnIndex="1" />
+            <Text fx:id="txtFodselsdato" strokeType="OUTSIDE" strokeWidth="0.0" text="fødselsdato" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+         </children>
+      </GridPane>
+      <VBox layoutX="459.0" layoutY="102.0" prefHeight="315.0" prefWidth="239.0">
+         <children>
+            <Label text="Påmeldte arrangementer:" />
+            <ListView fx:id="lvArrangementer" prefHeight="288.0" prefWidth="239.0" />
+         </children>
+      </VBox>
+      <Button fx:id="btnArrangement" layoutX="492.0" layoutY="427.0" mnemonicParsing="false" text="Gå til arrangement" />
    </children>
 </AnchorPane>

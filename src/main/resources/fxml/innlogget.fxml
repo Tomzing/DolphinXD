@@ -23,10 +23,10 @@
      </rowConstraints>
       <children>
          <Button mnemonicParsing="false" onAction="#gaaTilNyttArrangement" text="Nytt arrangement" GridPane.rowIndex="1" />
-         <Button mnemonicParsing="false" text="Gå til profilen din" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+         <Button mnemonicParsing="false" onAction="#gaaTilDinProfil" text="Gå til profilen din" GridPane.columnIndex="3" GridPane.rowIndex="1" />
          <Button mnemonicParsing="false" onAction="#gaaTilLoggInn" text="Logg ut" GridPane.columnIndex="4" GridPane.rowIndex="1" />
          <Text fx:id="txtBruker" strokeType="OUTSIDE" strokeWidth="0.0" text="Du er logget inn som: Bruker" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-            <Button mnemonicParsing="false" text="Se alle arrangementer" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Button mnemonicParsing="false" onAction="#gaaTilArrangementliste" text="Se alle arrangementer" GridPane.columnIndex="1" GridPane.rowIndex="1" />
       </children>
    </GridPane>
       <Pane fx:id="vindu" layoutY="50.0" prefHeight="550.0" prefWidth="900.0" />

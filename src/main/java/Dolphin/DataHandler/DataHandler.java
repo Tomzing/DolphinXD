@@ -6,13 +6,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.io.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class DataHandler {
 
-    public static ObservableList<Arrangement> arrangementer = FXCollections.observableArrayList();
+    private static ObservableList<Arrangement> arrangementer = FXCollections.observableArrayList();
 
     private static final String filsti = "src/main/resources/Database/";
     private static final String CsvSplittetMed = ";";
@@ -36,7 +37,7 @@ public class DataHandler {
                     }
                     String[] verdier = line.split(CsvSplittetMed);
 
-                    Bruker brukerObj = new Bruker(verdier[0], verdier[1], Integer.parseInt(verdier[2]), verdier[3], verdier[4], verdier[5]);
+                    Bruker brukerObj = new Bruker(verdier[0], verdier[1], LocalDate.parse(verdier[2]), verdier[3], verdier[4], verdier[5]);
 
                     listeMedBrukere.add(brukerObj);
                 }
@@ -46,6 +47,29 @@ public class DataHandler {
         }
 
         return listeMedBrukere;
+    }
+
+    public static void lagreBruker(Bruker bruker) {
+        try {
+            File file = new File("src/main/resources/Database/brukere.csv");
+
+            FileWriter filSkriver = new FileWriter(file.getAbsoluteFile(), true);
+            BufferedWriter bufferedCsvSkriver = new BufferedWriter(filSkriver);
+
+            bufferedCsvSkriver.write(bruker.getFornavn() + ";" +
+                    bruker.getEtternavn() + ";" +
+                    bruker.getFodselsdato() + ";" +
+                    bruker.getKjonn() + ";" +
+                    bruker.getBrukernavn() + ";" +
+                    bruker.getPassord() + "\n"
+            );
+
+            bufferedCsvSkriver.flush();
+            bufferedCsvSkriver.close();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static LocalDateTime formaterDato(String dato) {
@@ -102,6 +126,36 @@ public class DataHandler {
             e.printStackTrace();
         }
         return arrangementer;
+    }
+
+    public static void lagreArrangement(Arrangement arrangement) {
+
+        arrangementer.add(arrangement);
+
+        try {
+            File file = new File("src/main/resources/Database/arrangementer.csv");
+
+            FileWriter filSkriver = new FileWriter(file.getAbsoluteFile(), true);
+            BufferedWriter bufferedCsvSkriver = new BufferedWriter(filSkriver);
+
+            bufferedCsvSkriver.write(arrangement.getNavn() + ";" +
+                    arrangement.getArrangor().getBrukernavn() + ";" +
+                    arrangement.getType() + ";" +
+                    arrangement.getVanskelighetsgrad() + ";" +
+                    arrangement.getAntallPlasser() + ";" +
+                    arrangement.getPris() + ";" +
+                    arrangement.getStarttid() + ";" +
+                    arrangement.getSluttid() + ";" +
+                    arrangement.getSted() + ";" +
+                    arrangement.getBeskrivelse() + "\n"
+            );
+
+            bufferedCsvSkriver.flush();
+            bufferedCsvSkriver.close();
+        }
+        catch (IOException ioe) {
+            System.out.println(ioe.getMessage());
+        }
     }
 
     public static ArrayList<Bruker> hentArrangementDeltagere(Arrangement arrangement) {

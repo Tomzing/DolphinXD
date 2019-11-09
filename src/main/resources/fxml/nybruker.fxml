@@ -20,10 +20,10 @@
          <children>
             <TextField fx:id="inputFornavn" promptText="Fornavn" />
             <TextField fx:id="inputEtternavn" promptText="Etternavn" GridPane.rowIndex="1" />
-            <TextField fx:id="inputAar" promptText="Antall år" GridPane.rowIndex="2" />
             <TextField fx:id="inputPassord" promptText="Passord" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <TextField fx:id="inputBrukernavn" promptText="Brukernavn" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <ChoiceBox fx:id="valgBoksKjonn" prefHeight="31.0" prefWidth="205.0" GridPane.columnIndex="1" />
+            <DatePicker fx:id="dpFodselsdato" GridPane.rowIndex="2" />
          </children>
       </GridPane>
       <Button layoutX="14.0" layoutY="555.0" mnemonicParsing="false" onAction="#lagreNyBruker" text="Lagre" />
