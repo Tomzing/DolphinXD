@@ -75,7 +75,7 @@ public class ArrangementController {
 
     @FXML
     public void meldPaa() {
-        ArrayList<Bruker> deltagere = DataHandler.hentArrangementDeltagere(valgtArrangement);
+        ArrayList<Bruker> deltagere = DataHandler.hentArrangementBrukerliste(valgtArrangement, "deltagere.csv");
         Bruker aktiv = minApplikasjon.getAktivBruker();
 
         boolean paameldt = false;
@@ -123,7 +123,7 @@ public class ArrangementController {
     private void oppdaterListe() {
         ObservableList<Bruker> deltagereObservableList = FXCollections.observableArrayList(valgtArrangement.getDeltakereOppmeldt());
         deltagere.setItems(deltagereObservableList);
-        ledigePlasser.setText("Ledige plasser: " + (valgtArrangement.getAntallPlasser() - valgtArrangement.getDeltakereOppmeldt().size()));
+        ledigePlasser.setText("Ledige plasser: " + (valgtArrangement.getLedigePlasser()));
     }
 
     @FXML

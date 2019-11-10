@@ -16,11 +16,12 @@ public class Arrangement {
     private LocalDateTime sluttid;
     private String sted;
     private String vanskelighetsgrad;
-    private ArrayList<Bruker> deltakereOppmeldt;
     private String beskrivelse;
+    private ArrayList<Bruker> deltakereOppmeldt;
+    private ArrayList<Bruker> administratorer;
 
-    public Arrangement(String navn, Bruker arrangor, String type, String vanskelighetsgrad, int antallPlasser,
-                       long pris, LocalDateTime starttid, LocalDateTime sluttid, String sted, String beskrivelse) {
+    public Arrangement(String navn, Bruker arrangor, String type, String vanskelighetsgrad, int antallPlasser, long pris,
+                       LocalDateTime starttid, LocalDateTime sluttid, String sted, String beskrivelse) {
         this.arrangementId = teller.incrementAndGet();
         this.navn = navn;
         this.arrangor = arrangor;
@@ -31,8 +32,9 @@ public class Arrangement {
         this.sluttid = sluttid;
         this.sted = sted;
         this.vanskelighetsgrad = vanskelighetsgrad;
-        this.deltakereOppmeldt = new ArrayList<>();
         this.beskrivelse = beskrivelse;
+        this.deltakereOppmeldt = new ArrayList<>();
+        this.administratorer = new ArrayList<>();
     }
 
     /*public Arrangement(String navn, String type, int antallPlasser, LocalDateTime startDato, LocalDateTime sluttDato,
@@ -69,6 +71,10 @@ public class Arrangement {
                 break;
             }
         }
+    }
+
+    public int getLedigePlasser() {
+        return antallPlasser - deltakereOppmeldt.size();
     }
 
     public int getArrangementId() {
@@ -137,7 +143,7 @@ public class Arrangement {
 
     @Override
     public String toString() {
-        return "ID: " + this.arrangementId + " | " + "Navn: " + this.navn + " Antall plasser: " + this.antallPlasser + "| Type " + this.type + " | " + "Startdato: " + this.starttid;
+        return "ID: " + this.arrangementId + " | " + "Navn: " + this.navn + " Antall plasser: " + this.getLedigePlasser() + "| Type " + this.type + " | " + "Startdato: " + this.starttid;
     }
 
     public Bruker getArrangor() {
@@ -170,5 +176,13 @@ public class Arrangement {
 
     public void setBeskrivelse(String beskrivelse) {
         this.beskrivelse = beskrivelse;
+    }
+
+    public ArrayList<Bruker> getAdministratorer() {
+        return administratorer;
+    }
+
+    public void setAdministratorer(ArrayList<Bruker> administratorer) {
+        this.administratorer = administratorer;
     }
 }

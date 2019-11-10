@@ -105,7 +105,7 @@ public class ArrangementlisteController {
     private void fyllUtFilmInfo(Arrangement arrangement) {
         txtNavn.setText(arrangement.getNavn());
         txtSportskategori.setText(arrangement.getType());
-        txtAntallPlasser.setText(String.valueOf(arrangement.getAntallPlasser()));
+        txtAntallPlasser.setText(String.valueOf(arrangement.getLedigePlasser()));
         txtSted.setText(arrangement.getSted());
         txtStarttid.setText(arrangement.getStarttid().toString());
         txtSluttid.setText(arrangement.getSluttid().toString());

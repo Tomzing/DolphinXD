@@ -1,6 +1,5 @@
 package Dolphin.DataHandler;
 
-import Dolphin.Main;
 import Dolphin.Model.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -117,7 +116,8 @@ public class DataHandler {
                     Arrangement arrangementObj = new Arrangement(navn, arrangor, type, vanskelighetsgrad,
                             antallPlasser, pris, starttid, sluttid, sted, beskrivelse);
 
-                    arrangementObj.setDeltakereOppmeldt(hentArrangementDeltagere(arrangementObj));
+                    arrangementObj.setDeltakereOppmeldt(hentArrangementBrukerliste(arrangementObj, "deltagere.csv"));
+                    arrangementObj.setAdministratorer(hentArrangementBrukerliste(arrangementObj, "administratorer.csv"));
 
                     arrangementer.add(arrangementObj);
                 }
@@ -126,6 +126,31 @@ public class DataHandler {
             e.printStackTrace();
         }
         return arrangementer;
+    }
+
+    public static ArrayList<Bruker> hentArrangementBrukerliste(Arrangement arrangement, String filnavn) {
+        ArrayList<Bruker> brukerListe = new ArrayList<>();
+        ArrayList<String> adminListe = hentListe(filnavn);
+        ObservableList<Bruker> brukere = hentListeMedBrukere();
+
+        boolean erHeader = true;
+
+        for (String deltagerInfo : adminListe) {
+            if (erHeader) {
+                erHeader = false;
+                continue;
+            }
+            String[] deltagerVerdier = deltagerInfo.split(CsvSplittetMed);
+            if (Integer.parseInt(deltagerVerdier[0]) == arrangement.getArrangementId()) {
+                for (Bruker bruker : brukere) {
+                    if (bruker.getBrukernavn().equals(deltagerVerdier[1])) {
+                        brukerListe.add(bruker);
+                    }
+                }
+            }
+        }
+
+        return brukerListe;
     }
 
     public static void lagreArrangement(Arrangement arrangement) {
@@ -152,71 +177,40 @@ public class DataHandler {
 
             bufferedCsvSkriver.flush();
             bufferedCsvSkriver.close();
+
+            if (!arrangement.getAdministratorer().isEmpty()) {
+                lagreAdministratorer(arrangement);
+            }
         }
         catch (IOException ioe) {
             System.out.println(ioe.getMessage());
         }
     }
 
-    public static ArrayList<Bruker> hentArrangementDeltagere(Arrangement arrangement) {
-        ArrayList<Bruker> deltagere = new ArrayList<>();
-        ArrayList<String> deltagerListe = hentDeltagerListe();
-        ObservableList<Bruker> brukere = hentListeMedBrukere();
-
-        boolean erHeader = true;
-
-        for (String deltagerInfo : deltagerListe) {
-            if (erHeader) {
-                erHeader = false;
-                continue;
-            }
-            String[] deltagerVerdier = deltagerInfo.split(CsvSplittetMed);
-            if (Integer.parseInt(deltagerVerdier[0]) == arrangement.getArrangementId()) {
-                for (Bruker bruker : brukere) {
-                    if (bruker.getBrukernavn().equals(deltagerVerdier[1])) {
-                        deltagere.add(bruker);
-
-                        int antallPlasserArrangement = arrangement.getAntallPlasser() - 1;
-                        arrangement.setAntallPlasser(antallPlasserArrangement);
-                    }
-                }
-            }
+    private static void lagreAdministratorer(Arrangement arrangement) {
+        StringBuilder adminString = new StringBuilder();
+        for (Bruker admin : arrangement.getAdministratorer()) {
+            adminString.append(arrangement.getArrangementId()).append(";").append(admin.getBrukernavn()).append("\n");
         }
 
-        /*
         try {
-            br = new BufferedReader(new FileReader("src/main/resources/Database/deltagere.csv"));
-            while ((line = br.readLine()) != null) {
-                if (erHeader) {
-                    erHeader = false;
-                    continue;
-                }
+            File file = new File("src/main/resources/Database/administratorer.csv");
 
-                String[] deltagerVerdier = line.split(CsvSplittetMed);
+            FileWriter filSkriver = new FileWriter(file.getAbsoluteFile(), true);
+            BufferedWriter bufferedCsvSkriver = new BufferedWriter(filSkriver);
 
-                if (Integer.parseInt(deltagerVerdier[0]) == arrangement.getArrangementId()) {
-                    for (Bruker bruker : brukere) {
-                        if (bruker.getBrukernavn().equals(deltagerVerdier[1])) {
-                            deltagere.add(bruker);
-                        }
-                    }
-                }
+            bufferedCsvSkriver.write(adminString.toString());
 
-
-
-            }
+            bufferedCsvSkriver.flush();
+            bufferedCsvSkriver.close();
         }
         catch (IOException ioe) {
             System.out.println(ioe.getMessage());
         }
-
-         */
-
-        return deltagere;
     }
 
     public static void fjernPaameldingTilArrangement(Arrangement arrangement, Bruker bruker) {
-        ArrayList<String> deltagerListe = hentDeltagerListe();
+        ArrayList<String> deltagerListe = hentListe("deltagere.csv");
 
         boolean erHeader = true;
 
@@ -253,22 +247,22 @@ public class DataHandler {
         }
     }
 
-    public static ArrayList<String> hentDeltagerListe() {
-        ArrayList<String> deltagerListe = new ArrayList<>();
+    private static ArrayList<String> hentListe(String filnavn) {
+        ArrayList<String> liste = new ArrayList<>();
 
         BufferedReader br;
         String line;
 
         try {
-            br = new BufferedReader(new FileReader(filsti + "deltagere.csv"));
+            br = new BufferedReader(new FileReader(filsti + filnavn));
             while ((line = br.readLine()) != null) {
-                deltagerListe.add(line);
+                liste.add(line);
             }
         }
         catch (IOException ioe) {
             System.out.println(ioe.getMessage());
         }
-        return deltagerListe;
+        return liste;
     }
 
 }

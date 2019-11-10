@@ -44,6 +44,7 @@ public class InnloggetController {
     }
 
     public void gaaTilArrangementliste() {
+        minApplikasjon.setValgtArrangement(null);
         lastInnVindu("arrangementliste");
     }
 
