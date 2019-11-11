@@ -97,23 +97,24 @@ public class DataHandler {
 
                     //NAVN;ARRANGØR;TYPE;VANSKELIGHETSGRAD;ANTALL PLASSER;PRIS;STARTTID;SLUTTID;STED;BESKRIVELSE
 
-                    String navn = arrangementVerdier[0];
+                    int id = Integer.parseInt(arrangementVerdier[0]);
+                    String navn = arrangementVerdier[1];
                     Bruker arrangor = null;
                     for (Bruker b : hentListeMedBrukere()) {
-                        if (arrangementVerdier[1].equals(b.getBrukernavn())) {
+                        if (arrangementVerdier[2].equals(b.getBrukernavn())) {
                             arrangor = b;
                         }
                     }
-                    String type = arrangementVerdier[2];
-                    String vanskelighetsgrad = arrangementVerdier[3];
-                    int antallPlasser = Integer.parseInt(arrangementVerdier[4]);
-                    long pris = Long.parseLong(arrangementVerdier[5]);
-                    LocalDateTime starttid = LocalDateTime.parse(arrangementVerdier[6]);
-                    LocalDateTime sluttid = LocalDateTime.parse(arrangementVerdier[7]);
-                    String sted = arrangementVerdier[8];
-                    String beskrivelse = arrangementVerdier[9];
+                    String type = arrangementVerdier[3];
+                    String vanskelighetsgrad = arrangementVerdier[4];
+                    int antallPlasser = Integer.parseInt(arrangementVerdier[5]);
+                    long pris = Long.parseLong(arrangementVerdier[6]);
+                    LocalDateTime starttid = LocalDateTime.parse(arrangementVerdier[7]);
+                    LocalDateTime sluttid = LocalDateTime.parse(arrangementVerdier[8]);
+                    String sted = arrangementVerdier[9];
+                    String beskrivelse = arrangementVerdier[10];
 
-                    Arrangement arrangementObj = new Arrangement(navn, arrangor, type, vanskelighetsgrad,
+                    Arrangement arrangementObj = new Arrangement(id, navn, arrangor, type, vanskelighetsgrad,
                             antallPlasser, pris, starttid, sluttid, sted, beskrivelse);
 
                     arrangementObj.setDeltakereOppmeldt(hentArrangementBrukerliste(arrangementObj, "deltagere.csv"));
@@ -163,7 +164,8 @@ public class DataHandler {
             FileWriter filSkriver = new FileWriter(file.getAbsoluteFile(), true);
             BufferedWriter bufferedCsvSkriver = new BufferedWriter(filSkriver);
 
-            bufferedCsvSkriver.write(arrangement.getNavn() + ";" +
+            bufferedCsvSkriver.write(arrangement.getArrangementId() + ";" +
+                    arrangement.getNavn() + ";" +
                     arrangement.getArrangor().getBrukernavn() + ";" +
                     arrangement.getType() + ";" +
                     arrangement.getVanskelighetsgrad() + ";" +
@@ -265,4 +267,52 @@ public class DataHandler {
         return liste;
     }
 
+    public static void endreArrangement(Arrangement arrangement) {
+        ArrayList<String> arrangementliste = hentListe("arrangementer.csv");
+
+        boolean erHeader = true;
+
+        StringBuilder arrangementer = new StringBuilder();
+
+        for (String arrangementInfo : arrangementliste) {
+            if (erHeader) {
+                erHeader = false;
+                arrangementer.append(arrangementInfo).append("\n");
+                continue;
+            }
+            String[] deltagerVerdier = arrangementInfo.split(";");
+            if (arrangement.getArrangementId() == Integer.parseInt(deltagerVerdier[0])) {
+                String endretArrangement = arrangement.getArrangementId() + ";" +
+                        arrangement.getNavn() + ";" +
+                        arrangement.getArrangor().getBrukernavn() + ";" +
+                        arrangement.getType() + ";" +
+                        arrangement.getVanskelighetsgrad() + ";" +
+                        arrangement.getAntallPlasser() + ";" +
+                        arrangement.getPris() + ";" +
+                        arrangement.getStarttid().toString() + ";" +
+                        arrangement.getSluttid().toString() + ";" +
+                        arrangement.getSted() + ";" +
+                        arrangement.getBeskrivelse();
+
+                arrangementer.append(endretArrangement).append("\n");
+                continue;
+            }
+            arrangementer.append(arrangementInfo).append("\n");
+        }
+
+        String filnavn = "arrangementer.csv";
+
+        try {
+            FileWriter filSkriver = new FileWriter(new File(filsti + filnavn));
+            BufferedWriter bufferedCsvSkriver = new BufferedWriter(filSkriver);
+
+            bufferedCsvSkriver.write(arrangementer.toString());
+
+            bufferedCsvSkriver.flush();
+            bufferedCsvSkriver.close();
+        }
+        catch (IOException ioe) {
+            System.out.println(ioe.getMessage());
+        }
+    }
 }

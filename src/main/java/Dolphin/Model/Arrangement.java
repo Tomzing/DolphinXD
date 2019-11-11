@@ -20,9 +20,21 @@ public class Arrangement {
     private ArrayList<Bruker> deltakereOppmeldt;
     private ArrayList<Bruker> administratorer;
 
+    public Arrangement(int arrangementId, String navn, Bruker arrangor, String type, String vanskelighetsgrad, int antallPlasser, long pris,
+                       LocalDateTime starttid, LocalDateTime sluttid, String sted, String beskrivelse) {
+        this.arrangementId = arrangementId;
+        teller.set(arrangementId);
+        setVerdier(navn, arrangor, type, vanskelighetsgrad, antallPlasser, pris, starttid, sluttid, sted, beskrivelse);
+    }
+
     public Arrangement(String navn, Bruker arrangor, String type, String vanskelighetsgrad, int antallPlasser, long pris,
                        LocalDateTime starttid, LocalDateTime sluttid, String sted, String beskrivelse) {
         this.arrangementId = teller.incrementAndGet();
+        setVerdier(navn, arrangor, type, vanskelighetsgrad, antallPlasser, pris, starttid, sluttid, sted, beskrivelse);
+    }
+
+    public void setVerdier(String navn, Bruker arrangor, String type, String vanskelighetsgrad, int antallPlasser, long pris,
+                            LocalDateTime starttid, LocalDateTime sluttid, String sted, String beskrivelse) {
         this.navn = navn;
         this.arrangor = arrangor;
         this.type = type;

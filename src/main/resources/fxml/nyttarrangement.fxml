@@ -63,7 +63,7 @@
             <TextField fx:id="txtSted" GridPane.columnIndex="1" GridPane.rowIndex="5" />
          </children>
       </GridPane>
-      <Button layoutX="640.0" layoutY="481.0" mnemonicParsing="false" onAction="#lagArrangement" text="Lag arrangement" />
+      <Button layoutX="640.0" layoutY="481.0" mnemonicParsing="false" onAction="#lagre" text="Lagre" />
       <Button layoutX="553.0" layoutY="481.0" mnemonicParsing="false" onAction="#avbryt" text="Avbryt" />
       <ListView fx:id="lvAdminliste" layoutX="612.0" layoutY="123.0" prefHeight="355.0" prefWidth="185.0" />
       <TextField fx:id="txtAdminBrukernavn" promptText="Brukernavn" layoutX="612.0" layoutY="84.0" prefHeight="39.0" prefWidth="120.0" />

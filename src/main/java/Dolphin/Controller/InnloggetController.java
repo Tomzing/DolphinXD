@@ -40,6 +40,7 @@ public class InnloggetController {
     }
 
     public void gaaTilNyttArrangement() {
+        minApplikasjon.setValgtArrangement(null);
         lastInnVindu("nyttarrangement");
     }
 

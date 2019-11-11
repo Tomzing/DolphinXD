@@ -27,6 +27,8 @@ public class Main extends Application {
 
     private InnloggetController innloggetController;
 
+    private boolean skalEndresStatus;
+
     public Main() {
         minApplikasjon = this;
     }
@@ -118,6 +120,10 @@ public class Main extends Application {
 
     public void aapneNyttVindu(String filnavn) {
         innloggetController.lastInnVindu(filnavn);
+    }
+
+    public boolean skalEndres() {
+        return skalEndresStatus;
     }
 
     public void setAktivBruker(Bruker bruker) {

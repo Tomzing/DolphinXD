@@ -31,6 +31,9 @@ public class ArrangementlisteController {
     @FXML
     private ComboBox<String> velgSorteringCB;
 
+    @FXML
+    private Button btnEndre;
+
     private Bruker aktivBruker;
 
     private Arrangement valgtArrangement;
@@ -50,6 +53,8 @@ public class ArrangementlisteController {
             fyllUtFilmInfo(valgtArrangement);
         }
 
+        aktiverEndreKnapp();
+
         velgSorteringCB.setItems(FXCollections.observableArrayList("Sorter alfabetisk på navn",
                 "Sorter på type alfabetisk", "Sorter på antall plasser igjen"));
 
@@ -57,19 +62,34 @@ public class ArrangementlisteController {
         arrangementListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Arrangement>() {
                     public void changed(ObservableValue<? extends Arrangement> observable,
                                         Arrangement oldValue, Arrangement newValue) {
-                        Arrangement valgteArrangementet = arrangementListView.getSelectionModel().getSelectedItem();
+                        valgtArrangement = arrangementListView.getSelectionModel().getSelectedItem();
 
-                        if(valgteArrangementet != null) {
+                        if(valgtArrangement != null) {
 
                             velgArrangement();
 
-                            fyllUtFilmInfo(valgteArrangementet);
+                            fyllUtFilmInfo(valgtArrangement);
 
-                            minApplikasjon.setValgtArrangement(valgteArrangementet);
+                            minApplikasjon.setValgtArrangement(valgtArrangement);
+
+                            aktiverEndreKnapp();
                         }
                     }
                 });
 
+    }
+
+    private void aktiverEndreKnapp() {
+        if (valgtArrangement == null) {
+            btnEndre.setDisable(true);
+        }
+        else {
+            if (aktivBruker.getBrukernavn().equals(valgtArrangement.getArrangor().getBrukernavn())) {
+                btnEndre.setDisable(false);
+            } else {
+                btnEndre.setDisable(true);
+            }
+        }
     }
 
     //Metode for å "fjerne" utgåtte datoer fra listviewet, returnerer true eller false basert på om sjekkboksen
@@ -129,5 +149,9 @@ public class ArrangementlisteController {
 
     public Arrangement getValgtArrangement() {
         return valgtArrangement;
+    }
+
+    public void endreArrangement() {
+        minApplikasjon.aapneNyttVindu("nyttarrangement");
     }
 }

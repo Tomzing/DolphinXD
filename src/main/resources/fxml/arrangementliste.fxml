@@ -61,8 +61,9 @@
             </children>
         </GridPane>
         <ListView fx:id="arrangementListView" layoutX="14.0" layoutY="75.0" prefHeight="400.0" prefWidth="368.0" />
-        <Button layoutX="278.0" layoutY="480.0" mnemonicParsing="false" onAction="#visMerInfo" text="Meld deg på" />
+        <Button layoutX="200.0" layoutY="480.0" mnemonicParsing="false" onAction="#visMerInfo" text="Meld deg på" />
         <CheckBox fx:id="utlopteArrangementerChkBx" layoutX="14.0" layoutY="485.0" mnemonicParsing="false" onAction="#gjemUtgatteArrangementer" text="Gjem utgåtte arrangementer" />
         <ComboBox fx:id="velgSorteringCB" layoutX="388.0" layoutY="75.0" prefWidth="150.0" />
+      <Button fx:id="btnEndre" layoutX="312.0" layoutY="479.0" mnemonicParsing="false" onAction="#endreArrangement" text="Endre" />
     </children>
 </AnchorPane>
