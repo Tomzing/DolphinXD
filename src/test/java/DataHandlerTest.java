@@ -19,7 +19,7 @@ public class DataHandlerTest {
     LocalDateTime fraDato = Dolphin.DataHandler.DataHandler.formaterDato("2002-06-28 20:00");
     LocalDateTime  tilDato = Dolphin.DataHandler.DataHandler.formaterDato("2002-06-30 20:00");
 
-    Bruker testbruker = new Bruker("Test","Testesen", LocalDate.parse("2000-12-12"),"Mann","test","test");
+    Bruker testbruker = new Bruker("Test","Testesen", LocalDate.parse("2000-12-12"),"Mann","Test","test");
 
     Arrangement test1 = new Arrangement("Kult Arrangement",testbruker,"Sykkelritt",
             "Vanskelig",1000,200, fraDato, tilDato, "Stedesen 8",
@@ -46,8 +46,8 @@ public class DataHandlerTest {
 
         int storrelsePaaListen = DataHandler.hentListeMedBrukere().size()-1;
 
-        Assertions.assertEquals(DataHandler.hentListeMedBrukere().get(storrelsePaaListen).getBrukernavn(),
-                testbruker.getBrukernavn());
+        Assertions.assertEquals(DataHandler.hentListeMedBrukere().get(storrelsePaaListen).getBrukernavn().toLowerCase(),
+                testbruker.getBrukernavn().toLowerCase());
 
     }
 
@@ -75,9 +75,8 @@ public class DataHandlerTest {
             System.out.println(ioe.getMessage());
         }
 
-        assertEquals(DataHandler.hentArrangementBrukerliste(test1,"deltagere.csv").get(storrelsePaaArray).getBrukernavn(),
-                testbruker.getBrukernavn());
-
+        assertEquals(DataHandler.hentArrangementBrukerliste(test1,"deltagere.csv")
+                        .get(storrelsePaaArray).getBrukernavn().toLowerCase(), testbruker.getBrukernavn().toLowerCase());
     }
 
 }
