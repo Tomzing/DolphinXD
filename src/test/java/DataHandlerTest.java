@@ -51,15 +51,20 @@ public class DataHandlerTest {
 
     }
 
+    /*@Test
+    public void lagreArrangementTest() {
+        DataHandler.lagreArrangement(test1);
+
+        int storrelsePaaArray = DataHandler.hentArrangementer().size() - 1;
+
+        assertEquals(DataHandler.hentArrangementer().get(storrelsePaaArray).getNavn(),test1.getNavn());
+    }*/
+
     //Tester om man kan legge til bruker i arrangement brukerlistene
     @Test
     public void faaArrangementBrukerliste() {
 
-        ArrayList<Bruker> testArrayDeltagere = new ArrayList<>();
-
-        testArrayDeltagere.add(testbruker);
-
-        int storrelsePaaArray = testArrayDeltagere.size() - 1;
+        int storrelsePaaArray = DataHandler.hentArrangementer().size() - 1;
 
         try {
             File file = new File("src/main/resources/Database/deltagere.csv");
@@ -75,8 +80,9 @@ public class DataHandlerTest {
             System.out.println(ioe.getMessage());
         }
 
-        assertEquals(DataHandler.hentArrangementBrukerliste(test1,"deltagere.csv")
-                        .get(storrelsePaaArray).getBrukernavn().toLowerCase(), testbruker.getBrukernavn().toLowerCase());
+        ArrayList<Bruker> liste = DataHandler.hentArrangementBrukerliste(test1,"deltagere.csv");
+
+        assertEquals(liste.get(storrelsePaaArray).getBrukernavn().toLowerCase(), testbruker.getBrukernavn().toLowerCase());
     }
 
 }

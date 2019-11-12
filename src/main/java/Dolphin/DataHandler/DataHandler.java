@@ -164,7 +164,7 @@ public class DataHandler {
             FileWriter filSkriver = new FileWriter(file.getAbsoluteFile(), true);
             BufferedWriter bufferedCsvSkriver = new BufferedWriter(filSkriver);
 
-            bufferedCsvSkriver.write(arrangement.getArrangementId() + ";" +
+            bufferedCsvSkriver.write(hentArrangementer().size() + 1 + ";" +
                     arrangement.getNavn() + ";" +
                     arrangement.getArrangor().getBrukernavn() + ";" +
                     arrangement.getType() + ";" +
