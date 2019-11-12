@@ -10,4 +10,5 @@ public class CoolDude {
         File tmp =new File("../Ressurser/cooldude.jpg");
         assertNotNull(tmp);
     }
+    //Denne testen returnerer alltid true, det er fordi CoolDude vil alltid eksistere i hjertet vårt
 }
