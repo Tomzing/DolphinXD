@@ -30,11 +30,11 @@
             </rowConstraints>
             <children>
                 <Label text="Navn:" />
-                <TextField fx:id="txtNavn" GridPane.columnIndex="1" />
+                <TextField fx:id="txtNavn" editable="false" GridPane.columnIndex="1" />
                 <Label text="Sportskategori:" GridPane.rowIndex="1" />
                 <Label text="Starttid:" GridPane.rowIndex="6" />
                 <Label text="Beskrivelse:" GridPane.rowIndex="8" />
-                <TextArea fx:id="txtBeskrivelse" prefHeight="167.0" prefWidth="669.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                <TextArea fx:id="txtBeskrivelse" editable="false" prefHeight="167.0" prefWidth="669.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
                 <Label text="Vanskelighetsgrad:" GridPane.rowIndex="2" />
                 <GridPane GridPane.columnIndex="1" GridPane.rowIndex="1">
                     <columnConstraints>
@@ -45,19 +45,19 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                     <children>
-                        <TextField fx:id="txtSportskategori" prefHeight="36.0" prefWidth="399.0" />
+                        <TextField fx:id="txtSportskategori" editable="false" prefHeight="36.0" prefWidth="399.0" />
                     </children>
                 </GridPane>
                 <Label text="Sluttid:" GridPane.rowIndex="7" />
-                <TextField fx:id="txtStarttid" promptText="yyyy-MM-dd HH:mm" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                <TextField fx:id="txtSluttid" promptText="yyyy-MM-dd HH:mm" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                <TextField fx:id="txtStarttid" editable="false" promptText="yyyy-MM-dd HH:mm" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                <TextField fx:id="txtSluttid" editable="false" promptText="yyyy-MM-dd HH:mm" GridPane.columnIndex="1" GridPane.rowIndex="7" />
                 <Label text="Pris (NOK):" GridPane.rowIndex="4" />
-                <TextField fx:id="txtPris" prefHeight="52.0" prefWidth="455.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                <TextField fx:id="txtPris" editable="false" prefHeight="52.0" prefWidth="455.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                 <Label text="Antall plasser:" GridPane.rowIndex="3" />
-                <TextField fx:id="txtAntallPlasser" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                <TextField fx:id="txtAntallPlasser" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                 <Label text="Sted:" GridPane.rowIndex="5" />
-                <TextField fx:id="txtSted" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                <TextField fx:id="txtVanskelighetsgrad" prefHeight="36.0" prefWidth="399.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                <TextField fx:id="txtSted" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                <TextField fx:id="txtVanskelighetsgrad" editable="false" prefHeight="36.0" prefWidth="399.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             </children>
         </GridPane>
         <ListView fx:id="arrangementListView" layoutX="14.0" layoutY="75.0" prefHeight="400.0" prefWidth="368.0" />
