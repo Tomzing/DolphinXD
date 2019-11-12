@@ -38,7 +38,7 @@ class BrukerController {
         NyBrukerController test = new NyBrukerController();
         assertFalse(test.nyBruker("", "Test", LocalDate.parse("2000-12-12"), "Test", "Test", "Mann", true));
         assertFalse(test.nyBruker("Testy","",LocalDate.parse("2000-12-12"),"Test","Test","Mann",true));
-        //assertFalse(test.nyBruker("Testy","Test",LocalDate.of(0, null, 0),"Test","Test","Mann",true));
+        assertFalse(test.nyBruker("Testy","Test",null,"Test","Test","Mann",true));
         assertFalse(test.nyBruker("Testy","Test",LocalDate.parse("2000-12-12"),"","Test","Mann",true));
         assertFalse(test.nyBruker("Testy","Test",LocalDate.parse("2000-12-12"),"Test","","Mann",true));
     }

@@ -64,7 +64,7 @@ public class NyBrukerController{
     }
 
     public boolean nyBruker(String fornavn, String etternavn, LocalDate fodselsdato, String brukernavn, String passord, String kjonn, boolean testBoolean){
-        if (fornavn.equals("") || etternavn.equals("") || fodselsdato.toString().equals("") || brukernavn.equals("") || passord.equals("")) {
+        if (fornavn.equals("") || etternavn.equals("") || fodselsdato == null || brukernavn.equals("") || passord.equals("")) {
             if (!testBoolean){
                 alertError("Feil!","Manglende innhold","Et av feltene har ingen innhold.");
                 return false;
