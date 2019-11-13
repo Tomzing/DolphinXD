@@ -90,7 +90,7 @@ public class ArrangementController {
         if (!paameldt) {
             valgtArrangement.leggTilNyDeltager(minApplikasjon.getAktivBruker());
             oppdaterListe();
-            lagreDeltager();
+            DataHandler.lagreDeltager(aktiv, valgtArrangement);
         }
     }
 
@@ -101,22 +101,6 @@ public class ArrangementController {
         DataHandler.fjernPaameldingTilArrangement(valgtArrangement, aktiv);
 
         oppdaterListe();
-    }
-
-    private void lagreDeltager() {
-        try {
-            File file = new File("src/main/resources/Database/deltagere.csv");
-
-            FileWriter filSkriver = new FileWriter(file.getAbsoluteFile(), true);
-            BufferedWriter bufretCsvSkriver = new BufferedWriter(filSkriver);
-            bufretCsvSkriver.write(valgtArrangement.getArrangementId() + ";" + minApplikasjon.getAktivBruker().getBrukernavn() + "\n");
-
-            bufretCsvSkriver.flush();
-            bufretCsvSkriver.close();
-        }
-        catch (IOException ioe) {
-            System.out.println(ioe.getMessage());
-        }
     }
 
     @FXML

@@ -12,35 +12,36 @@ import java.util.ArrayList;
 
 public class DataHandler {
 
-    private static ObservableList<Arrangement> arrangementer = FXCollections.observableArrayList();
-
     private static final String filsti = "src/main/resources/Database/";
     private static final String CsvSplittetMed = ";";
 
-    private static ObservableList<Bruker> listeMedBrukere = FXCollections.observableArrayList();
+    //private static ObservableList<Bruker> listeMedBrukere = FXCollections.observableArrayList();
+    //private static ObservableList<Arrangement> arrangementer = FXCollections.observableArrayList();
 
     //Lese brukere fra fil
     public static ObservableList<Bruker> hentListeMedBrukere() {
+        ObservableList<Bruker> listeMedBrukere = FXCollections.observableArrayList();
+
         String filnavn = "brukere.csv";
         BufferedReader br;
         String line;
         boolean erHeader = true;
 
         try {
-            if(listeMedBrukere.isEmpty()) {
-                br = new BufferedReader(new FileReader(filsti + filnavn));
-                while ((line = br.readLine()) != null) {
-                    if (erHeader) {
-                        erHeader = false;
-                        continue;
-                    }
-                    String[] verdier = line.split(CsvSplittetMed);
-
-                    Bruker brukerObj = new Bruker(verdier[0], verdier[1], LocalDate.parse(verdier[2]), verdier[3], verdier[4], verdier[5]);
-
-                    listeMedBrukere.add(brukerObj);
+            //if(listeMedBrukere.isEmpty()) {
+            br = new BufferedReader(new FileReader(filsti + filnavn));
+            while ((line = br.readLine()) != null) {
+                if (erHeader) {
+                    erHeader = false;
+                    continue;
                 }
+                String[] verdier = line.split(CsvSplittetMed);
+
+                Bruker brukerObj = new Bruker(Integer.parseInt(verdier[0]), verdier[1], verdier[2], LocalDate.parse(verdier[3]), verdier[4], verdier[5], verdier[6]);
+
+                listeMedBrukere.add(brukerObj);
             }
+            //}
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -55,7 +56,8 @@ public class DataHandler {
             FileWriter filSkriver = new FileWriter(file.getAbsoluteFile(), true);
             BufferedWriter bufferedCsvSkriver = new BufferedWriter(filSkriver);
 
-            bufferedCsvSkriver.write(bruker.getFornavn() + ";" +
+            bufferedCsvSkriver.write(bruker.getBrukerId() + ";" +
+                    bruker.getFornavn() + ";" +
                     bruker.getEtternavn() + ";" +
                     bruker.getFodselsdato() + ";" +
                     bruker.getKjonn() + ";" +
@@ -78,6 +80,7 @@ public class DataHandler {
     }
 
     public static ObservableList<Arrangement> hentArrangementer() {
+        ObservableList<Arrangement> arrangementer = FXCollections.observableArrayList();
 
         String filnavn = "arrangementer.csv";
         BufferedReader br;
@@ -85,44 +88,44 @@ public class DataHandler {
         boolean erHeader = true;
 
         try {
-            if (arrangementer.isEmpty()) {
-                br = new BufferedReader(new FileReader(filsti + filnavn));
-                while ((line = br.readLine()) != null) {
-                    if (erHeader) {
-                        erHeader = false;
-                        continue;
-                    }
-
-                    String[] arrangementVerdier = line.split(CsvSplittetMed);
-
-                    //NAVN;ARRANGØR;TYPE;VANSKELIGHETSGRAD;ANTALL PLASSER;PRIS;STARTTID;SLUTTID;STED;BESKRIVELSE
-
-                    int id = Integer.parseInt(arrangementVerdier[0]);
-                    String navn = arrangementVerdier[1];
-                    Bruker arrangor = null;
-                    for (Bruker b : hentListeMedBrukere()) {
-                        if (arrangementVerdier[2].equals(b.getBrukernavn())) {
-                            arrangor = b;
-                        }
-                    }
-                    String type = arrangementVerdier[3];
-                    String vanskelighetsgrad = arrangementVerdier[4];
-                    int antallPlasser = Integer.parseInt(arrangementVerdier[5]);
-                    long pris = Long.parseLong(arrangementVerdier[6]);
-                    LocalDateTime starttid = LocalDateTime.parse(arrangementVerdier[7]);
-                    LocalDateTime sluttid = LocalDateTime.parse(arrangementVerdier[8]);
-                    String sted = arrangementVerdier[9];
-                    String beskrivelse = arrangementVerdier[10];
-
-                    Arrangement arrangementObj = new Arrangement(id, navn, arrangor, type, vanskelighetsgrad,
-                            antallPlasser, pris, starttid, sluttid, sted, beskrivelse);
-
-                    arrangementObj.setDeltakereOppmeldt(hentArrangementBrukerliste(arrangementObj, "deltagere.csv"));
-                    arrangementObj.setAdministratorer(hentArrangementBrukerliste(arrangementObj, "administratorer.csv"));
-
-                    arrangementer.add(arrangementObj);
+            //if (arrangementer.isEmpty()) {
+            br = new BufferedReader(new FileReader(filsti + filnavn));
+            while ((line = br.readLine()) != null) {
+                if (erHeader) {
+                    erHeader = false;
+                    continue;
                 }
+
+                String[] arrangementVerdier = line.split(CsvSplittetMed);
+
+                //NAVN;ARRANGØR;TYPE;VANSKELIGHETSGRAD;ANTALL PLASSER;PRIS;STARTTID;SLUTTID;STED;BESKRIVELSE
+
+                int id = Integer.parseInt(arrangementVerdier[0]);
+                String navn = arrangementVerdier[1];
+                Bruker arrangor = null;
+                for (Bruker b : hentListeMedBrukere()) {
+                    if (arrangementVerdier[2].equals(b.getBrukernavn())) {
+                        arrangor = b;
+                    }
+                }
+                String type = arrangementVerdier[3];
+                String vanskelighetsgrad = arrangementVerdier[4];
+                int antallPlasser = Integer.parseInt(arrangementVerdier[5]);
+                long pris = Long.parseLong(arrangementVerdier[6]);
+                LocalDateTime starttid = LocalDateTime.parse(arrangementVerdier[7]);
+                LocalDateTime sluttid = LocalDateTime.parse(arrangementVerdier[8]);
+                String sted = arrangementVerdier[9];
+                String beskrivelse = arrangementVerdier[10];
+
+                Arrangement arrangementObj = new Arrangement(id, navn, arrangor, type, vanskelighetsgrad,
+                        antallPlasser, pris, starttid, sluttid, sted, beskrivelse);
+
+                arrangementObj.setDeltakereOppmeldt(hentArrangementBrukerliste(arrangementObj, "deltagere.csv"));
+                arrangementObj.setAdministratorer(hentArrangementBrukerliste(arrangementObj, "administratorer.csv"));
+
+                arrangementer.add(arrangementObj);
             }
+            //}
         } catch(IOException e){
             e.printStackTrace();
         }
@@ -155,9 +158,6 @@ public class DataHandler {
     }
 
     public static void lagreArrangement(Arrangement arrangement) {
-
-        arrangementer.add(arrangement);
-
         try {
             File file = new File("src/main/resources/Database/arrangementer.csv");
 
@@ -310,6 +310,22 @@ public class DataHandler {
 
             bufferedCsvSkriver.flush();
             bufferedCsvSkriver.close();
+        }
+        catch (IOException ioe) {
+            System.out.println(ioe.getMessage());
+        }
+    }
+
+    public static void lagreDeltager(Bruker bruker, Arrangement arrangement) {
+        try {
+            File file = new File(filsti + "deltagere.csv");
+
+            FileWriter filSkriver = new FileWriter(file.getAbsoluteFile(), true);
+            BufferedWriter bufretCsvSkriver = new BufferedWriter(filSkriver);
+            bufretCsvSkriver.write(arrangement.getArrangementId() + ";" + bruker.getBrukernavn() + "\n");
+
+            bufretCsvSkriver.flush();
+            bufretCsvSkriver.close();
         }
         catch (IOException ioe) {
             System.out.println(ioe.getMessage());

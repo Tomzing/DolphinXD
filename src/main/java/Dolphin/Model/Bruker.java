@@ -16,6 +16,16 @@ public class Bruker {
 
     public Bruker(String fornavn, String etternavn, LocalDate fodselsdato, String kjonn, String brukernavn, String passord) {
         this.brukerId = teller.incrementAndGet();
+        setVerdier(fornavn, etternavn, fodselsdato, kjonn, brukernavn, passord);
+    }
+
+    public Bruker(int id, String fornavn, String etternavn, LocalDate fodselsdato, String kjonn, String brukernavn, String passord) {
+        this.brukerId = id;
+        teller.incrementAndGet();
+        setVerdier(fornavn, etternavn, fodselsdato, kjonn, brukernavn, passord);
+    }
+
+    private void setVerdier(String fornavn, String etternavn, LocalDate fodselsdato, String kjonn, String brukernavn, String passord) {
         this.fornavn = fornavn;
         this.etternavn = etternavn;
         this.fodselsdato = fodselsdato;

@@ -1,53 +1,116 @@
 import Dolphin.DataHandler.DataHandler;
 import Dolphin.Model.Arrangement;
 import Dolphin.Model.Bruker;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class DataHandlerTest {
+class DataHandlerTest {
 
-    LocalDateTime fraDato = Dolphin.DataHandler.DataHandler.formaterDato("2002-06-28 20:00");
-    LocalDateTime  tilDato = Dolphin.DataHandler.DataHandler.formaterDato("2002-06-30 20:00");
+    private LocalDateTime fraDato = DataHandler.formaterDato("2002-06-28 20:00");
+    private LocalDateTime  tilDato = DataHandler.formaterDato("2002-06-30 20:00");
 
-    Bruker testbruker = new Bruker("Test","Testesen", LocalDate.parse("2000-12-12"),"Mann","Test","test");
+    private Bruker testbruker;
 
-    Arrangement test1 = new Arrangement("Kult Arrangement",testbruker,"Sykkelritt",
-            "Vanskelig",1000,200, fraDato, tilDato, "Stedesen 8",
-            "Stryke raskt og fort med utrolige varmer!");
+    private Arrangement testArrangement;
 
+    private static final String filArrangementer = "src/main/resources/Database/arrangementer.csv";
+    private static final String filBrukere = "src/main/resources/Database/brukere.csv";
+    private static final String filDeltagere = "src/main/resources/Database/deltagere.csv";
+    private static final String filAdministratorer = "src/main/resources/Database/administratorer.csv";
+
+    private static final String headerArrangement = "ID;NAVN;ARRANGØR;TYPE;VANSKELIGHETSGRAD;ANTALL PLASSER;PRIS;STARTTID;SLUTTID;STED;BESKRIVELSE\n";
+    private static final String headerBrukere = "FORNAVN;ETTERNAVN;ALDER;KJØNN;BRUKERNAVN;PASSORD\n";
+    private static final String headerDeltagereOgAdministratorer = "ARRANGEMENT-ID;BRUKERNAVN\n";
+
+    private static String arrangementerCSVInnhold;
+    private static String brukereCSVInnhold;
+    private static String deltagerCSVInnhold;
+    private static String administratorerCSVInnhold;
+
+    @BeforeAll
+    static void hentInnholdFraCSVFilene() {
+        arrangementerCSVInnhold = hentCSVInnhold(filArrangementer);
+        brukereCSVInnhold = hentCSVInnhold(filBrukere);
+        deltagerCSVInnhold = hentCSVInnhold(filDeltagere);
+        administratorerCSVInnhold = hentCSVInnhold(filAdministratorer);
+    }
+
+    @BeforeEach
+    void gjorKlarTest() {
+        leggInnInnholdICSVFil(filArrangementer, headerArrangement);
+        leggInnInnholdICSVFil(filBrukere, headerBrukere);
+        leggInnInnholdICSVFil(filDeltagere, headerDeltagereOgAdministratorer);
+        leggInnInnholdICSVFil(filAdministratorer, headerDeltagereOgAdministratorer);
+
+        testbruker = new Bruker("Test","Testesen", LocalDate.parse("2000-12-12"),"Mann","Test","test");
+        testArrangement = new Arrangement("Kult Arrangement",testbruker,"Sykkelritt",
+                "Vanskelig",1000,200, fraDato, tilDato, "Stedesen 8",
+                "Stryke raskt og fort med utrolige varmer!");
+    }
+
+    static String hentCSVInnhold(String filnavn) {
+        BufferedReader br;
+        String line;
+        StringBuilder csv = new StringBuilder();
+
+        try {
+            br = new BufferedReader(new FileReader(filnavn));
+            while ((line = br.readLine()) != null) {
+                csv.append(line).append("\n");
+            }
+            return csv.toString();
+        }
+        catch (IOException ioe) {
+            System.out.println(ioe.getMessage());
+            return "";
+        }
+    }
+
+    static void leggInnInnholdICSVFil(String filnavn, String tekst) {
+        try {
+            FileWriter filSkriver = new FileWriter(new File(filnavn));
+            BufferedWriter bufferedCsvSkriver = new BufferedWriter(filSkriver);
+
+            bufferedCsvSkriver.write(tekst);
+
+            bufferedCsvSkriver.flush();
+            bufferedCsvSkriver.close();
+        }
+        catch (IOException ioe) {
+            System.out.println(ioe.getMessage());
+        }
+    }
 
     //Sjekker nedover om lister returnert fra DataHandler er tomme. Dette skal aldri være tilfelle, og tyder
     //på en eventuell feil hvis disse feiler.
     @Test
-    public void faaArrangementerFraCsv() {
-        Assertions.assertFalse(Dolphin.DataHandler.DataHandler.hentArrangementer().isEmpty());
+    void faaArrangementerFraCsv() {
+        assertTrue(DataHandler.hentArrangementer().isEmpty());
     }
 
     @Test
-    public void faaBrukerlisteFraCsv() {
-        Assertions.assertFalse(Dolphin.DataHandler.DataHandler.hentListeMedBrukere().isEmpty());
+    void faaBrukerlisteFraCsv() {
+        System.out.println(DataHandler.hentListeMedBrukere());
+        assertTrue(DataHandler.hentListeMedBrukere().isEmpty());
     }
 
     //Sjekker om man kan lagre en ny bruker som blir skrevet til csv og sjekker om brukeren kan bli lest fra listen
     //med brukere
     @Test
-    public void lagreOgHentBruker() {
+    void lagreOgHentBruker() {
         DataHandler.lagreBruker(testbruker);
 
-        int storrelsePaaListen = DataHandler.hentListeMedBrukere().size()-1;
+        int index = DataHandler.hentListeMedBrukere().size() - 1;
 
-        Assertions.assertEquals(DataHandler.hentListeMedBrukere().get(storrelsePaaListen).getBrukernavn().toLowerCase(),
-                testbruker.getBrukernavn().toLowerCase());
+        System.out.println(DataHandler.hentListeMedBrukere().size());
+
+        assertEquals(DataHandler.hentListeMedBrukere().get(index).getBrukernavn(), testbruker.getBrukernavn());
 
     }
 
@@ -62,27 +125,24 @@ public class DataHandlerTest {
 
     //Tester om man kan legge til bruker i arrangement brukerlistene
     @Test
-    public void faaArrangementBrukerliste() {
+    void faaArrangementDeltagerliste() {
 
-        int storrelsePaaArray = DataHandler.hentArrangementer().size() - 1;
+        DataHandler.lagreArrangement(testArrangement);
+        DataHandler.lagreBruker(testbruker);
+        DataHandler.lagreDeltager(testbruker, testArrangement);
 
-        try {
-            File file = new File("src/main/resources/Database/deltagere.csv");
+        ArrayList<Bruker> liste = DataHandler.hentArrangementBrukerliste(testArrangement,"deltagere.csv");
 
-            FileWriter filSkriver = new FileWriter(file.getAbsoluteFile(), true);
-            BufferedWriter bufretCsvSkriver = new BufferedWriter(filSkriver);
-            bufretCsvSkriver.write(test1.getArrangementId() + ";" + testbruker.getBrukernavn() + "\n");
+        assertEquals(liste.get(0).getBrukernavn(), testbruker.getBrukernavn());
+    }
 
-            bufretCsvSkriver.flush();
-            bufretCsvSkriver.close();
-        }
-        catch (IOException ioe) {
-            System.out.println(ioe.getMessage());
-        }
 
-        ArrayList<Bruker> liste = DataHandler.hentArrangementBrukerliste(test1,"deltagere.csv");
-
-        assertEquals(liste.get(storrelsePaaArray).getBrukernavn().toLowerCase(), testbruker.getBrukernavn().toLowerCase());
+    @AfterAll
+    static void leggTilbakeCSVInnhold() {
+        leggInnInnholdICSVFil(filArrangementer, arrangementerCSVInnhold);
+        leggInnInnholdICSVFil(filBrukere, brukereCSVInnhold);
+        leggInnInnholdICSVFil(filDeltagere, deltagerCSVInnhold);
+        leggInnInnholdICSVFil(filAdministratorer, administratorerCSVInnhold);
     }
 
 }
