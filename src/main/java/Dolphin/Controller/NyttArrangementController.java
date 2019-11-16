@@ -8,6 +8,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.text.Text;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -20,6 +21,9 @@ public class NyttArrangementController {
     private ObservableList<Bruker> adminliste = FXCollections.observableArrayList();
     private Bruker aktivBruker;
     private Arrangement valgtArrangement;
+
+    @FXML
+    private Text txtOverskrift;
 
     @FXML
     private TextField txtNavn, txtKategoriAnnet, txtAntallPlasser, txtSted, txtStarttid, txtSluttid, txtPris, txtAdminBrukernavn;
@@ -44,7 +48,11 @@ public class NyttArrangementController {
         cbVanskelighetsgrad.setItems(FXCollections.observableArrayList("Lett", "Middels", "Vanskelig"));
 
         if (valgtArrangement != null) {
+            txtOverskrift.setText("Endre arrangement");
             fyllUtFeltene();
+        }
+        else {
+            txtOverskrift.setText("Nytt arrangement");
         }
     }
 
@@ -58,6 +66,8 @@ public class NyttArrangementController {
         txtStarttid.setText(valgtArrangement.getStarttid().toString());
         txtSluttid.setText(valgtArrangement.getSluttid().toString());
         txtBeskrivelse.setText(valgtArrangement.getBeskrivelse());
+        adminliste.setAll(valgtArrangement.getAdministratorer());
+        lvAdminliste.setItems(adminliste);
     }
 
     public void avbryt() {
@@ -73,7 +83,7 @@ public class NyttArrangementController {
         }
     }
 
-    public void lagArrangement() {
+    private void lagArrangement() {
         String navn = txtNavn.getText();
         Bruker arrangor = aktivBruker;
         String kategori;
@@ -104,7 +114,7 @@ public class NyttArrangementController {
         minApplikasjon.aapneNyttVindu("arrangementliste");
     }
 
-    public void endreArrangement() {
+    private void endreArrangement() {
         valgtArrangement.setNavn(txtNavn.getText());
         valgtArrangement.setType(cbSportskategori.getSelectionModel().getSelectedItem());
         valgtArrangement.setVanskelighetsgrad(cbVanskelighetsgrad.getSelectionModel().getSelectedItem());
@@ -114,20 +124,35 @@ public class NyttArrangementController {
         valgtArrangement.setStarttid(LocalDateTime.parse(txtStarttid.getText()));
         valgtArrangement.setSluttid(LocalDateTime.parse(txtSluttid.getText()));
         valgtArrangement.setBeskrivelse(txtBeskrivelse.getText());
+        valgtArrangement.setAdministratorer(new ArrayList<>(adminliste));
 
         DataHandler.endreArrangement(valgtArrangement);
+
+        minApplikasjon.aapneNyttVindu("arrangementliste");
     }
 
     public void leggTilAdmin() {
         String navn = txtAdminBrukernavn.getText();
-        ObservableList<Bruker> brukere = DataHandler.hentListeMedBrukere();
+        Bruker bruker = hentBruker(navn);
+        if (bruker != null) {
+            adminliste.add(bruker);
+            lvAdminliste.setItems(adminliste);
+        }
+    }
 
+    private Bruker hentBruker(String brukernavn) {
+        ObservableList<Bruker> brukere = DataHandler.hentListeMedBrukere();
         for (Bruker b : brukere) {
-            if (navn.equals(b.getBrukernavn()) && !navn.equals(aktivBruker.getBrukernavn()) && !adminliste.contains(b)) {
-                adminliste.add(b);
-                break;
+            if (brukernavn.equals(b.getBrukernavn()) && !brukernavn.equals(aktivBruker.getBrukernavn()) && !adminliste.contains(b)) {
+                return b;
             }
         }
-        lvAdminliste.setItems(adminliste);
+        return null;
+    }
+
+    public void fjernAdmin() {
+        Bruker valgt = lvAdminliste.getSelectionModel().getSelectedItem();
+        adminliste.remove(valgt);
+        //lvAdminliste.refresh();
     }
 }

@@ -106,22 +106,16 @@ class DataHandlerTest {
     void lagreOgHentBruker() {
         DataHandler.lagreBruker(testbruker);
 
-        int index = DataHandler.hentListeMedBrukere().size() - 1;
-
-        System.out.println(DataHandler.hentListeMedBrukere().size());
-
-        assertEquals(DataHandler.hentListeMedBrukere().get(index).getBrukernavn(), testbruker.getBrukernavn());
+        assertEquals(DataHandler.hentListeMedBrukere().get(0).getBrukernavn(), testbruker.getBrukernavn());
 
     }
 
-    /*@Test
-    public void lagreArrangementTest() {
-        DataHandler.lagreArrangement(test1);
+    @Test
+    void lagreOgHentArrangement() {
+        DataHandler.lagreArrangement(testArrangement);
 
-        int storrelsePaaArray = DataHandler.hentArrangementer().size() - 1;
-
-        assertEquals(DataHandler.hentArrangementer().get(storrelsePaaArray).getNavn(),test1.getNavn());
-    }*/
+        assertEquals(DataHandler.hentArrangementer().get(0).getNavn(),testArrangement.getNavn());
+    }
 
     //Tester om man kan legge til bruker i arrangement brukerlistene
     @Test

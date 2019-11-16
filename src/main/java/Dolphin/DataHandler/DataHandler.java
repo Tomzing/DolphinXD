@@ -190,18 +190,19 @@ public class DataHandler {
     }
 
     private static void lagreAdministratorer(Arrangement arrangement) {
-        StringBuilder adminString = new StringBuilder();
+        ArrayList<String> adminString = new ArrayList<>();
         for (Bruker admin : arrangement.getAdministratorer()) {
-            adminString.append(arrangement.getArrangementId()).append(";").append(admin.getBrukernavn()).append("\n");
+            adminString.add(arrangement.getArrangementId() + ";" + admin.getBrukernavn());
         }
+        //System.out.println(adminString.toString());
+
+        String nyAdminliste = lagNyAdminListe(arrangement, adminString);
 
         try {
-            File file = new File("src/main/resources/Database/administratorer.csv");
-
-            FileWriter filSkriver = new FileWriter(file.getAbsoluteFile(), true);
+            FileWriter filSkriver = new FileWriter(new File(filsti + "administratorer.csv"));
             BufferedWriter bufferedCsvSkriver = new BufferedWriter(filSkriver);
 
-            bufferedCsvSkriver.write(adminString.toString());
+            bufferedCsvSkriver.write(nyAdminliste);
 
             bufferedCsvSkriver.flush();
             bufferedCsvSkriver.close();
@@ -209,6 +210,35 @@ public class DataHandler {
         catch (IOException ioe) {
             System.out.println(ioe.getMessage());
         }
+    }
+
+    private static String lagNyAdminListe(Arrangement arrangement, ArrayList<String> administratorer) {
+        ArrayList<String> adminlisteGammel = hentListe("administratorer.csv");
+        StringBuilder adminlisteNy = new StringBuilder();
+
+        boolean erHeader = true;
+
+        for (String admin : adminlisteGammel) {
+            if (erHeader) {
+                erHeader = false;
+                adminlisteNy.append(admin).append("\n");
+                continue;
+            }
+            int id = Integer.parseInt(admin.split(";")[0]);
+            if (id != arrangement.getArrangementId()) {
+                adminlisteNy.append(admin).append("\n");
+                continue;
+            }
+            if (administratorer.contains(admin)) {
+                adminlisteNy.append(admin).append("\n");
+            }
+        }
+        for (String admin : administratorer) {
+            if (!adminlisteNy.toString().contains(admin)) {
+                adminlisteNy.append(admin).append("\n");
+            }
+        }
+        return adminlisteNy.toString();
     }
 
     public static void fjernPaameldingTilArrangement(Arrangement arrangement, Bruker bruker) {
@@ -241,8 +271,6 @@ public class DataHandler {
 
             bufferedCsvSkriver.flush();
             bufferedCsvSkriver.close();
-
-            System.out.println(arrangement.getDeltakereOppmeldt());
         }
         catch (IOException ioe) {
             System.out.println(ioe.getMessage());
@@ -295,6 +323,8 @@ public class DataHandler {
                         arrangement.getBeskrivelse();
 
                 arrangementer.append(endretArrangement).append("\n");
+
+                lagreAdministratorer(arrangement);
                 continue;
             }
             arrangementer.append(arrangementInfo).append("\n");

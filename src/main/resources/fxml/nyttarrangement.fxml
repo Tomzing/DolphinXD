@@ -9,7 +9,7 @@
 
 <AnchorPane prefHeight="520.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Dolphin.Controller.NyttArrangementController">
    <children>
-      <Text layoutX="14.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nytt arrangement">
+      <Text fx:id="txtOverskrift" layoutX="14.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0">
          <font>
             <Font size="48.0" />
          </font>
@@ -65,8 +65,9 @@
       </GridPane>
       <Button layoutX="640.0" layoutY="481.0" mnemonicParsing="false" onAction="#lagre" text="Lagre" />
       <Button layoutX="553.0" layoutY="481.0" mnemonicParsing="false" onAction="#avbryt" text="Avbryt" />
-      <ListView fx:id="lvAdminliste" layoutX="612.0" layoutY="123.0" prefHeight="355.0" prefWidth="185.0" />
-      <TextField fx:id="txtAdminBrukernavn" promptText="Brukernavn" layoutX="612.0" layoutY="84.0" prefHeight="39.0" prefWidth="120.0" />
-      <Button onAction="#leggTilAdmin" layoutX="739.0" layoutY="84.0" mnemonicParsing="false" text="Legg til admin" />
+      <ListView fx:id="lvAdminliste" layoutX="612.0" layoutY="123.0" prefHeight="296.0" prefWidth="185.0" />
+      <TextField fx:id="txtAdminBrukernavn" layoutX="612.0" layoutY="84.0" prefHeight="39.0" prefWidth="120.0" promptText="Brukernavn" />
+      <Button layoutX="739.0" layoutY="84.0" mnemonicParsing="false" onAction="#leggTilAdmin" text="Legg til admin" />
+      <Button layoutX="646.0" layoutY="425.0" mnemonicParsing="false" onAction="#fjernAdmin" text="Fjern admin" />
    </children>
 </AnchorPane>
