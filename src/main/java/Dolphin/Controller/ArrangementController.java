@@ -25,7 +25,7 @@ public class ArrangementController {
     private Label navn, ledigePlasser;
 
     @FXML
-    private Text beskrivelse;
+    private Text beskrivelse, pris;
 
     @FXML
     private ListView<Bruker> deltagere;
@@ -39,6 +39,10 @@ public class ArrangementController {
         System.out.println(deltagere.getItems());
 
         System.out.println("xD");
+
+        navn.setText(valgtArrangement.getNavn());
+        beskrivelse.setText(valgtArrangement.getBeskrivelse());
+        pris.setText("Pris: " + String.valueOf(valgtArrangement.getPris()));
 
     }
 
