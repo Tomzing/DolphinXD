@@ -75,32 +75,39 @@ public class ArrangementController {
 
     @FXML
     private void meldPaa() {
-        boolean harBetalt;
-        if (valgtArrangement.getPris() == 0) {
-            harBetalt = true;
-        }
-        else {
-            harBetalt = betalForArrangement();
-        }
-        if (harBetalt) {
-            ArrayList<Bruker> deltagere = DataHandler.hentArrangementBrukerliste(valgtArrangement, "deltagere.csv");
-            Bruker aktiv = minApplikasjon.getAktivBruker();
-
-            boolean paameldt = false;
-
-            for (Bruker deltager : deltagere) {
-                if (aktiv.getBrukernavn().equals(deltager.getBrukernavn())) {
-                    paameldt = true;
-                    break;
-                }
-            }
-
-            if (!paameldt) {
+        Bruker aktiv = minApplikasjon.getAktivBruker();
+        if (!erAdmin(aktiv) && !erPaameldt(aktiv)) {
+            if (valgtArrangement.getPris() == 0 || betalForArrangement()) {
                 valgtArrangement.leggTilNyDeltager(minApplikasjon.getAktivBruker());
                 oppdaterListe();
                 DataHandler.lagreDeltager(aktiv, valgtArrangement);
             }
         }
+    }
+
+    private boolean erAdmin(Bruker aktiv) {
+        Bruker arrangor = valgtArrangement.getArrangor();
+        ArrayList<Bruker> administratorer = valgtArrangement.getAdministratorer();
+        if (aktiv.getBrukernavn().equals(arrangor.getBrukernavn())) {
+            return true;
+        }
+        for (Bruker admin : administratorer) {
+            if (aktiv.getBrukernavn().equals(admin.getBrukernavn())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean erPaameldt(Bruker aktiv) {
+        ArrayList<Bruker> deltagere = valgtArrangement.getDeltakereOppmeldt();
+
+        for (Bruker deltager : deltagere) {
+            if (aktiv.getBrukernavn().equals(deltager.getBrukernavn())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @FXML
