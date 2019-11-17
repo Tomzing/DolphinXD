@@ -13,6 +13,8 @@ import javafx.scene.control.*;
 import javafx.scene.text.Text;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.Comparator;
 
 public class ArrangementlisteController {
 
@@ -31,28 +33,29 @@ public class ArrangementlisteController {
     @FXML
     private ComboBox<String> velgSorteringCB;
 
-    private Bruker aktivBruker;
-
     private Arrangement valgtArrangement;
 
     //private ObservableList<Arrangement> listeMedAlleArrangementer = DataHandler.hentListeMedAlleArrangementer();
-    private ObservableList<Arrangement> arrangementListe = DataHandler.hentArrangementer();
+    private ObservableList<Arrangement> arrangementListe;
 
     public void initialize() {
-        aktivBruker = minApplikasjon.getAktivBruker();
         valgtArrangement = minApplikasjon.getValgtArrangement();
 
-        //arrangementListView.setItems(listeMedAlleArrangementer);
-        arrangementListView.setItems(arrangementListe);
-
-        if (valgtArrangement != null) {
-            arrangementListView.getSelectionModel().select(valgtArrangement);
-            fyllUtFilmInfo(valgtArrangement);
-        }
+        arrangementListe = DataHandler.hentArrangementer();
 
         velgSorteringCB.setItems(FXCollections.observableArrayList("Sorter alfabetisk på navn",
                 "Sorter på type alfabetisk", "Sorter på antall plasser igjen"));
 
+        velgSorteringCB.getSelectionModel().select(0);
+
+        sorterListe();
+
+        arrangementListView.setItems(arrangementListe);
+
+        if (valgtArrangement != null) {
+            arrangementListView.getSelectionModel().select(valgtArrangement);
+            fyllUtArrangementInfo(valgtArrangement);
+        }
 
         arrangementListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Arrangement>() {
                     public void changed(ObservableValue<? extends Arrangement> observable,
@@ -63,13 +66,36 @@ public class ArrangementlisteController {
 
                             velgArrangement();
 
-                            fyllUtFilmInfo(valgtArrangement);
+                            fyllUtArrangementInfo(valgtArrangement);
 
                             minApplikasjon.setValgtArrangement(valgtArrangement);
                         }
                     }
                 });
 
+    }
+
+    private ObservableList<Comparator<Arrangement>> hentSorteringsListe() {
+        return FXCollections.observableArrayList(
+                new Comparator<Arrangement>() {
+                    @Override
+                    public int compare(Arrangement a1, Arrangement a2) {
+                        return a1.compareTo(a2);
+                    }
+                },
+                new Comparator<Arrangement>() {
+                    @Override
+                    public int compare(Arrangement a1, Arrangement a2) {
+                        return a1.getType().compareTo(a2.getType());
+                    }
+                },
+                new Comparator<Arrangement>() {
+                    @Override
+                    public int compare(Arrangement a1, Arrangement a2) {
+                        return a2.getLedigePlasser() - a1.getLedigePlasser();
+                    }
+                }
+        );
     }
 
     //Metode for å "fjerne" utgåtte datoer fra listviewet, returnerer true eller false basert på om sjekkboksen
@@ -102,7 +128,7 @@ public class ArrangementlisteController {
         }
     }
 
-    private void fyllUtFilmInfo(Arrangement arrangement) {
+    private void fyllUtArrangementInfo(Arrangement arrangement) {
         txtNavn.setText(arrangement.getNavn());
         txtArrangor.setText("Arrangert av " + arrangement.getArrangor());
         txtKategori.setText(arrangement.getType());
@@ -125,5 +151,14 @@ public class ArrangementlisteController {
         if (valgtArrangement != null) {
             minApplikasjon.aapneNyttVindu("arrangement");
         }
+    }
+
+    @FXML
+    private void sorterListe() {
+        ObservableList<Comparator<Arrangement>> sorteringer = hentSorteringsListe();
+
+        arrangementListe.sort(sorteringer.get(velgSorteringCB.getSelectionModel().getSelectedIndex()));
+
+        arrangementListView.setItems(arrangementListe);
     }
 }

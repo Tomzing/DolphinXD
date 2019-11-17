@@ -2,9 +2,10 @@ package Dolphin.Model;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class Arrangement {
+public class Arrangement implements Comparable<Arrangement> {
     private static final AtomicInteger teller = new AtomicInteger(0);
     private int arrangementId;
     private String navn;
@@ -196,5 +197,10 @@ public class Arrangement {
 
     public void setAdministratorer(ArrayList<Bruker> administratorer) {
         this.administratorer = administratorer;
+    }
+
+    @Override
+    public int compareTo(Arrangement a) {
+        return navn.compareTo(a.navn);
     }
 }

@@ -40,13 +40,7 @@ public class ArrangementController {
         aktivBruker = minApplikasjon.getAktivBruker();
         oppdaterListe();
 
-        if (erAdmin()) {
-            btnMeldPaa.setVisible(false);
-            btnMeldAv.setVisible(false);
-        }
-        else {
-            btnMeldAvBruker.setVisible(false);
-        }
+        deaktiverKnapper();
 
         navn.setText(valgtArrangement.getNavn());
         txtArrangor.setText("Arrangert av " + valgtArrangement.getArrangor());
@@ -57,6 +51,16 @@ public class ArrangementController {
         txtStarttid.setText(valgtArrangement.getStarttid().toString());
         txtSluttid.setText(valgtArrangement.getSluttid().toString());
         txtBeskrivelse.setText(valgtArrangement.getBeskrivelse());
+    }
+
+    private void deaktiverKnapper() {
+        if (erAdmin()) {
+            btnMeldPaa.setVisible(false);
+            btnMeldAv.setVisible(false);
+        }
+        else {
+            btnMeldAvBruker.setVisible(false);
+        }
     }
 
     //Betalingsmetode hvor hvis man "betaler" så returnerer den true, hvis ikke false
