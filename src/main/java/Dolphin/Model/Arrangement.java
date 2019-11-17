@@ -155,7 +155,7 @@ public class Arrangement {
 
     @Override
     public String toString() {
-        return "ID: " + this.arrangementId + " | " + "Navn: " + this.navn + " Antall plasser: " + this.getLedigePlasser() + "| Type " + this.type + " | " + "Startdato: " + this.starttid;
+        return navn + "\n" + type + " | Ledige plasser: " + getLedigePlasser();
     }
 
     public Bruker getArrangor() {

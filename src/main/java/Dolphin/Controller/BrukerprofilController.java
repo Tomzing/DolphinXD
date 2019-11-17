@@ -7,6 +7,7 @@ import Dolphin.Model.Bruker;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.text.Text;
 
@@ -22,7 +23,10 @@ public class BrukerprofilController {
     private Text txtNavn, txtBrukernavn, txtFodselsdato;
 
     @FXML
-    private ListView<Arrangement> lvArrangementer;
+    private ListView<Arrangement> lvArrangementer, lvMineArrangementer;
+
+    @FXML
+    private Button btnEndre;
 
     public void initialize() {
         valgtBruker = minApplikasjon.getValgtBruker();
@@ -31,7 +35,20 @@ public class BrukerprofilController {
         txtBrukernavn.setText(valgtBruker.getBrukernavn());
         txtFodselsdato.setText(valgtBruker.getFodselsdato().toString());
 
-        lvArrangementer.setItems(hentPaameldteArrangementer(DataHandler.hentArrangementer()));
+        ObservableList<Arrangement> alleArrangementer = DataHandler.hentArrangementer();
+
+        lvArrangementer.setItems(hentPaameldteArrangementer(alleArrangementer));
+        lvMineArrangementer.setItems(hentMineArrangementer(alleArrangementer));
+    }
+
+    private ObservableList<Arrangement> hentMineArrangementer(ObservableList<Arrangement> arrangementer) {
+        ObservableList<Arrangement> mineArrangementer = FXCollections.observableArrayList();
+        for (Arrangement a : arrangementer) {
+            if (a.getArrangor().getBrukernavn().equals(valgtBruker.getBrukernavn())) {
+                mineArrangementer.add(a);
+            }
+        }
+        return mineArrangementer;
     }
 
     private ObservableList<Arrangement> hentPaameldteArrangementer(ObservableList<Arrangement> arrangementer) {
@@ -57,4 +74,11 @@ public class BrukerprofilController {
         }
     }
 
+    public void endreValgtArrangement() {
+        Arrangement valgtArrangement = lvMineArrangementer.getSelectionModel().getSelectedItem();
+        if (valgtArrangement != null) {
+            minApplikasjon.setValgtArrangement(valgtArrangement);
+            minApplikasjon.aapneNyttVindu("nyttarrangement");
+        }
+    }
 }

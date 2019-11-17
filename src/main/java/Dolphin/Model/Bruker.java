@@ -92,6 +92,6 @@ public class Bruker {
 
     @Override
     public String toString() {
-        return "ID: " + brukerId + " Navn: " + fornavn + " " + etternavn + " Brukernavn: " + brukernavn;
+        return fornavn + " " + etternavn;
     }
 }
