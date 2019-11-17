@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -77,10 +78,12 @@ public class ArrangementController {
     private void meldPaa() {
         Bruker aktiv = minApplikasjon.getAktivBruker();
         if (!erAdmin(aktiv) && !erPaameldt(aktiv)) {
-            if (valgtArrangement.getPris() == 0 || betalForArrangement()) {
-                valgtArrangement.leggTilNyDeltager(minApplikasjon.getAktivBruker());
-                oppdaterListe();
-                DataHandler.lagreDeltager(aktiv, valgtArrangement);
+            if (!erOpptatt(aktiv, valgtArrangement) && !erUtgaatt()) {
+                if (valgtArrangement.getPris() == 0 || betalForArrangement()) {
+                    valgtArrangement.leggTilNyDeltager(minApplikasjon.getAktivBruker());
+                    oppdaterListe();
+                    DataHandler.lagreDeltager(aktiv, valgtArrangement);
+                }
             }
         }
     }
@@ -105,6 +108,36 @@ public class ArrangementController {
         for (Bruker deltager : deltagere) {
             if (aktiv.getBrukernavn().equals(deltager.getBrukernavn())) {
                 return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean erUtgaatt() {
+        LocalDateTime sluttid = valgtArrangement.getSluttid();
+        LocalDateTime naa = LocalDateTime.now();
+        if (sluttid.compareTo(naa) < 0) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean erOpptatt(Bruker aktiv, Arrangement a1) {
+        ArrayList<Arrangement> arrangementer = new ArrayList<>(DataHandler.hentArrangementer());
+
+        for (Arrangement a2 : arrangementer) {
+            ArrayList<Bruker> deltagere = a2.getDeltakereOppmeldt();
+            for (Bruker deltager : deltagere) {
+                if (!aktiv.getBrukernavn().equals(deltager.getBrukernavn())) {
+                    continue;
+                }
+                LocalDateTime a1Start = a1.getStarttid();
+                LocalDateTime a1Slutt = a1.getSluttid();
+                LocalDateTime a2Start = a2.getStarttid();
+                LocalDateTime a2Slutt = a2.getSluttid();
+                if (a1Start.compareTo(a2Slutt) < 0 && a1Slutt.compareTo(a2Start) > 0) {
+                    return true;
+                }
             }
         }
         return false;

@@ -120,8 +120,8 @@ public class DataHandler {
                 Arrangement arrangementObj = new Arrangement(id, navn, arrangor, type, vanskelighetsgrad,
                         antallPlasser, pris, starttid, sluttid, sted, beskrivelse);
 
-                arrangementObj.setDeltakereOppmeldt(hentArrangementBrukerliste(arrangementObj, "deltagere.csv"));
-                arrangementObj.setAdministratorer(hentArrangementBrukerliste(arrangementObj, "administratorer.csv"));
+                arrangementObj.setDeltakereOppmeldt(hentArrangementDeltagere(arrangementObj));
+                arrangementObj.setAdministratorer(hentArrangementAdministratorer(arrangementObj));
 
                 arrangementer.add(arrangementObj);
             }
@@ -132,7 +132,15 @@ public class DataHandler {
         return arrangementer;
     }
 
-    public static ArrayList<Bruker> hentArrangementBrukerliste(Arrangement arrangement, String filnavn) {
+    public static ArrayList<Bruker> hentArrangementAdministratorer(Arrangement arrangement) {
+        return hentArrangementBrukerliste(arrangement, "administratorer.csv");
+    }
+
+    public static ArrayList<Bruker> hentArrangementDeltagere(Arrangement arrangement) {
+        return hentArrangementBrukerliste(arrangement, "deltagere.csv");
+    }
+
+    private static ArrayList<Bruker> hentArrangementBrukerliste(Arrangement arrangement, String filnavn) {
         ArrayList<Bruker> brukerListe = new ArrayList<>();
         ArrayList<String> adminListe = hentListe(filnavn);
         ObservableList<Bruker> brukere = hentListeMedBrukere();
