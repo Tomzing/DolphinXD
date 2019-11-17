@@ -27,13 +27,26 @@ public class ArrangementController {
     @FXML
     private ListView<Bruker> deltagere;
 
+    @FXML
+    private Button btnMeldPaa, btnMeldAv, btnMeldAvBruker;
+
     private Arrangement valgtArrangement;
 
+    private Bruker aktivBruker;
+
     @FXML
-    public void initialize() {
+    private void initialize() {
         valgtArrangement = minApplikasjon.getValgtArrangement();
+        aktivBruker = minApplikasjon.getAktivBruker();
         oppdaterListe();
-        System.out.println(deltagere.getItems());
+
+        if (erAdmin()) {
+            btnMeldPaa.setVisible(false);
+            btnMeldAv.setVisible(false);
+        }
+        else {
+            btnMeldAvBruker.setVisible(false);
+        }
 
         navn.setText(valgtArrangement.getNavn());
         txtArrangor.setText("Arrangert av " + valgtArrangement.getArrangor());
@@ -76,37 +89,37 @@ public class ArrangementController {
 
     @FXML
     private void meldPaa() {
-        Bruker aktiv = minApplikasjon.getAktivBruker();
-        if (!erAdmin(aktiv) && !erPaameldt(aktiv)) {
-            if (!erOpptatt(aktiv, valgtArrangement) && !erUtgaatt()) {
+        Bruker aktivBruker = minApplikasjon.getAktivBruker();
+        if (!erAdmin() && !erPaameldt()) {
+            if (!erOpptatt() && !erUtgaatt()) {
                 if (valgtArrangement.getPris() == 0 || betalForArrangement()) {
-                    valgtArrangement.leggTilNyDeltager(minApplikasjon.getAktivBruker());
+                    valgtArrangement.leggTilNyDeltager(aktivBruker);
                     oppdaterListe();
-                    DataHandler.lagreDeltager(aktiv, valgtArrangement);
+                    DataHandler.lagreDeltager(aktivBruker, valgtArrangement);
                 }
             }
         }
     }
 
-    private boolean erAdmin(Bruker aktiv) {
+    private boolean erAdmin() {
         Bruker arrangor = valgtArrangement.getArrangor();
         ArrayList<Bruker> administratorer = valgtArrangement.getAdministratorer();
-        if (aktiv.getBrukernavn().equals(arrangor.getBrukernavn())) {
+        if (aktivBruker.getBrukernavn().equals(arrangor.getBrukernavn())) {
             return true;
         }
         for (Bruker admin : administratorer) {
-            if (aktiv.getBrukernavn().equals(admin.getBrukernavn())) {
+            if (aktivBruker.getBrukernavn().equals(admin.getBrukernavn())) {
                 return true;
             }
         }
         return false;
     }
 
-    private boolean erPaameldt(Bruker aktiv) {
+    private boolean erPaameldt() {
         ArrayList<Bruker> deltagere = valgtArrangement.getDeltakereOppmeldt();
 
         for (Bruker deltager : deltagere) {
-            if (aktiv.getBrukernavn().equals(deltager.getBrukernavn())) {
+            if (aktivBruker.getBrukernavn().equals(deltager.getBrukernavn())) {
                 return true;
             }
         }
@@ -122,17 +135,17 @@ public class ArrangementController {
         return false;
     }
 
-    private boolean erOpptatt(Bruker aktiv, Arrangement a1) {
+    private boolean erOpptatt() {
         ArrayList<Arrangement> arrangementer = new ArrayList<>(DataHandler.hentArrangementer());
 
         for (Arrangement a2 : arrangementer) {
             ArrayList<Bruker> deltagere = a2.getDeltakereOppmeldt();
             for (Bruker deltager : deltagere) {
-                if (!aktiv.getBrukernavn().equals(deltager.getBrukernavn())) {
+                if (!aktivBruker.getBrukernavn().equals(deltager.getBrukernavn())) {
                     continue;
                 }
-                LocalDateTime a1Start = a1.getStarttid();
-                LocalDateTime a1Slutt = a1.getSluttid();
+                LocalDateTime a1Start = valgtArrangement.getStarttid();
+                LocalDateTime a1Slutt = valgtArrangement.getSluttid();
                 LocalDateTime a2Start = a2.getStarttid();
                 LocalDateTime a2Slutt = a2.getSluttid();
                 if (a1Start.compareTo(a2Slutt) < 0 && a1Slutt.compareTo(a2Start) > 0) {
@@ -144,15 +157,22 @@ public class ArrangementController {
     }
 
     @FXML
-    public void meldAv() {
-        Bruker aktiv = minApplikasjon.getAktivBruker();
-        valgtArrangement.fjernDeltager(aktiv);
-        DataHandler.fjernPaameldingTilArrangement(valgtArrangement, aktiv);
-
+    private void meldAv() {
+        valgtArrangement.fjernDeltager(aktivBruker);
+        DataHandler.fjernPaameldingTilArrangement(valgtArrangement, aktivBruker);
         oppdaterListe();
     }
 
     @FXML
+    private void meldAvBruker() {
+        Bruker valgtBruker = deltagere.getSelectionModel().getSelectedItem();
+        if (valgtBruker != null) {
+            valgtArrangement.fjernDeltager(valgtBruker);
+            DataHandler.fjernPaameldingTilArrangement(valgtArrangement, valgtBruker);
+            oppdaterListe();
+        }
+    }
+
     private void oppdaterListe() {
         ObservableList<Bruker> deltagereObservableList = FXCollections.observableArrayList(valgtArrangement.getDeltakereOppmeldt());
         deltagere.setItems(deltagereObservableList);
