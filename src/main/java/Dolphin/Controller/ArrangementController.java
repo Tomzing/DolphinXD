@@ -10,11 +10,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -40,7 +35,7 @@ public class ArrangementController {
         System.out.println(deltagere.getItems());
 
         navn.setText(valgtArrangement.getNavn());
-        txtArrangor.setText(valgtArrangement.getArrangor().toString());
+        txtArrangor.setText("Arrangert av " + valgtArrangement.getArrangor());
         txtPris.setText((valgtArrangement.getPris() == 0 ? "Gratis" : valgtArrangement.getPris() + " kr"));
         txtKategori.setText(valgtArrangement.getType());
         txtVanskelighetsgrad.setText(valgtArrangement.getVanskelighetsgrad());
@@ -48,11 +43,9 @@ public class ArrangementController {
         txtStarttid.setText(valgtArrangement.getStarttid().toString());
         txtSluttid.setText(valgtArrangement.getSluttid().toString());
         txtBeskrivelse.setText(valgtArrangement.getBeskrivelse());
-
     }
 
     //Betalingsmetode hvor hvis man "betaler" så returnerer den true, hvis ikke false
-    @FXML
     private boolean betalForArrangement() {
         Alert bekreftBetaling = new Alert(Alert.AlertType.CONFIRMATION);
         bekreftBetaling.setTitle("Betaling");
@@ -70,8 +63,6 @@ public class ArrangementController {
         Optional<ButtonType> resultat = bekreftBetaling.showAndWait();
 
         if(resultat.get() == bekreftBetalingBtn) {
-            meldPaa();
-
             bekreftBetaling.close();
 
             return true;
@@ -83,23 +74,32 @@ public class ArrangementController {
     }
 
     @FXML
-    public void meldPaa() {
-        ArrayList<Bruker> deltagere = DataHandler.hentArrangementBrukerliste(valgtArrangement, "deltagere.csv");
-        Bruker aktiv = minApplikasjon.getAktivBruker();
-
-        boolean paameldt = false;
-
-        for (Bruker deltager : deltagere) {
-            if (aktiv.getBrukernavn().equals(deltager.getBrukernavn())) {
-                paameldt = true;
-                break;
-            }
+    private void meldPaa() {
+        boolean harBetalt;
+        if (valgtArrangement.getPris() == 0) {
+            harBetalt = true;
         }
+        else {
+            harBetalt = betalForArrangement();
+        }
+        if (harBetalt) {
+            ArrayList<Bruker> deltagere = DataHandler.hentArrangementBrukerliste(valgtArrangement, "deltagere.csv");
+            Bruker aktiv = minApplikasjon.getAktivBruker();
 
-        if (!paameldt) {
-            valgtArrangement.leggTilNyDeltager(minApplikasjon.getAktivBruker());
-            oppdaterListe();
-            DataHandler.lagreDeltager(aktiv, valgtArrangement);
+            boolean paameldt = false;
+
+            for (Bruker deltager : deltagere) {
+                if (aktiv.getBrukernavn().equals(deltager.getBrukernavn())) {
+                    paameldt = true;
+                    break;
+                }
+            }
+
+            if (!paameldt) {
+                valgtArrangement.leggTilNyDeltager(minApplikasjon.getAktivBruker());
+                oppdaterListe();
+                DataHandler.lagreDeltager(aktiv, valgtArrangement);
+            }
         }
     }
 

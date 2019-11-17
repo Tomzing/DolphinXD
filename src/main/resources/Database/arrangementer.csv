@@ -10,3 +10,4 @@ ID;NAVN;ARRANGØR;TYPE;VANSKELIGHETSGRAD;ANTALL PLASSER;PRIS;STARTTID;SLUTTID;ST
 9;test test test;t;Sykkelritt;Lett;1;1000000;2020-04-20T06:09;2020-04-21T04:20;yeet;bleh...
 10;testestest;t;Fotballkamp;Lett;1;1;2020-12-12T12:15;2020-12-12T13:15;her;xD
 11;test#9001;t;Sykkelritt;Lett;13;15;2019-12-12T12:00;2019-12-12T16:00;Halden;sykling
+12;Arrangementet;t;Sykkelritt;Lett;50;0;2019-12-12T12:00;2019-12-12T16:00;idk;Gratis arrangement :^)
