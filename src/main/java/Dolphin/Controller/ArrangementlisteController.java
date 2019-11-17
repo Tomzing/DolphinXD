@@ -10,6 +10,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.text.Text;
+
 import java.time.LocalDateTime;
 
 public class ArrangementlisteController {
@@ -17,10 +19,8 @@ public class ArrangementlisteController {
     private Main minApplikasjon = Main.getInstance();
 
     @FXML
-    private TextField txtNavn, txtVanskelighetsgrad, txtSportskategori, txtAntallPlasser, txtSted, txtStarttid, txtSluttid, txtPris;
+    private Text txtNavn, txtArrangor, txtVanskelighetsgrad, txtKategori, txtLedigePlasser, txtSted, txtStarttid, txtSluttid, txtPris;
 
-    @FXML
-    private TextArea txtBeskrivelse;
 
     @FXML
     private ListView<Arrangement> arrangementListView;
@@ -104,13 +104,13 @@ public class ArrangementlisteController {
 
     private void fyllUtFilmInfo(Arrangement arrangement) {
         txtNavn.setText(arrangement.getNavn());
-        txtSportskategori.setText(arrangement.getType());
-        txtAntallPlasser.setText(String.valueOf(arrangement.getLedigePlasser()));
+        txtArrangor.setText("Arrangert av " + arrangement.getArrangor());
+        txtKategori.setText(arrangement.getType());
+        txtLedigePlasser.setText(String.valueOf(arrangement.getLedigePlasser()));
         txtSted.setText(arrangement.getSted());
         txtStarttid.setText(arrangement.getStarttid().toString());
         txtSluttid.setText(arrangement.getSluttid().toString());
-        txtPris.setText(String.valueOf(arrangement.getPris()));
-        txtBeskrivelse.setText(arrangement.getBeskrivelse());
+        txtPris.setText((arrangement.getPris() == 0 ? "Gratis" : arrangement.getPris() + " kr"));
         txtVanskelighetsgrad.setText(arrangement.getVanskelighetsgrad());
     }
 
@@ -125,9 +125,5 @@ public class ArrangementlisteController {
         if (valgtArrangement != null) {
             minApplikasjon.aapneNyttVindu("arrangement");
         }
-    }
-
-    public Arrangement getValgtArrangement() {
-        return valgtArrangement;
     }
 }

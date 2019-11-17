@@ -14,6 +14,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -25,7 +26,7 @@ public class ArrangementController {
     private Label navn, ledigePlasser;
 
     @FXML
-    private Text beskrivelse, pris;
+    private Text txtVanskelighetsgrad, txtKategori, txtArrangor, txtSted, txtPris, txtStarttid, txtSluttid, txtBeskrivelse;
 
     @FXML
     private ListView<Bruker> deltagere;
@@ -38,11 +39,15 @@ public class ArrangementController {
         oppdaterListe();
         System.out.println(deltagere.getItems());
 
-        System.out.println("xD");
-
         navn.setText(valgtArrangement.getNavn());
-        beskrivelse.setText(valgtArrangement.getBeskrivelse());
-        pris.setText("Pris: " + String.valueOf(valgtArrangement.getPris()));
+        txtArrangor.setText(valgtArrangement.getArrangor().toString());
+        txtPris.setText((valgtArrangement.getPris() == 0 ? "Gratis" : valgtArrangement.getPris() + " kr"));
+        txtKategori.setText(valgtArrangement.getType());
+        txtVanskelighetsgrad.setText(valgtArrangement.getVanskelighetsgrad());
+        txtSted.setText(valgtArrangement.getSted());
+        txtStarttid.setText(valgtArrangement.getStarttid().toString());
+        txtSluttid.setText(valgtArrangement.getSluttid().toString());
+        txtBeskrivelse.setText(valgtArrangement.getBeskrivelse());
 
     }
 
