@@ -73,7 +73,7 @@ public class ArrangementController {
     }
 
     //Betalingsmetode hvor hvis man "betaler" så returnerer den true, hvis ikke false
-    private boolean betalForArrangement() {
+    private boolean  betalForArrangement() {
         Alert bekreftBetaling = new Alert(Alert.AlertType.CONFIRMATION);
         bekreftBetaling.setTitle("Betaling");
         bekreftBetaling.setHeaderText("Bekreft betaling for påmelding");
@@ -88,13 +88,24 @@ public class ArrangementController {
         bekreftBetaling.getButtonTypes().setAll(bekreftBetalingBtn,avbrytBetalingBtn);
 
         Optional<ButtonType> resultat = bekreftBetaling.showAndWait();
-
-        if(resultat.get() == bekreftBetalingBtn) {
+        if(resultat.get() == bekreftBetalingBtn){
+            betalingsSystem(true);
             bekreftBetaling.close();
-
             return true;
         }
-        else if(resultat.get() == avbrytBetalingBtn) {
+        else if(resultat.get() == avbrytBetalingBtn){
+            betalingsSystem(false);
+
+        }
+        return false;
+    }
+
+    //I et ferdig produkt ville dette systemet vært ekstremt utvidet, derfor er det en egen metode
+    public static boolean betalingsSystem(boolean bekreftelse){
+        if(bekreftelse) {
+            return true;
+        }
+        else  {
             System.out.println("Betaling feilet, du er ikke meldt på");
         }
         return false;

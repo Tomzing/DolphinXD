@@ -1,3 +1,4 @@
+import Dolphin.Controller.ArrangementController;
 import Dolphin.DataHandler.DataHandler;
 import Dolphin.Model.Arrangement;
 
@@ -38,5 +39,12 @@ class ArrangementTest {
         assertTrue(testArran.leggTilNyDeltager(testbruker1)); //Denne skal returnere true fordi det fortsatt er plasser
         assertFalse(testArran.leggTilNyDeltager(testbruker2));//Denne blir false fordi siste plassen er opptatt. Er i samme test for å unngå mye redudant kode
 
+    }
+    //Sjekker om (det veldig sofistikerte) betalingsystemet fungerer
+    @Test
+    public void betalingsSystem(){
+        ArrangementController test = new ArrangementController();
+        assertTrue(ArrangementController.betalingsSystem(true));
+        assertFalse(ArrangementController.betalingsSystem(false));
     }
 }
