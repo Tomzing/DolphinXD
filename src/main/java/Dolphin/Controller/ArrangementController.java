@@ -112,6 +112,14 @@ public class ArrangementController {
                         DataHandler.lagreDeltager(aktivBruker, valgtArrangement);
                     }
                 }
+                else if(erUtgaatt()) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Feil!");
+                    alert.setHeaderText("Utgått arrangement");
+                    alert.setContentText("Arrangementet du prøver å melde deg på er utgått dessverre.");
+
+                    alert.showAndWait();
+                }
             }
         }
         else if (aktivBruker == null) {
