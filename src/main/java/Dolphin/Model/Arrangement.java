@@ -2,7 +2,6 @@ package Dolphin.Model;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Arrangement implements Comparable<Arrangement> {
@@ -18,8 +17,8 @@ public class Arrangement implements Comparable<Arrangement> {
     private String sted;
     private String vanskelighetsgrad;
     private String beskrivelse;
-    private ArrayList<Bruker> deltakereOppmeldt;
-    private ArrayList<Bruker> administratorer;
+    private ArrayList<Person> deltakereOppmeldt;
+    private ArrayList<Person> administratorer;
 
     public Arrangement(int arrangementId, String navn, Bruker arrangor, String type, String vanskelighetsgrad, int antallPlasser, long pris,
                        LocalDateTime starttid, LocalDateTime sluttid, String sted, String beskrivelse) {
@@ -62,24 +61,24 @@ public class Arrangement implements Comparable<Arrangement> {
         this.deltakereOppmeldt = new ArrayList<>();
     }*/
 
-    public void leggTilNyDeltager(Bruker bruker) {
+    public void leggTilNyDeltager(Person person) {
         if (deltakereOppmeldt.size() < antallPlasser) {
             boolean erPaameldt = false;
-            for (Bruker deltager : deltakereOppmeldt) {
-                if (deltager.getBrukernavn().equals(bruker.getBrukernavn())) {
+            for (Person deltager : deltakereOppmeldt) {
+                if (deltager.getBrukernavn().equals(person.getBrukernavn())) {
                     erPaameldt = true;
                     break;
                 }
             }
             if (!erPaameldt) {
-                deltakereOppmeldt.add(bruker);
+                deltakereOppmeldt.add(person);
             }
         }
     }
 
     public void fjernDeltager(Bruker bruker) {
-        for (Bruker deltager : deltakereOppmeldt) {
-            if (bruker.getBrukernavn().equals(deltager.getBrukernavn())) {
+        for (Person deltager : deltakereOppmeldt) {
+            if (bruker.getBrukerId() == deltager.getBrukerId()) {
                 deltakereOppmeldt.remove(deltager);
                 break;
             }
@@ -146,11 +145,11 @@ public class Arrangement implements Comparable<Arrangement> {
         this.sluttid = sluttid;
     }
 
-    public ArrayList<Bruker> getDeltakereOppmeldt() {
+    public ArrayList<Person> getDeltakereOppmeldt() {
         return deltakereOppmeldt;
     }
 
-    public void setDeltakereOppmeldt(ArrayList<Bruker> deltakereOppmeldt) {
+    public void setDeltakereOppmeldt(ArrayList<Person> deltakereOppmeldt) {
         this.deltakereOppmeldt = deltakereOppmeldt;
     }
 
@@ -191,11 +190,11 @@ public class Arrangement implements Comparable<Arrangement> {
         this.beskrivelse = beskrivelse;
     }
 
-    public ArrayList<Bruker> getAdministratorer() {
+    public ArrayList<Person> getAdministratorer() {
         return administratorer;
     }
 
-    public void setAdministratorer(ArrayList<Bruker> administratorer) {
+    public void setAdministratorer(ArrayList<Person> administratorer) {
         this.administratorer = administratorer;
     }
 

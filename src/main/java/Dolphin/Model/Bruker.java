@@ -1,35 +1,24 @@
 package Dolphin.Model;
 
-import java.time.LocalDate;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class Bruker {
+public abstract class Bruker {
     private static final AtomicInteger teller = new AtomicInteger(0);
 
     private int brukerId;
-    private String fornavn;
-    private String etternavn;
-    private LocalDate fodselsdato;
-    private String kjonn;
     private String brukernavn;
     private String passord;
 
-    public Bruker(String fornavn, String etternavn, LocalDate fodselsdato, String kjonn, String brukernavn, String passord) {
+    public Bruker(String brukernavn, String passord) {
+        System.out.println(teller);
         this.brukerId = teller.incrementAndGet();
-        setVerdier(fornavn, etternavn, fodselsdato, kjonn, brukernavn, passord);
+        this.brukernavn = brukernavn;
+        this.passord = passord;
     }
 
-    public Bruker(int id, String fornavn, String etternavn, LocalDate fodselsdato, String kjonn, String brukernavn, String passord) {
-        this.brukerId = id;
+    public Bruker(int brukerId, String brukernavn, String passord) {
+        this.brukerId = brukerId;
         teller.incrementAndGet();
-        setVerdier(fornavn, etternavn, fodselsdato, kjonn, brukernavn, passord);
-    }
-
-    private void setVerdier(String fornavn, String etternavn, LocalDate fodselsdato, String kjonn, String brukernavn, String passord) {
-        this.fornavn = fornavn;
-        this.etternavn = etternavn;
-        this.fodselsdato = fodselsdato;
-        this.kjonn = kjonn;
         this.brukernavn = brukernavn;
         this.passord = passord;
     }
@@ -40,38 +29,6 @@ public class Bruker {
 
     public void setBrukerId(int brukerId) {
         this.brukerId = brukerId;
-    }
-
-    public String getFornavn() {
-        return fornavn;
-    }
-
-    public void setFornavn(String fornavn) {
-        this.fornavn = fornavn;
-    }
-
-    public String getEtternavn() {
-        return etternavn;
-    }
-
-    public void setEtternavn(String etternavn) {
-        this.etternavn = etternavn;
-    }
-
-    public LocalDate getFodselsdato() {
-        return fodselsdato;
-    }
-
-    public void setFodselsdato(LocalDate fodselsdato) {
-        this.fodselsdato = fodselsdato;
-    }
-
-    public String getKjonn() {
-        return kjonn;
-    }
-
-    public void setKjonn(String kjonn) {
-        this.kjonn = kjonn;
     }
 
     public String getBrukernavn() {
@@ -92,6 +49,6 @@ public class Bruker {
 
     @Override
     public String toString() {
-        return fornavn + " " + etternavn;
+        return brukernavn;
     }
 }

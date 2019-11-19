@@ -4,6 +4,7 @@ import Dolphin.DataHandler.DataHandler;
 import Dolphin.Main;
 import Dolphin.Model.Arrangement;
 import Dolphin.Model.Bruker;
+import Dolphin.Model.Person;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -54,12 +55,20 @@ public class ArrangementController {
     }
 
     private void deaktiverKnapper() {
-        if (erAdmin()) {
-            btnMeldPaa.setVisible(false);
-            btnMeldAv.setVisible(false);
+        if (aktivBruker == null) {
+            btnMeldAvBruker.setVisible(false);
+        }
+        else if (aktivBruker instanceof Person) {
+            if (erAdmin()) {
+                btnMeldPaa.setVisible(false);
+                btnMeldAv.setVisible(false);
+            } else {
+                btnMeldAvBruker.setVisible(false);
+            }
         }
         else {
-            btnMeldAvBruker.setVisible(false);
+            btnMeldPaa.setVisible(false);
+            btnMeldAv.setVisible(false);
         }
     }
 
@@ -94,20 +103,26 @@ public class ArrangementController {
     @FXML
     private void meldPaa() {
         Bruker aktivBruker = minApplikasjon.getAktivBruker();
-        if (!erAdmin() && !erPaameldt()) {
-            if (!erOpptatt() && !erUtgaatt()) {
-                if (valgtArrangement.getPris() == 0 || betalForArrangement()) {
-                    valgtArrangement.leggTilNyDeltager(aktivBruker);
-                    oppdaterListe();
-                    DataHandler.lagreDeltager(aktivBruker, valgtArrangement);
+        if (aktivBruker instanceof Person) {
+            if (!erAdmin() && !erPaameldt()) {
+                if (!erOpptatt() && !erUtgaatt()) {
+                    if (valgtArrangement.getPris() == 0 || betalForArrangement()) {
+                        valgtArrangement.leggTilNyDeltager((Person) aktivBruker);
+                        oppdaterListe();
+                        DataHandler.lagreDeltager(aktivBruker, valgtArrangement);
+                    }
                 }
             }
+        }
+        else if (aktivBruker == null) {
+            minApplikasjon.setValgtArrangement(valgtArrangement);
+            minApplikasjon.aapneLoggInn();
         }
     }
 
     private boolean erAdmin() {
         Bruker arrangor = valgtArrangement.getArrangor();
-        ArrayList<Bruker> administratorer = valgtArrangement.getAdministratorer();
+        ArrayList<Person> administratorer = valgtArrangement.getAdministratorer();
         if (aktivBruker.getBrukernavn().equals(arrangor.getBrukernavn())) {
             return true;
         }
@@ -120,9 +135,9 @@ public class ArrangementController {
     }
 
     private boolean erPaameldt() {
-        ArrayList<Bruker> deltagere = valgtArrangement.getDeltakereOppmeldt();
+        ArrayList<Person> deltagere = valgtArrangement.getDeltakereOppmeldt();
 
-        for (Bruker deltager : deltagere) {
+        for (Person deltager : deltagere) {
             if (aktivBruker.getBrukernavn().equals(deltager.getBrukernavn())) {
                 return true;
             }
@@ -133,18 +148,15 @@ public class ArrangementController {
     private boolean erUtgaatt() {
         LocalDateTime sluttid = valgtArrangement.getSluttid();
         LocalDateTime naa = LocalDateTime.now();
-        if (sluttid.compareTo(naa) < 0) {
-            return true;
-        }
-        return false;
+        return sluttid.compareTo(naa) < 0;
     }
 
     private boolean erOpptatt() {
         ArrayList<Arrangement> arrangementer = new ArrayList<>(DataHandler.hentArrangementer());
 
         for (Arrangement a2 : arrangementer) {
-            ArrayList<Bruker> deltagere = a2.getDeltakereOppmeldt();
-            for (Bruker deltager : deltagere) {
+            ArrayList<Person> deltagere = a2.getDeltakereOppmeldt();
+            for (Person deltager : deltagere) {
                 if (!aktivBruker.getBrukernavn().equals(deltager.getBrukernavn())) {
                     continue;
                 }
@@ -184,7 +196,7 @@ public class ArrangementController {
     }
 
     @FXML
-    public void tilbakeTilArrangement() {
-        minApplikasjon.aapneNyttVindu("arrangementliste");
+    public void tilbakeTilArrangementliste() {
+        minApplikasjon.aapneArrangementliste();
     }
 }

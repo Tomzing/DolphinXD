@@ -12,24 +12,54 @@ import java.util.ArrayList;
 
 public class DataHandler {
 
-    private static final String filsti = "src/main/resources/Database/";
+    private static final String filnavnPerson = "src/main/resources/Database/personer.csv";
+    private static final String filnavnSysAdmin = "src/main/resources/Database/systemadministratorer.csv";
+
+    private static final String filnavnArrangementer = "src/main/resources/Database/arrangementer.csv";
+
+    private static final String filnavnAdmin = "src/main/resources/Database/administratorer.csv";
+    private static final String filnavnDeltagere = "src/main/resources/Database/deltagere.csv";
+
+    // Indexen til arrangement- og brukerverdiene i deltagerlisten og adminlisten.
+    private static final int arrangementIndex = 0;
+    private static final int brukerIndex = 1;
+
     private static final String CsvSplittetMed = ";";
 
-    //private static ObservableList<Bruker> listeMedBrukere = FXCollections.observableArrayList();
-    //private static ObservableList<Arrangement> arrangementer = FXCollections.observableArrayList();
+    public static ObservableList<Bruker> hentListeMedAlleBrukere() {
+        ObservableList<Bruker> brukere = FXCollections.observableArrayList();
+        brukere.addAll(hentListeMedPersoner());
+        brukere.addAll(hentListeMedSysAdmin());
+
+        return brukere;
+    }
+
+    public static ObservableList<Person> hentListeMedPersoner() {
+        ObservableList<Person> personer = FXCollections.observableArrayList();
+        for (Bruker person : hentListeMedBrukere(filnavnPerson)) {
+            personer.add((Person)person);
+        }
+        return personer;
+    }
+
+    public static ObservableList<SystemAdmin> hentListeMedSysAdmin() {
+        ObservableList<SystemAdmin> sysAdministratorer = FXCollections.observableArrayList();
+        for (Bruker sysAdmin : hentListeMedBrukere(filnavnSysAdmin)) {
+            sysAdministratorer.add((SystemAdmin)sysAdmin);
+        }
+        return sysAdministratorer;
+    }
 
     //Lese brukere fra fil
-    public static ObservableList<Bruker> hentListeMedBrukere() {
+    public static ObservableList<Bruker> hentListeMedBrukere(String filnavn) {
         ObservableList<Bruker> listeMedBrukere = FXCollections.observableArrayList();
 
-        String filnavn = "brukere.csv";
         BufferedReader br;
         String line;
         boolean erHeader = true;
 
         try {
-            //if(listeMedBrukere.isEmpty()) {
-            br = new BufferedReader(new FileReader(filsti + filnavn));
+            br = new BufferedReader(new FileReader(filnavn));
             while ((line = br.readLine()) != null) {
                 if (erHeader) {
                     erHeader = false;
@@ -37,11 +67,17 @@ public class DataHandler {
                 }
                 String[] verdier = line.split(CsvSplittetMed);
 
-                Bruker brukerObj = new Bruker(Integer.parseInt(verdier[0]), verdier[1], verdier[2], LocalDate.parse(verdier[3]), verdier[4], verdier[5], verdier[6]);
-
-                listeMedBrukere.add(brukerObj);
+                switch (filnavn) {
+                    case filnavnPerson:
+                        Person person = new Person(Integer.parseInt(verdier[0]), verdier[1], verdier[2], LocalDate.parse(verdier[3]), verdier[4], verdier[5], verdier[6]);
+                        listeMedBrukere.add(person);
+                        break;
+                    case filnavnSysAdmin:
+                        SystemAdmin sysAdmin = new SystemAdmin(Integer.parseInt(verdier[0]), verdier[1], verdier[2]);
+                        listeMedBrukere.add(sysAdmin);
+                        break;
+                }
             }
-            //}
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -49,19 +85,19 @@ public class DataHandler {
         return listeMedBrukere;
     }
 
-    public static void lagreBruker(Bruker bruker) {
+    public static void lagrePerson(Person bruker) {
         try {
-            File file = new File("src/main/resources/Database/brukere.csv");
+            File file = new File(filnavnPerson);
 
             FileWriter filSkriver = new FileWriter(file.getAbsoluteFile(), true);
             BufferedWriter bufferedCsvSkriver = new BufferedWriter(filSkriver);
 
-            bufferedCsvSkriver.write(bruker.getBrukerId() + ";" +
-                    bruker.getFornavn() + ";" +
-                    bruker.getEtternavn() + ";" +
-                    bruker.getFodselsdato() + ";" +
-                    bruker.getKjonn() + ";" +
-                    bruker.getBrukernavn() + ";" +
+            bufferedCsvSkriver.write(bruker.getBrukerId() + CsvSplittetMed +
+                    bruker.getFornavn() + CsvSplittetMed +
+                    bruker.getEtternavn() + CsvSplittetMed +
+                    bruker.getFodselsdato() + CsvSplittetMed +
+                    bruker.getKjonn() + CsvSplittetMed +
+                    bruker.getBrukernavn() + CsvSplittetMed +
                     bruker.getPassord() + "\n"
             );
 
@@ -82,14 +118,12 @@ public class DataHandler {
     public static ObservableList<Arrangement> hentArrangementer() {
         ObservableList<Arrangement> arrangementer = FXCollections.observableArrayList();
 
-        String filnavn = "arrangementer.csv";
         BufferedReader br;
         String line;
         boolean erHeader = true;
 
         try {
-            //if (arrangementer.isEmpty()) {
-            br = new BufferedReader(new FileReader(filsti + filnavn));
+            br = new BufferedReader(new FileReader(filnavnArrangementer));
             while ((line = br.readLine()) != null) {
                 if (erHeader) {
                     erHeader = false;
@@ -103,9 +137,10 @@ public class DataHandler {
                 int id = Integer.parseInt(arrangementVerdier[0]);
                 String navn = arrangementVerdier[1];
                 Bruker arrangor = null;
-                for (Bruker b : hentListeMedBrukere()) {
-                    if (arrangementVerdier[2].equals(b.getBrukernavn())) {
-                        arrangor = b;
+                for (Person p : hentListeMedPersoner()) {
+                    if (p.getBrukerId() == Integer.parseInt(arrangementVerdier[2])) {
+                        arrangor = p;
+                        break;
                     }
                 }
                 String type = arrangementVerdier[3];
@@ -125,25 +160,24 @@ public class DataHandler {
 
                 arrangementer.add(arrangementObj);
             }
-            //}
         } catch(IOException e){
             e.printStackTrace();
         }
         return arrangementer;
     }
 
-    public static ArrayList<Bruker> hentArrangementAdministratorer(Arrangement arrangement) {
-        return hentArrangementBrukerliste(arrangement, "administratorer.csv");
+    public static ArrayList<Person> hentArrangementAdministratorer(Arrangement arrangement) {
+        return hentArrangementBrukerliste(arrangement, filnavnAdmin);
     }
 
-    public static ArrayList<Bruker> hentArrangementDeltagere(Arrangement arrangement) {
-        return hentArrangementBrukerliste(arrangement, "deltagere.csv");
+    public static ArrayList<Person> hentArrangementDeltagere(Arrangement arrangement) {
+        return hentArrangementBrukerliste(arrangement, filnavnDeltagere);
     }
 
-    private static ArrayList<Bruker> hentArrangementBrukerliste(Arrangement arrangement, String filnavn) {
-        ArrayList<Bruker> brukerListe = new ArrayList<>();
+    private static ArrayList<Person> hentArrangementBrukerliste(Arrangement arrangement, String filnavn) {
+        ArrayList<Person> brukerListe = new ArrayList<>();
         ArrayList<String> adminListe = hentListe(filnavn);
-        ObservableList<Bruker> brukere = hentListeMedBrukere();
+        ObservableList<Person> personer = hentListeMedPersoner();
 
         boolean erHeader = true;
 
@@ -154,9 +188,9 @@ public class DataHandler {
             }
             String[] deltagerVerdier = deltagerInfo.split(CsvSplittetMed);
             if (Integer.parseInt(deltagerVerdier[0]) == arrangement.getArrangementId()) {
-                for (Bruker bruker : brukere) {
-                    if (bruker.getBrukernavn().equals(deltagerVerdier[1])) {
-                        brukerListe.add(bruker);
+                for (Person person : personer) {
+                    if (person.getBrukerId() == Integer.parseInt(deltagerVerdier[1])) {
+                        brukerListe.add(person);
                     }
                 }
             }
@@ -167,21 +201,21 @@ public class DataHandler {
 
     public static void lagreArrangement(Arrangement arrangement) {
         try {
-            File file = new File("src/main/resources/Database/arrangementer.csv");
+            File file = new File(filnavnArrangementer);
 
             FileWriter filSkriver = new FileWriter(file.getAbsoluteFile(), true);
             BufferedWriter bufferedCsvSkriver = new BufferedWriter(filSkriver);
 
-            bufferedCsvSkriver.write(hentArrangementer().size() + 1 + ";" +
-                    arrangement.getNavn() + ";" +
-                    arrangement.getArrangor().getBrukernavn() + ";" +
-                    arrangement.getType() + ";" +
-                    arrangement.getVanskelighetsgrad() + ";" +
-                    arrangement.getAntallPlasser() + ";" +
-                    arrangement.getPris() + ";" +
-                    arrangement.getStarttid() + ";" +
-                    arrangement.getSluttid() + ";" +
-                    arrangement.getSted() + ";" +
+            bufferedCsvSkriver.write(arrangement.getArrangementId() + CsvSplittetMed +
+                    arrangement.getNavn() + CsvSplittetMed +
+                    arrangement.getArrangor().getBrukerId() + CsvSplittetMed +
+                    arrangement.getType() + CsvSplittetMed +
+                    arrangement.getVanskelighetsgrad() + CsvSplittetMed +
+                    arrangement.getAntallPlasser() + CsvSplittetMed +
+                    arrangement.getPris() + CsvSplittetMed +
+                    arrangement.getStarttid() + CsvSplittetMed +
+                    arrangement.getSluttid() + CsvSplittetMed +
+                    arrangement.getSted() + CsvSplittetMed +
                     arrangement.getBeskrivelse() + "\n"
             );
 
@@ -200,28 +234,16 @@ public class DataHandler {
     private static void lagreAdministratorer(Arrangement arrangement) {
         ArrayList<String> adminString = new ArrayList<>();
         for (Bruker admin : arrangement.getAdministratorer()) {
-            adminString.add(arrangement.getArrangementId() + ";" + admin.getBrukernavn());
+            adminString.add(arrangement.getArrangementId() + CsvSplittetMed + admin.getBrukerId());
         }
-        //System.out.println(adminString.toString());
 
         String nyAdminliste = lagNyAdminListe(arrangement, adminString);
 
-        try {
-            FileWriter filSkriver = new FileWriter(new File(filsti + "administratorer.csv"));
-            BufferedWriter bufferedCsvSkriver = new BufferedWriter(filSkriver);
-
-            bufferedCsvSkriver.write(nyAdminliste);
-
-            bufferedCsvSkriver.flush();
-            bufferedCsvSkriver.close();
-        }
-        catch (IOException ioe) {
-            System.out.println(ioe.getMessage());
-        }
+        skrivTilFil(nyAdminliste, filnavnAdmin);
     }
 
     private static String lagNyAdminListe(Arrangement arrangement, ArrayList<String> administratorer) {
-        ArrayList<String> adminlisteGammel = hentListe("administratorer.csv");
+        ArrayList<String> adminlisteGammel = hentListe(filnavnAdmin);
         StringBuilder adminlisteNy = new StringBuilder();
 
         boolean erHeader = true;
@@ -232,7 +254,7 @@ public class DataHandler {
                 adminlisteNy.append(admin).append("\n");
                 continue;
             }
-            int id = Integer.parseInt(admin.split(";")[0]);
+            int id = Integer.parseInt(admin.split(CsvSplittetMed)[0]);
             if (id != arrangement.getArrangementId()) {
                 adminlisteNy.append(admin).append("\n");
                 continue;
@@ -250,7 +272,7 @@ public class DataHandler {
     }
 
     public static void fjernPaameldingTilArrangement(Arrangement arrangement, Bruker bruker) {
-        ArrayList<String> deltagerListe = hentListe("deltagere.csv");
+        ArrayList<String> deltagerListe = hentListe(filnavnDeltagere);
 
         boolean erHeader = true;
 
@@ -262,27 +284,14 @@ public class DataHandler {
                 deltagere.append(deltagerInfo).append("\n");
                 continue;
             }
-            String[] deltagerVerdier = deltagerInfo.split(";");
-            if (arrangement.getArrangementId() == Integer.parseInt(deltagerVerdier[0]) && bruker.getBrukernavn().equals(deltagerVerdier[1])) {
+            String[] deltagerVerdier = deltagerInfo.split(CsvSplittetMed);
+            if (arrangement.getArrangementId() == Integer.parseInt(deltagerVerdier[0]) && bruker.getBrukerId() == Integer.parseInt(deltagerVerdier[1])) {
                 continue;
             }
             deltagere.append(deltagerInfo).append("\n");
         }
 
-        String filnavn = "deltagere.csv";
-
-        try {
-            FileWriter filSkriver = new FileWriter(new File(filsti + filnavn));
-            BufferedWriter bufferedCsvSkriver = new BufferedWriter(filSkriver);
-
-            bufferedCsvSkriver.write(deltagere.toString());
-
-            bufferedCsvSkriver.flush();
-            bufferedCsvSkriver.close();
-        }
-        catch (IOException ioe) {
-            System.out.println(ioe.getMessage());
-        }
+        skrivTilFil(deltagere.toString(), filnavnDeltagere);
     }
 
     private static ArrayList<String> hentListe(String filnavn) {
@@ -292,7 +301,7 @@ public class DataHandler {
         String line;
 
         try {
-            br = new BufferedReader(new FileReader(filsti + filnavn));
+            br = new BufferedReader(new FileReader(filnavn));
             while ((line = br.readLine()) != null) {
                 liste.add(line);
             }
@@ -304,7 +313,7 @@ public class DataHandler {
     }
 
     public static void endreArrangement(Arrangement arrangement) {
-        ArrayList<String> arrangementliste = hentListe("arrangementer.csv");
+        ArrayList<String> arrangementliste = hentListe(filnavnArrangementer);
 
         boolean erHeader = true;
 
@@ -316,18 +325,18 @@ public class DataHandler {
                 arrangementer.append(arrangementInfo).append("\n");
                 continue;
             }
-            String[] deltagerVerdier = arrangementInfo.split(";");
+            String[] deltagerVerdier = arrangementInfo.split(CsvSplittetMed);
             if (arrangement.getArrangementId() == Integer.parseInt(deltagerVerdier[0])) {
-                String endretArrangement = arrangement.getArrangementId() + ";" +
-                        arrangement.getNavn() + ";" +
-                        arrangement.getArrangor().getBrukernavn() + ";" +
-                        arrangement.getType() + ";" +
-                        arrangement.getVanskelighetsgrad() + ";" +
-                        arrangement.getAntallPlasser() + ";" +
-                        arrangement.getPris() + ";" +
-                        arrangement.getStarttid().toString() + ";" +
-                        arrangement.getSluttid().toString() + ";" +
-                        arrangement.getSted() + ";" +
+                String endretArrangement = arrangement.getArrangementId() + CsvSplittetMed +
+                        arrangement.getNavn() + CsvSplittetMed +
+                        arrangement.getArrangor().getBrukerId() + CsvSplittetMed +
+                        arrangement.getType() + CsvSplittetMed +
+                        arrangement.getVanskelighetsgrad() + CsvSplittetMed +
+                        arrangement.getAntallPlasser() + CsvSplittetMed +
+                        arrangement.getPris() + CsvSplittetMed +
+                        arrangement.getStarttid().toString() + CsvSplittetMed +
+                        arrangement.getSluttid().toString() + CsvSplittetMed +
+                        arrangement.getSted() + CsvSplittetMed +
                         arrangement.getBeskrivelse();
 
                 arrangementer.append(endretArrangement).append("\n");
@@ -338,32 +347,107 @@ public class DataHandler {
             arrangementer.append(arrangementInfo).append("\n");
         }
 
-        String filnavn = "arrangementer.csv";
+        skrivTilFil(arrangementer.toString(), filnavnArrangementer);
+    }
 
+    public static void lagreDeltager(Bruker bruker, Arrangement arrangement) {
         try {
-            FileWriter filSkriver = new FileWriter(new File(filsti + filnavn));
-            BufferedWriter bufferedCsvSkriver = new BufferedWriter(filSkriver);
+            File file = new File(filnavnDeltagere);
 
-            bufferedCsvSkriver.write(arrangementer.toString());
+            FileWriter filSkriver = new FileWriter(file.getAbsoluteFile(), true);
+            BufferedWriter bufretCsvSkriver = new BufferedWriter(filSkriver);
+            bufretCsvSkriver.write(arrangement.getArrangementId() + CsvSplittetMed + bruker.getBrukerId() + "\n");
 
-            bufferedCsvSkriver.flush();
-            bufferedCsvSkriver.close();
+            bufretCsvSkriver.flush();
+            bufretCsvSkriver.close();
         }
         catch (IOException ioe) {
             System.out.println(ioe.getMessage());
         }
     }
 
-    public static void lagreDeltager(Bruker bruker, Arrangement arrangement) {
+    public static void endrePerson(Person bruker) {
+        ArrayList<String> personliste = hentListe(filnavnPerson);
+
+        boolean erHeader = true;
+
+        StringBuilder personer = new StringBuilder();
+
+        for (String personInfo : personliste) {
+            if (erHeader) {
+                erHeader = false;
+                personer.append(personInfo).append("\n");
+                continue;
+            }
+            String[] deltagerVerdier = personInfo.split(CsvSplittetMed);
+            if (bruker.getBrukerId() == Integer.parseInt(deltagerVerdier[0])) {
+                String endretPerson = bruker.getBrukerId() + CsvSplittetMed +
+                        bruker.getFornavn() + CsvSplittetMed +
+                        bruker.getEtternavn() + CsvSplittetMed +
+                        bruker.getFodselsdato() + CsvSplittetMed +
+                        bruker.getKjonn() + CsvSplittetMed +
+                        bruker.getBrukernavn() + CsvSplittetMed +
+                        bruker.getPassord();
+
+                personer.append(endretPerson).append("\n");
+                continue;
+            }
+            personer.append(personInfo).append("\n");
+        }
+
+        skrivTilFil(personer.toString(), filnavnPerson);
+    }
+
+    public static void slettPerson(Person bruker) {
+        ObservableList<Arrangement> arrangementer = hentArrangementer();
+        for (Arrangement a : arrangementer) {
+            if (bruker.getBrukerId() == a.getArrangor().getBrukerId()) {
+                slettArrangement(a);
+            }
+        }
+        slettFraListe(bruker.getBrukerId(), brukerIndex, filnavnDeltagere);
+        slettFraListe(bruker.getBrukerId(), brukerIndex, filnavnAdmin);
+        slettFraListe(bruker.getBrukerId(), 0, filnavnPerson);
+    }
+
+    public static void slettArrangement(Arrangement arrangement) {
+        slettFraListe(arrangement.getArrangementId(), arrangementIndex, filnavnDeltagere);
+        slettFraListe(arrangement.getArrangementId(), arrangementIndex, filnavnAdmin);
+        slettFraListe(arrangement.getArrangementId(), arrangementIndex, filnavnArrangementer);
+    }
+
+    private static void slettFraListe(int id, int index, String filnavn) {
+        ArrayList<String> liste = hentListe(filnavn);
+
+        boolean erHeader = true;
+
+        StringBuilder nyListe = new StringBuilder();
+
+        for (String linje : liste) {
+            if (erHeader) {
+                erHeader = false;
+                nyListe.append(linje).append("\n");
+                continue;
+            }
+            String[] verdier = linje.split(CsvSplittetMed);
+            if (id == Integer.parseInt(verdier[index])) {
+                continue;
+            }
+            nyListe.append(linje).append("\n");
+        }
+
+        skrivTilFil(nyListe.toString(), filnavn);
+    }
+
+    private static void skrivTilFil(String tekst, String filnavn) {
         try {
-            File file = new File(filsti + "deltagere.csv");
+            FileWriter filSkriver = new FileWriter(new File(filnavn));
+            BufferedWriter bufferedCsvSkriver = new BufferedWriter(filSkriver);
 
-            FileWriter filSkriver = new FileWriter(file.getAbsoluteFile(), true);
-            BufferedWriter bufretCsvSkriver = new BufferedWriter(filSkriver);
-            bufretCsvSkriver.write(arrangement.getArrangementId() + ";" + bruker.getBrukernavn() + "\n");
+            bufferedCsvSkriver.write(tekst);
 
-            bufretCsvSkriver.flush();
-            bufretCsvSkriver.close();
+            bufferedCsvSkriver.flush();
+            bufferedCsvSkriver.close();
         }
         catch (IOException ioe) {
             System.out.println(ioe.getMessage());

@@ -1,15 +1,14 @@
 package Dolphin;
 
-import Dolphin.Controller.ArrangementlisteController;
-import Dolphin.Controller.InnloggetController;
+import Dolphin.Controller.HovedVinduController;
 import Dolphin.Model.Arrangement;
 import Dolphin.Model.Bruker;
+import Dolphin.Model.Person;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.GridPane;
-import javafx.stage.Stage;
 import javafx.scene.image.Image;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 
@@ -21,13 +20,11 @@ public class Main extends Application {
 
     private Bruker aktivBruker;
 
-    private Bruker valgtBruker;
+    private Person valgtBruker;
 
     private Arrangement valgtArrangement;
 
-    private InnloggetController innloggetController;
-
-    private boolean skalEndresStatus;
+    private HovedVinduController hovedVinduController;
 
     public Main() {
         minApplikasjon = this;
@@ -41,33 +38,35 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
 
-        gaaTilLoggInn();
+        gaaTilBrukerHovedvisning();
+        //gaaTilLoggInn();
     }
 
+    /*
     public void gaaTilLoggInn() {
         try {
             FXMLLoader fxmlLaster = new FXMLLoader();
             fxmlLaster.setLocation(getClass().getResource("/fxml/logginn.fxml"));
             primaryStage.getIcons().add(new Image("Bilder/cooldudeicon.png"));
             primaryStage.setTitle("Logg inn Dolphin");
-            primaryStage.setScene(new Scene(fxmlLaster.load(), 600, 480));
-            primaryStage.show();
-        }
-        catch (IOException ioe) {
-            System.out.println(ioe.getMessage());
-        }
-    }
-
-    public void gaaTilBrukerHovedvisning() {
-        try {
-
-            System.out.println("Brukervisning");
-            FXMLLoader fxmlLaster = new FXMLLoader();
-            fxmlLaster.setLocation(getClass().getResource("/fxml/innlogget.fxml"));
-            primaryStage.setTitle("Hovedvisning for bruker");
             primaryStage.setScene(new Scene(fxmlLaster.load(), 1000, 600));
+            primaryStage.show();
+        }
+        catch (IOException ioe) {
+            System.out.println(ioe.getMessage());
+        }
+    }
+     */
 
-            innloggetController = fxmlLaster.getController();
+    private void gaaTilBrukerHovedvisning() {
+        try {
+            FXMLLoader fxmlLaster = new FXMLLoader();
+            fxmlLaster.setLocation(getClass().getResource("/fxml/hovedvindu.fxml"));
+            primaryStage.setTitle("Prosjektoppgave gruppe 17");
+            primaryStage.getIcons().add(new Image("Bilder/cooldudeicon.png"));
+            primaryStage.setScene(new Scene(fxmlLaster.load(), 900, 600));
+
+            hovedVinduController = fxmlLaster.getController();
 
             primaryStage.show();
         }
@@ -76,6 +75,7 @@ public class Main extends Application {
         }
     }
 
+    /*
     public void gaaTilAdminHovedvisning() {
         try {
             FXMLLoader fxmlLaster = new FXMLLoader();
@@ -88,7 +88,9 @@ public class Main extends Application {
             System.out.println(ioe.getMessage());
         }
     }
+     */
 
+    /*
     public void gaaTilNyBruker() {
         try {
             FXMLLoader fxmlLaster = new FXMLLoader();
@@ -102,6 +104,7 @@ public class Main extends Application {
             System.out.println(ioe.getMessage());
         }
     }
+     */
 
     /*
     public void gaaTilArrangement() {
@@ -118,27 +121,48 @@ public class Main extends Application {
     }
      */
 
-    public void aapneNyttVindu(String filnavn) {
-        innloggetController.lastInnVindu(filnavn);
+    public void aapneAdminHovedvisning() {
+        hovedVinduController.aapneAdminHovedvisning();
     }
 
-    public boolean skalEndres() {
-        return skalEndresStatus;
+    public void aapneArrangement() {
+        hovedVinduController.aapneArrangement();
+    }
+
+    public void aapneArrangementliste() {
+        hovedVinduController.aapneArrangementliste();
+    }
+
+    public void aapneBrukerprofil() {
+        hovedVinduController.aapneBrukerprofil();
+    }
+
+    public void aapneLoggInn() {
+        hovedVinduController.aapneLoggInn();
+    }
+
+    public void aapneNyBruker() {
+        hovedVinduController.aapneNyBruker();
+    }
+
+    public void aapneNyttArrangement() {
+        hovedVinduController.aapneNyttArrangement();
     }
 
     public void setAktivBruker(Bruker bruker) {
         aktivBruker = bruker;
+        hovedVinduController.oppdaterBruker();
     }
 
     public Bruker getAktivBruker() {
         return aktivBruker;
     }
 
-    public void setValgtBruker(Bruker bruker) {
+    public void setValgtBruker(Person bruker) {
         valgtBruker = bruker;
     }
 
-    public Bruker getValgtBruker() {
+    public Person getValgtBruker() {
         return valgtBruker;
     }
 

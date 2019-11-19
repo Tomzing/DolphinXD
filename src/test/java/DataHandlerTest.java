@@ -1,6 +1,7 @@
 import Dolphin.DataHandler.DataHandler;
 import Dolphin.Model.Arrangement;
 import Dolphin.Model.Bruker;
+import Dolphin.Model.Person;
 import org.junit.jupiter.api.*;
 
 import java.io.*;
@@ -15,12 +16,12 @@ class DataHandlerTest {
     private LocalDateTime fraDato = DataHandler.formaterDato("2002-06-28 20:00");
     private LocalDateTime  tilDato = DataHandler.formaterDato("2002-06-30 20:00");
 
-    private Bruker testbruker;
+    private Person testbruker;
 
     private Arrangement testArrangement;
 
     private static final String filArrangementer = "src/main/resources/Database/arrangementer.csv";
-    private static final String filBrukere = "src/main/resources/Database/brukere.csv";
+    private static final String filBrukere = "src/main/resources/Database/personer.csv";
     private static final String filDeltagere = "src/main/resources/Database/deltagere.csv";
     private static final String filAdministratorer = "src/main/resources/Database/administratorer.csv";
 
@@ -48,7 +49,7 @@ class DataHandlerTest {
         leggInnInnholdICSVFil(filDeltagere, headerDeltagereOgAdministratorer);
         leggInnInnholdICSVFil(filAdministratorer, headerDeltagereOgAdministratorer);
 
-        testbruker = new Bruker("Test","Testesen", LocalDate.parse("2000-12-12"),"Mann","Test","test");
+        testbruker = new Person("Test","Testesen", LocalDate.parse("2000-12-12"),"Mann","Test","test");
         testArrangement = new Arrangement("Kult Arrangement",testbruker,"Sykkelritt",
                 "Vanskelig",1000,200, fraDato, tilDato, "Stedesen 8",
                 "Stryke raskt og fort med utrolige varmer!");
@@ -96,17 +97,16 @@ class DataHandlerTest {
 
     @Test
     void faaBrukerlisteFraCsv() {
-        System.out.println(DataHandler.hentListeMedBrukere());
-        assertTrue(DataHandler.hentListeMedBrukere().isEmpty());
+        assertTrue(DataHandler.hentListeMedPersoner().isEmpty());
     }
 
     //Sjekker om man kan lagre en ny bruker som blir skrevet til csv og sjekker om brukeren kan bli lest fra listen
     //med brukere
     @Test
     void lagreOgHentBruker() {
-        DataHandler.lagreBruker(testbruker);
+        DataHandler.lagrePerson(testbruker);
 
-        assertEquals(DataHandler.hentListeMedBrukere().get(0).getBrukernavn(), testbruker.getBrukernavn());
+        assertEquals(DataHandler.hentListeMedPersoner().get(0).getBrukernavn(), testbruker.getBrukernavn());
 
     }
 
@@ -122,10 +122,10 @@ class DataHandlerTest {
     void faaArrangementDeltagerliste() {
 
         DataHandler.lagreArrangement(testArrangement);
-        DataHandler.lagreBruker(testbruker);
+        DataHandler.lagrePerson(testbruker);
         DataHandler.lagreDeltager(testbruker, testArrangement);
 
-        ArrayList<Bruker> liste = DataHandler.hentArrangementBrukerliste(testArrangement,"deltagere.csv");
+        ArrayList<Person> liste = DataHandler.hentArrangementDeltagere(testArrangement);
 
         assertEquals(liste.get(0).getBrukernavn(), testbruker.getBrukernavn());
     }

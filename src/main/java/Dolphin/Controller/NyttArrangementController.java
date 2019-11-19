@@ -4,13 +4,14 @@ import Dolphin.DataHandler.DataHandler;
 import Dolphin.Main;
 import Dolphin.Model.Arrangement;
 import Dolphin.Model.Bruker;
+import Dolphin.Model.Person;
+import Dolphin.Model.SystemAdmin;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 public class NyttArrangementController {
 
     private Main minApplikasjon = Main.getInstance();
-    private ObservableList<Bruker> adminliste = FXCollections.observableArrayList();
+    private ObservableList<Person> adminliste = FXCollections.observableArrayList();
     private Bruker aktivBruker;
     private Arrangement valgtArrangement;
 
@@ -38,7 +39,7 @@ public class NyttArrangementController {
     private TextArea txtBeskrivelse;
 
     @FXML
-    private ListView<Bruker> lvAdminliste;
+    private ListView<Person> lvAdminliste;
 
     public void initialize() {
         aktivBruker =  minApplikasjon.getAktivBruker();
@@ -71,7 +72,7 @@ public class NyttArrangementController {
     }
 
     public void avbryt() {
-        minApplikasjon.aapneNyttVindu("arrangementliste");
+        minApplikasjon.aapneArrangementliste();
     }
 
     public void lagre() {
@@ -111,7 +112,7 @@ public class NyttArrangementController {
         DataHandler.lagreArrangement(arrangement);
 
         minApplikasjon.setValgtArrangement(arrangement);
-        minApplikasjon.aapneNyttVindu("arrangementliste");
+        minApplikasjon.aapneArrangementliste();
     }
 
     private void endreArrangement() {
@@ -128,30 +129,35 @@ public class NyttArrangementController {
 
         DataHandler.endreArrangement(valgtArrangement);
 
-        minApplikasjon.aapneNyttVindu("arrangementliste");
+        if (aktivBruker instanceof SystemAdmin) {
+            minApplikasjon.aapneAdminHovedvisning();
+        }
+        else {
+            minApplikasjon.aapneArrangementliste();
+        }
     }
 
     public void leggTilAdmin() {
         String navn = txtAdminBrukernavn.getText();
-        Bruker bruker = hentBruker(navn);
-        if (bruker != null) {
-            adminliste.add(bruker);
+        Person person = hentPerson(navn);
+        if (person != null) {
+            adminliste.add(person);
             lvAdminliste.setItems(adminliste);
         }
     }
 
-    private Bruker hentBruker(String brukernavn) {
-        ObservableList<Bruker> brukere = DataHandler.hentListeMedBrukere();
-        for (Bruker b : brukere) {
-            if (brukernavn.equals(b.getBrukernavn()) && !brukernavn.equals(aktivBruker.getBrukernavn()) && !adminliste.contains(b)) {
-                return b;
+    private Person hentPerson(String brukernavn) {
+        ObservableList<Person> personer = DataHandler.hentListeMedPersoner();
+        for (Person p : personer) {
+            if (brukernavn.equals(p.getBrukernavn()) && !brukernavn.equals(aktivBruker.getBrukernavn()) && !adminliste.contains(p)) {
+                return p;
             }
         }
         return null;
     }
 
     public void fjernAdmin() {
-        Bruker valgt = lvAdminliste.getSelectionModel().getSelectedItem();
+        Person valgt = lvAdminliste.getSelectionModel().getSelectedItem();
         adminliste.remove(valgt);
         //lvAdminliste.refresh();
     }

@@ -1,31 +1,30 @@
 package Controllers;
 
 import Dolphin.Controller.LoggInnController;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class Login {
 
     private static LoggInnController testLoggInn;
 
     @BeforeAll
-    static void getController() {
+    static void startController() {
         testLoggInn = new LoggInnController();
     }
 
     @Test
-    public void loggerBrukerInn(){
-        //LoggInnController testLoggInn = new LoggInnController();
-        assertTrue(testLoggInn.loggInnKjorer("t", "t",true));
+    public void loggerBrukerInn() {
+        assertTrue(testLoggInn.loggInnKjorer("t", "t", true));
 
         //Test testesen er en bruker som allerede eksister, og er ment til å bare være en del av prototypen
     }
+
+
+
     @Test
-    public void loggerBrukerIkkeInn(){
-        //LoggInnController testLoggInn = new LoggInnController();
+    public void loggerBrukerIkkeInn() {
         assertFalse(testLoggInn.loggInnKjorer("", "", true));
     }
 }

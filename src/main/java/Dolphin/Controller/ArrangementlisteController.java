@@ -3,17 +3,15 @@ package Dolphin.Controller;
 import Dolphin.DataHandler.DataHandler;
 import Dolphin.Main;
 import Dolphin.Model.Arrangement;
-import Dolphin.Model.Bruker;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.Comparator;
 
 public class ArrangementlisteController {
@@ -21,8 +19,10 @@ public class ArrangementlisteController {
     private Main minApplikasjon = Main.getInstance();
 
     @FXML
-    private Text txtNavn, txtArrangor, txtVanskelighetsgrad, txtKategori, txtLedigePlasser, txtSted, txtStarttid, txtSluttid, txtPris;
+    private GridPane gpInformasjon;
 
+    @FXML
+    private Text txtNavn, txtArrangor, txtVanskelighetsgrad, txtKategori, txtLedigePlasser, txtSted, txtStarttid, txtSluttid, txtPris;
 
     @FXML
     private ListView<Arrangement> arrangementListView;
@@ -33,9 +33,11 @@ public class ArrangementlisteController {
     @FXML
     private ComboBox<String> velgSorteringCB;
 
+    @FXML
+    private Button btnMerInfo;
+
     private Arrangement valgtArrangement;
 
-    //private ObservableList<Arrangement> listeMedAlleArrangementer = DataHandler.hentListeMedAlleArrangementer();
     private ObservableList<Arrangement> arrangementListe;
 
     public void initialize() {
@@ -52,77 +54,54 @@ public class ArrangementlisteController {
 
         arrangementListView.setItems(arrangementListe);
 
-        if (valgtArrangement != null) {
-            arrangementListView.getSelectionModel().select(valgtArrangement);
-            fyllUtArrangementInfo(valgtArrangement);
-        }
+        visInfo();
 
-        arrangementListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Arrangement>() {
-                    public void changed(ObservableValue<? extends Arrangement> observable,
-                                        Arrangement oldValue, Arrangement newValue) {
-                        valgtArrangement = arrangementListView.getSelectionModel().getSelectedItem();
+        arrangementListView.getSelectionModel().selectedItemProperty().addListener((liste, gammel, ny) -> {
+            valgtArrangement = arrangementListView.getSelectionModel().getSelectedItem();
 
-                        if(valgtArrangement != null) {
+            minApplikasjon.setValgtArrangement(valgtArrangement);
 
-                            velgArrangement();
-
-                            fyllUtArrangementInfo(valgtArrangement);
-
-                            minApplikasjon.setValgtArrangement(valgtArrangement);
-                        }
-                    }
-                });
+            visInfo();
+        });
 
     }
 
     private ObservableList<Comparator<Arrangement>> hentSorteringsListe() {
-        return FXCollections.observableArrayList(
-                new Comparator<Arrangement>() {
-                    @Override
-                    public int compare(Arrangement a1, Arrangement a2) {
-                        return a1.compareTo(a2);
-                    }
-                },
-                new Comparator<Arrangement>() {
-                    @Override
-                    public int compare(Arrangement a1, Arrangement a2) {
-                        return a1.getType().compareTo(a2.getType());
-                    }
-                },
-                new Comparator<Arrangement>() {
-                    @Override
-                    public int compare(Arrangement a1, Arrangement a2) {
-                        return a2.getLedigePlasser() - a1.getLedigePlasser();
-                    }
-                }
-        );
+        ArrayList<Comparator<Arrangement>> sorteringer = new ArrayList<>();
+        sorteringer.add(Arrangement::compareTo);
+        sorteringer.add(Comparator.comparing(Arrangement::getType));
+        sorteringer.add((a1, a2) -> a2.getLedigePlasser() - a1.getLedigePlasser());
+
+        return FXCollections.observableArrayList(sorteringer);
     }
 
     //Metode for å "fjerne" utgåtte datoer fra listviewet, returnerer true eller false basert på om sjekkboksen
     //er sjekket av eller ikke. Hvis sjekket, filtrer listview. Ikke sjekket, "legg tilbake" forrige oppsett
     public boolean gjemUtgatteArrangementer() {
-        ObservableList<Arrangement> tempListeMedAlleArrangementer = FXCollections.observableArrayList();
+        arrangementListe = DataHandler.hentArrangementer();
+        sorterListe();
+        visInfo();
 
         if (utlopteArrangementerChkBx.isSelected()) {
-            //for (int i = 0; i < listeMedAlleArrangementer.size(); i++) {
-            for (int i = 0; i < arrangementListe.size(); i++) {
-                LocalDateTime naa = LocalDateTime.now();
-                LocalDateTime objTid = arrangementListView.getItems().get(i).getStarttid();
+            ObservableList<Arrangement> tempListe = FXCollections.observableArrayList();
 
-                if (objTid.compareTo(naa) > 0) {
-                    //tempListeMedAlleArrangementer.add(listeMedAlleArrangementer.get(i));
-                    tempListeMedAlleArrangementer.add(arrangementListe.get(i));
+            for (Arrangement a : arrangementListe) {
+                LocalDateTime naa = LocalDateTime.now();
+                LocalDateTime sluttid = a.getSluttid();
+
+                if (sluttid.compareTo(naa) > 0) {
+                    tempListe.add(a);
                 }
             }
-            arrangementListView.setItems(tempListeMedAlleArrangementer);
 
+            arrangementListe = tempListe;
+            arrangementListView.setItems(arrangementListe);
+            if (arrangementListe.contains(valgtArrangement)) {
+                arrangementListView.getSelectionModel().select(valgtArrangement);
+            }
             return true;
         } else {
-            //arrangementListView.setItems(listeMedAlleArrangementer);
             arrangementListView.setItems(arrangementListe);
-
-            arrangementListView.refresh();
-
             return false;
 
         }
@@ -141,24 +120,36 @@ public class ArrangementlisteController {
     }
 
     @FXML
-    public void velgArrangement() {
-        valgtArrangement = arrangementListView.getSelectionModel().getSelectedItem();
+    private void visMerInfo() {
         minApplikasjon.setValgtArrangement(valgtArrangement);
-    }
-
-    @FXML
-    public void visMerInfo() {
-        if (valgtArrangement != null) {
-            minApplikasjon.aapneNyttVindu("arrangement");
-        }
+        minApplikasjon.aapneArrangement();
     }
 
     @FXML
     private void sorterListe() {
+        visInfo();
         ObservableList<Comparator<Arrangement>> sorteringer = hentSorteringsListe();
 
         arrangementListe.sort(sorteringer.get(velgSorteringCB.getSelectionModel().getSelectedIndex()));
 
         arrangementListView.setItems(arrangementListe);
+
+        /*
+        if (arrangementListe.contains(valgtArrangement)) {
+            arrangementListView.getSelectionModel().select(valgtArrangement);
+        }
+        */
+    }
+
+    private void visInfo() {
+        boolean vises = valgtArrangement != null;
+        txtNavn.setVisible(vises);
+        txtArrangor.setVisible(vises);
+        gpInformasjon.setVisible(vises);
+        btnMerInfo.setVisible(vises);
+        if (vises) {
+            arrangementListView.getSelectionModel().select(valgtArrangement);
+            fyllUtArrangementInfo(valgtArrangement);
+        }
     }
 }

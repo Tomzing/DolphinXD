@@ -17,7 +17,7 @@
       <Label fx:id="ledigePlasser" layoutX="701.0" layoutY="57.0" prefHeight="27.0" prefWidth="153.0" text="Ledige plasser: 0" />
       <Text fx:id="txtBeskrivelse" layoutX="59.0" layoutY="374.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Beskrivelse..." wrappingWidth="627.0859375" />
       <Button fx:id="btnMeldPaa" layoutX="701.0" layoutY="394.0" mnemonicParsing="false" onAction="#meldPaa" text="Meld på" />
-      <Button layoutX="14.0" layoutY="497.0" mnemonicParsing="false" onAction="#tilbakeTilArrangement" text="Tilbake til arrangementliste" />
+      <Button layoutX="14.0" layoutY="497.0" mnemonicParsing="false" onAction="#tilbakeTilArrangementliste" text="Tilbake til arrangementliste" />
       <Button fx:id="btnMeldAv" layoutX="810.0" layoutY="394.0" mnemonicParsing="false" onAction="#meldAv" text="Meld av" />
       <Text fx:id="txtArrangor" layoutX="61.0" layoutY="102.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Arrangert av ..." />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="LIGHTGRAY" height="270.0" layoutX="419.0" layoutY="84.0" stroke="BLACK" strokeType="INSIDE" width="270.0" />

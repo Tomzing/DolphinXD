@@ -7,40 +7,35 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
+import java.time.LocalDate;
+
 public class LoggInnController {
 
     @FXML
-    private TextField inputBrukernavn;
+    private TextField txtBrukernavn;
 
     @FXML
-    private TextField inputPassord;
+    private TextField txtPassord;
 
     private Main minApplikasjon = Main.getInstance();
 
-    //Få liste med brukere fra DataHandler
-    private ObservableList<Bruker> listeMedBrukere = DataHandler.hentListeMedBrukere();
+    private Arrangement valgtArrangement;
 
     //Alt inne i initialize kan slettes, blitt brukt til å teste innhenting av alle arrangementene
     public void initialize() {
-        /*
-        ObservableList<ArrangementSykkelritt> listeMedSykkelrittArrangementer = DataHandler.hentListeMedSykkelrittArrangementer();
-        ObservableList<ArrangementAnnet> listeMedAnnetArrangementer = DataHandler.hentListeMedAnnetArrangementer();
-        //ObservableList<ArrangementLop> listeMedLopArrangementer = DataHandler.hentListeMedLopsArrangementer();
-        ObservableList<Arrangement> listeMedAlleArrangementer = DataHandler.hentListeMedAlleArrangementer();
-
-        System.out.println(listeMedSykkelrittArrangementer.get(0));
-        System.out.println(listeMedAnnetArrangementer.get(0));
-        System.out.println(listeMedAnnetArrangementer.get(0));
-        //System.out.println(listeMedLopArrangementer.get(0));
-        System.out.println(listeMedAlleArrangementer.get(0));
-        */
+        valgtArrangement = minApplikasjon.getValgtArrangement();
     }
 
     //Dårlig innlogging til programmet
     public String loggInnBruker() {
 
-       if(loggInnKjorer(inputBrukernavn.getText(),inputPassord.getText(),false)){
-           gaaTilBrukerHovedvisning();
+       if(loggInnKjorer(txtBrukernavn.getText(),txtPassord.getText(),false)){
+           if (valgtArrangement != null) {
+               minApplikasjon.aapneArrangement();
+           }
+           else {
+               minApplikasjon.aapneArrangementliste();
+           }
            //Tekst for suksessfull login
            return "Du er innlogget :D";
        }
@@ -51,14 +46,13 @@ public class LoggInnController {
     }
 
     public boolean loggInnKjorer(String brukerNavn, String brukerPassord, boolean testBoolean){
-        for (Bruker bruker : listeMedBrukere) {
+        ObservableList<Person> brukere = DataHandler.hentListeMedPersoner();
+        for (Person bruker : brukere) {
             if (bruker.getBrukernavn().equals(brukerNavn)) {
                 if (bruker.getPassord().equals(brukerPassord)) {
                     if(!testBoolean) {
-                        setAktivBruker(bruker);
+                        minApplikasjon.setAktivBruker(bruker);
                     }
-                    System.out.println("Gratulerer du er innlogget, " + bruker.getFornavn());
-
                     return true;
                 }
             }
@@ -67,25 +61,53 @@ public class LoggInnController {
         return false;
     }
 
+    /*
     @FXML
     private void gaaTilBrukerHovedvisning() {
         minApplikasjon.gaaTilBrukerHovedvisning();
     }
+     */
 
     @FXML
     public void loggInnAdmin() {
-        System.out.println("Gratulerer du er admin :)");
-
-        minApplikasjon.gaaTilAdminHovedvisning();
+        ObservableList<SystemAdmin> administratorer = DataHandler.hentListeMedSysAdmin();
+        for (SystemAdmin admin : administratorer) {
+            if (admin.getBrukernavn().equals(txtBrukernavn.getText()) && admin.getPassord().equals(txtPassord.getText())) {
+                minApplikasjon.setAktivBruker(admin);
+                minApplikasjon.aapneAdminHovedvisning();
+            }
+        }
     }
 
     @FXML
     public void gaaTilNyBruker() {
-        minApplikasjon.gaaTilNyBruker();
+        minApplikasjon.aapneNyBruker();
     }
+
     @FXML
-    public void setAktivBruker(Bruker bruker) {
-        minApplikasjon.setAktivBruker(bruker);
+    private void skrivInnAdminInfo() {
+        ObservableList<SystemAdmin> sysAdministratorer = DataHandler.hentListeMedSysAdmin();
+        String brukernavn = sysAdministratorer.get(0).getBrukernavn();
+        String passord = sysAdministratorer.get(0).getPassord();
+
+        txtBrukernavn.setText(brukernavn);
+        txtPassord.setText(passord);
+    }
+
+    @FXML
+    private void skrivInnPersonInfo() {
+        ObservableList<Person> personer = DataHandler.hentListeMedPersoner();
+        if (personer.isEmpty()) {
+            DataHandler.hentListeMedAlleBrukere();
+            DataHandler.lagrePerson(new Person("Test", "Testesen", LocalDate.parse("1999-06-09"), "Mann", "tester123", "passord"));
+            skrivInnPersonInfo();
+        }
+        else {
+            String brukernavn = personer.get(0).getBrukernavn();
+            String passord = personer.get(0).getPassord();
+            txtBrukernavn.setText(brukernavn);
+            txtPassord.setText(passord);
+        }
     }
 }
 

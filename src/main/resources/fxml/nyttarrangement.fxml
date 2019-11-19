@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="520.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Dolphin.Controller.NyttArrangementController">
+<AnchorPane prefHeight="550.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Dolphin.Controller.NyttArrangementController">
    <children>
       <Text fx:id="txtOverskrift" layoutX="14.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0">
          <font>

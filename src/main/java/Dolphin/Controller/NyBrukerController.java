@@ -2,47 +2,64 @@ package Dolphin.Controller;
 
 import Dolphin.DataHandler.DataHandler;
 import Dolphin.Main;
-import Dolphin.Model.Bruker;
+import Dolphin.Model.Person;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.time.LocalDate;
 
 public class NyBrukerController{
 
-    @FXML
-    private TextField inputFornavn;
+    private Main minApplikasjon = Main.getInstance();
 
     @FXML
-    private TextField inputEtternavn;
+    private Text txtOverskrift;
+
+    @FXML
+    private TextField txtFornavn;
+
+    @FXML
+    private TextField txtEtternavn;
 
     @FXML
     private DatePicker dpFodselsdato;
 
     @FXML
-    private ChoiceBox<String> valgBoksKjonn;
+    private ChoiceBox<String> cbKjonn;
 
     @FXML
-    private TextField inputBrukernavn;
+    private TextField txtBrukernavn;
 
     @FXML
-    private TextField inputPassord;
+    private TextField txtPassord;
 
-    ObservableList<Bruker> listeMedBrukere = DataHandler.hentListeMedBrukere();
+    private Person valgtBruker;
 
     public void initialize() {
-        valgBoksKjonn.setItems(FXCollections.observableArrayList("Mann", "Kvinne","Annet"));
+        valgtBruker = minApplikasjon.getValgtBruker();
 
-        valgBoksKjonn.getSelectionModel().selectFirst();
+        if (valgtBruker != null) {
+            txtOverskrift.setText("Endre bruker");
+            fyllUtFeltene();
+        }
+
+        cbKjonn.setItems(FXCollections.observableArrayList("Mann", "Kvinne","Annet"));
+
+        cbKjonn.getSelectionModel().selectFirst();
+    }
+
+    private void fyllUtFeltene() {
+        txtFornavn.setText(valgtBruker.getFornavn());
+        txtEtternavn.setText(valgtBruker.getEtternavn());
+        dpFodselsdato.setValue(valgtBruker.getFodselsdato());
+        cbKjonn.getSelectionModel().select(valgtBruker.getKjonn());
+        txtBrukernavn.setText(valgtBruker.getBrukernavn());
+        txtPassord.setText(valgtBruker.getPassord());
     }
 
     //Metode for å sjekke om en string er et tall
@@ -55,18 +72,18 @@ public class NyBrukerController{
 
     @FXML
     private void lagreNyBruker() {
-        //if (erTall(inputAar.getText())) {
-            nyBruker(inputFornavn.getText(),inputEtternavn.getText(), dpFodselsdato.getValue(),inputBrukernavn.getText(),inputPassord.getText(),valgBoksKjonn.getValue(), false);
-        //}
-        //else {
-        //    alertError("Feil!","Feil format i antall år", "Bare skriv inn antall år du er, i feltet 'antall år'");
-        //}
+        if (valgtBruker != null) {
+            endrePerson();
+        }
+        else {
+            nyPerson(txtFornavn.getText(), txtEtternavn.getText(), dpFodselsdato.getValue(), txtBrukernavn.getText(), txtPassord.getText(), cbKjonn.getValue(), false);
+        }
     }
 
-    public boolean nyBruker(String fornavn, String etternavn, LocalDate fodselsdato, String brukernavn, String passord, String kjonn, boolean testBoolean){
+    public boolean nyPerson(String fornavn, String etternavn, LocalDate fodselsdato, String brukernavn, String passord, String kjonn, boolean testBoolean){
         if (fornavn.equals("") || etternavn.equals("") || fodselsdato == null || brukernavn.equals("") || passord.equals("")) {
             if (!testBoolean){
-                alertError("Feil!","Manglende innhold","Et av feltene har ingen innhold.");
+                alertError();
                 return false;
             }
             else {
@@ -74,26 +91,38 @@ public class NyBrukerController{
             }
         }
         else {
-            Bruker bruker = new Bruker(fornavn, etternavn, fodselsdato, kjonn, brukernavn, passord);
-            listeMedBrukere.add(bruker);
-
-            DataHandler.lagreBruker(bruker);
+            Person bruker = new Person(fornavn, etternavn, fodselsdato, kjonn, brukernavn, passord);
 
             if(!testBoolean) {
                 //Lagret bruker, returnerer til logg inn
+                DataHandler.lagrePerson(bruker);
                 Main minApplikasjon = Main.getInstance();
-                minApplikasjon.gaaTilLoggInn();
+                minApplikasjon.aapneLoggInn();
                 return true;
             }
         }
         return true;
     }
+
+    private void endrePerson() {
+        valgtBruker.setFornavn(txtFornavn.getText());
+        valgtBruker.setEtternavn(txtEtternavn.getText());
+        valgtBruker.setFodselsdato(dpFodselsdato.getValue());
+        valgtBruker.setKjonn(cbKjonn.getValue());
+        valgtBruker.setBrukernavn(txtBrukernavn.getText());
+        valgtBruker.setPassord(txtPassord.getText());
+
+        DataHandler.endrePerson(valgtBruker);
+
+        minApplikasjon.aapneAdminHovedvisning();
+    }
+
     @FXML
-    private void alertError(String title, String header, String content){
+    private void alertError(){
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(header);
-        alert.setContentText(content);
+        alert.setTitle("Feil!");
+        alert.setHeaderText("Manglende innhold");
+        alert.setContentText("Et av feltene har ingen innhold.");
 
         alert.showAndWait();
         }
@@ -103,6 +132,6 @@ public class NyBrukerController{
         //Ikke laget bruker, returnerer til logg inn
         Main minApplikasjon = Main.getInstance();
 
-        minApplikasjon.gaaTilLoggInn();
+        minApplikasjon.aapneLoggInn();
     }
 }
