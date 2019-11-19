@@ -45,7 +45,7 @@
         </GridPane>
         <ListView fx:id="arrangementListView" layoutX="14.0" layoutY="121.0" prefHeight="354.0" prefWidth="368.0" />
         <Button fx:id="btnMerInfo" layoutX="401.0" layoutY="436.0" mnemonicParsing="false" onAction="#visMerInfo" text="Mer informasjon" />
-        <CheckBox fx:id="utlopteArrangementerChkBx" layoutX="14.0" layoutY="485.0" mnemonicParsing="false" onAction="#gjemUtgatteArrangementer" text="Gjem utgåtte arrangementer" />
+        <CheckBox fx:id="utlopteArrangementerChkBx" layoutX="14.0" layoutY="485.0" mnemonicParsing="false" onAction="#gjemUtgatteArrangementer" text="Vis utgåtte arrangementer" />
         <ComboBox fx:id="velgSorteringCB" layoutX="14.0" layoutY="74.0" onAction="#sorterListe" prefHeight="40.0" prefWidth="250.0" />
       <Text fx:id="txtNavn" layoutX="407.0" layoutY="163.0" strokeType="OUTSIDE" strokeWidth="0.0">
          <font>

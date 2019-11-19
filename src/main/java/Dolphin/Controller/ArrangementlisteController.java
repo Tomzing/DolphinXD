@@ -75,14 +75,18 @@ public class ArrangementlisteController {
         return FXCollections.observableArrayList(sorteringer);
     }
 
-    //Metode for å "fjerne" utgåtte datoer fra listviewet, returnerer true eller false basert på om sjekkboksen
-    //er sjekket av eller ikke. Hvis sjekket, filtrer listview. Ikke sjekket, "legg tilbake" forrige oppsett
+    //Metode for å "fjerne" utgåtte datoer fra listviewet, returnerer true eller false basert på om sjekkboksen er sjekket av eller ikke.
     public boolean gjemUtgatteArrangementer() {
         arrangementListe = DataHandler.hentArrangementer();
         sorterListe();
         visInfo();
 
         if (utlopteArrangementerChkBx.isSelected()) {
+            arrangementListView.setItems(arrangementListe);
+            return false;
+
+        }
+        else {
             ObservableList<Arrangement> tempListe = FXCollections.observableArrayList();
 
             for (Arrangement a : arrangementListe) {
@@ -100,10 +104,6 @@ public class ArrangementlisteController {
                 arrangementListView.getSelectionModel().select(valgtArrangement);
             }
             return true;
-        } else {
-            arrangementListView.setItems(arrangementListe);
-            return false;
-
         }
     }
 
