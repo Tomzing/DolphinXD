@@ -137,9 +137,26 @@ public class ArrangementController {
             }
         }
         else if (aktivBruker == null) {
-            minApplikasjon.setValgtArrangement(valgtArrangement);
-            minApplikasjon.aapneLoggInn();
+            if (skalGaaTilLoggInn()) {
+                minApplikasjon.setValgtArrangement(valgtArrangement);
+                minApplikasjon.aapneLoggInn();
+            }
         }
+    }
+
+    private boolean skalGaaTilLoggInn() {
+        ButtonType btnJa = new ButtonType("Ja", ButtonBar.ButtonData.YES);
+        ButtonType btnNei = new ButtonType("Nei", ButtonBar.ButtonData.NO);
+
+        Alert bekreft = new Alert(Alert.AlertType.CONFIRMATION);
+        bekreft.setTitle("Ikke innlogget");
+        bekreft.setHeaderText("Du er ikke innlogget!");
+        bekreft.setContentText("Du må være innlogget for å melde deg på et arrangement.\nVil du gå til siden for å logge inn?");
+        bekreft.getButtonTypes().clear();
+        bekreft.getButtonTypes().addAll(btnJa, btnNei);
+        bekreft.showAndWait();
+
+        return bekreft.getResult() == btnJa;
     }
 
     //Sjekker om en bruker er administrator
@@ -206,9 +223,11 @@ public class ArrangementController {
     //kan bli reformatert for å splitte metode og JavaFX
     @FXML
     private void meldAv() {
-        valgtArrangement.fjernDeltager(aktivBruker);
-        DataHandler.fjernPaameldingTilArrangement(valgtArrangement, aktivBruker);
-        oppdaterListe();
+        if (aktivBruker != null) {
+            valgtArrangement.fjernDeltager(aktivBruker);
+            DataHandler.fjernPaameldingTilArrangement(valgtArrangement, aktivBruker);
+            oppdaterListe();
+        }
     }
 
     //Melder en bruker av et arrangement
