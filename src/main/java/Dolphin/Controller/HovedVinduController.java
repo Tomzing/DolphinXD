@@ -28,14 +28,13 @@ public class HovedVinduController {
     private Text txtBruker;
 
     @FXML
-    private Button btnNyttArrangement, btnMinProfil, btnInnlogging;
+    private Button btnNyttArrangement, btnAapneVindu, btnInnlogging;
 
     @FXML
     private Pane vindu;
 
     public void initialize() {
-        lastInnVindu("arrangementliste");
-
+        aapneArrangementliste();
         oppdaterBruker();
     }
 
@@ -59,7 +58,18 @@ public class HovedVinduController {
         aapneArrangementliste();
     }
 
-    public void gaaTilDinProfil() {
+    @FXML
+    private void gaaTilVindu() {
+        Bruker aktiv = minApplikasjon.getAktivBruker();
+        if (aktiv instanceof Person) {
+            gaaTilDinProfil();
+        }
+        else if (aktiv instanceof SystemAdmin) {
+            aapneAdminHovedvisning();
+        }
+    }
+
+    private void gaaTilDinProfil() {
         minApplikasjon.setValgtBruker((Person) minApplikasjon.getAktivBruker());
         aapneBrukerprofil();
     }
@@ -77,7 +87,7 @@ public class HovedVinduController {
         if (aktiv == null) {
             txtBruker.setText("");
             btnNyttArrangement.setVisible(false);
-            btnMinProfil.setVisible(false);
+            btnAapneVindu.setVisible(false);
             btnInnlogging.setText("Logg inn");
         }
         else {
@@ -85,13 +95,15 @@ public class HovedVinduController {
                 String fornavn = ((Person) aktiv).getFornavn();
                 String etternavn = ((Person) aktiv).getEtternavn();
                 txtBruker.setText("Du er innlogget som:\n" + fornavn + " " + etternavn);
-                btnMinProfil.setVisible(true);
+                btnAapneVindu.setText("Gå til profilen din");
             }
             else if (aktiv instanceof SystemAdmin) {
                 String brukernavn = aktiv.getBrukernavn();
                 txtBruker.setText("Du er innlogget som:\n" + brukernavn);
+                btnAapneVindu.setText("Gå til adminpanel");
             }
             btnNyttArrangement.setVisible(true);
+            btnAapneVindu.setVisible(true);
             btnInnlogging.setText("Logg ut");
         }
     }

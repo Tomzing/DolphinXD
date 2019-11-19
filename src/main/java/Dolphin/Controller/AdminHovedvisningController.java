@@ -34,6 +34,20 @@ public class AdminHovedvisningController {
     }
 
     @FXML
+    private void gaaTilBrukerprofil() {
+        Person bruker = brukerListView.getSelectionModel().getSelectedItem();
+        minApplikasjon.setValgtBruker(bruker);
+        minApplikasjon.aapneBrukerprofil();
+    }
+
+    @FXML
+    private void gaaTilArrangement() {
+        Arrangement arrangement = arrangementListView.getSelectionModel().getSelectedItem();
+        minApplikasjon.setValgtArrangement(arrangement);
+        minApplikasjon.aapneArrangement();
+    }
+
+    @FXML
     private void endreBruker() {
         Person valgtBruker = brukerListView.getSelectionModel().getSelectedItem();
         minApplikasjon.setValgtBruker(valgtBruker);
@@ -45,6 +59,7 @@ public class AdminHovedvisningController {
         Person valgtBruker = brukerListView.getSelectionModel().getSelectedItem();
         DataHandler.slettPerson(valgtBruker);
         brukerListView.setItems(DataHandler.hentListeMedPersoner());
+        arrangementListView.setItems(DataHandler.hentArrangementer());
     }
 
     @FXML

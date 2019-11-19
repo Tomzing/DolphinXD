@@ -14,5 +14,7 @@
       <Button layoutX="243.0" layoutY="457.0" mnemonicParsing="false" onAction="#slettBruker" text="Slett bruker" />
       <Button layoutX="712.0" layoutY="457.0" mnemonicParsing="false" onAction="#endreArrangement" text="Endre arrangement" />
       <Button layoutX="501.0" layoutY="457.0" mnemonicParsing="false" onAction="#slettArrangement" text="Slett arrangement" />
+      <Button layoutX="54.0" layoutY="496.0" mnemonicParsing="false" onAction="#gaaTilBrukerprofil" text="Gå til brukerprofil" />
+      <Button layoutX="501.0" layoutY="496.0" mnemonicParsing="false" onAction="#gaaTilArrangement" text="Gå til arrangement" />
    </children>
 </AnchorPane>

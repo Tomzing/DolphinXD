@@ -43,6 +43,6 @@
                 <ListView fx:id="lvMineArrangementer" prefHeight="288.0" prefWidth="239.0" />
             </children>
         </VBox>
-        <Button layoutX="623.0" layoutY="427.0" mnemonicParsing="false" onAction="#endreValgtArrangement" text="Endre arrangement" />
+        <Button fx:id="btnEndre" layoutX="623.0" layoutY="427.0" mnemonicParsing="false" onAction="#endreValgtArrangement" text="Endre arrangement" />
     </children>
 </AnchorPane>

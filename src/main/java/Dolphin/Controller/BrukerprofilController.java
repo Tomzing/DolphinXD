@@ -3,10 +3,12 @@ package Dolphin.Controller;
 import Dolphin.DataHandler.DataHandler;
 import Dolphin.Main;
 import Dolphin.Model.Arrangement;
+import Dolphin.Model.Bruker;
 import Dolphin.Model.Person;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.text.Text;
 
@@ -22,8 +24,16 @@ public class BrukerprofilController {
     @FXML
     private ListView<Arrangement> lvArrangementer, lvMineArrangementer;
 
+    @FXML
+    private Button btnEndre;
+
     public void initialize() {
+        Bruker aktivBruker = minApplikasjon.getAktivBruker();
         valgtBruker = minApplikasjon.getValgtBruker();
+
+        if (aktivBruker.getBrukerId() != valgtBruker.getBrukerId()) {
+            btnEndre.setVisible(false);
+        }
 
         txtNavn.setText(valgtBruker.getFornavn() + " " + valgtBruker.getEtternavn());
         txtBrukernavn.setText(valgtBruker.getBrukernavn());

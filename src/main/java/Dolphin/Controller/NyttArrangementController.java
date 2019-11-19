@@ -72,7 +72,12 @@ public class NyttArrangementController {
     }
 
     public void avbryt() {
-        minApplikasjon.aapneArrangementliste();
+        if (aktivBruker instanceof SystemAdmin) {
+            minApplikasjon.aapneAdminHovedvisning();
+        }
+        else {
+            minApplikasjon.aapneBrukerprofil();
+        }
     }
 
     public void lagre() {
