@@ -54,6 +54,7 @@ public class ArrangementController {
         txtBeskrivelse.setText(valgtArrangement.getBeskrivelse());
     }
 
+    //Fjerner knapper som ikke er relevant fra viewet til innlogget person
     private void deaktiverKnapper() {
         if (aktivBruker == null) {
             btnMeldAvBruker.setVisible(false);
@@ -111,6 +112,8 @@ public class ArrangementController {
         return false;
     }
 
+    //Melder en bruker på et arrangament
+    // bør ble reformatert for å splitte metode og JavaFX
     @FXML
     private void meldPaa() {
         Bruker aktivBruker = minApplikasjon.getAktivBruker();
@@ -139,6 +142,8 @@ public class ArrangementController {
         }
     }
 
+    //Sjekker om en bruker er administrator
+    // kan bli reformatert for å splitte metode og JavaFX
     private boolean erAdmin() {
         Bruker arrangor = valgtArrangement.getArrangor();
         ArrayList<Person> administratorer = valgtArrangement.getAdministratorer();
@@ -153,6 +158,8 @@ public class ArrangementController {
         return false;
     }
 
+    //Sjekker om en bruker er allerede påmeldt til et arrangement
+    // kan reformatert for å splitte metode og JavaFX
     private boolean erPaameldt() {
         ArrayList<Person> deltagere = valgtArrangement.getDeltakereOppmeldt();
 
@@ -164,12 +171,16 @@ public class ArrangementController {
         return false;
     }
 
+    //Sjekker om et arrangament allerede har skjedd
+    // kan bli reformatert for å splitte metode og JavaFX
     private boolean erUtgaatt() {
         LocalDateTime sluttid = valgtArrangement.getSluttid();
         LocalDateTime naa = LocalDateTime.now();
         return sluttid.compareTo(naa) < 0;
     }
 
+    //Sjekker om bruker er allerede påmeldt et arrangement som foregår på samme tid som det de prøver å melde seg på
+    //Bør bli reformatert for å splitte metode og JavaFX
     private boolean erOpptatt() {
         ArrayList<Arrangement> arrangementer = new ArrayList<>(DataHandler.hentArrangementer());
 
@@ -191,6 +202,8 @@ public class ArrangementController {
         return false;
     }
 
+    //Melder en bruker av et arrangement
+    //kan bli reformatert for å splitte metode og JavaFX
     @FXML
     private void meldAv() {
         valgtArrangement.fjernDeltager(aktivBruker);
@@ -198,6 +211,8 @@ public class ArrangementController {
         oppdaterListe();
     }
 
+    //Melder en bruker av et arrangement
+    //kan bli reformatert for å splitte metode og JavaFX
     @FXML
     private void meldAvBruker() {
         Bruker valgtBruker = deltagere.getSelectionModel().getSelectedItem();
@@ -208,6 +223,7 @@ public class ArrangementController {
         }
     }
 
+    //Oppdaterer listviweet i JavaFX med valgt objekt
     private void oppdaterListe() {
         ObservableList<Bruker> deltagereObservableList = FXCollections.observableArrayList(valgtArrangement.getDeltakereOppmeldt());
         deltagere.setItems(deltagereObservableList);

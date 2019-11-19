@@ -61,4 +61,4 @@ public class AdminHovedvisningController {
         arrangementListView.setItems(DataHandler.hentArrangementer());
     }
 }
-
+//Sjekket for splitting av JavaFX og metoder. Kunne vært mulig å gjøre sletting av ting til egne metoder som ikke henger sammen med JavaFX, ellers ok
