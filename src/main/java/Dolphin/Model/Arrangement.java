@@ -61,7 +61,7 @@ public class Arrangement implements Comparable<Arrangement> {
         this.deltakereOppmeldt = new ArrayList<>();
     }*/
 
-    public void leggTilNyDeltager(Person person) {
+    public boolean leggTilNyDeltager(Person person) {
         if (deltakereOppmeldt.size() < antallPlasser) {
             boolean erPaameldt = false;
             for (Person deltager : deltakereOppmeldt) {
@@ -72,8 +72,10 @@ public class Arrangement implements Comparable<Arrangement> {
             }
             if (!erPaameldt) {
                 deltakereOppmeldt.add(person);
+                return true;
             }
         }
+        return false;
     }
 
     public void fjernDeltager(Bruker bruker) {
