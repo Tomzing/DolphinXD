@@ -19,11 +19,11 @@
          <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
      </rowConstraints>
       <children>
+         <Button mnemonicParsing="false" onAction="#gaaTilArrangementliste" text="Se alle arrangementer" GridPane.rowIndex="1" />
          <Button fx:id="btnNyttArrangement" mnemonicParsing="false" onAction="#gaaTilNyttArrangement" text="Nytt arrangement" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+         <Text fx:id="txtBruker" strokeType="OUTSIDE" strokeWidth="0.0" text="Du er logget inn som: Bruker" GridPane.columnIndex="3" GridPane.rowIndex="1" />
          <Button fx:id="btnAapneVindu" mnemonicParsing="false" onAction="#gaaTilVindu" GridPane.columnIndex="4" GridPane.rowIndex="1" />
          <Button fx:id="btnInnlogging" mnemonicParsing="false" onAction="#gaaTilInnlogging" text="Logg ut" GridPane.columnIndex="5" GridPane.rowIndex="1" />
-         <Text fx:id="txtBruker" strokeType="OUTSIDE" strokeWidth="0.0" text="Du er logget inn som: Bruker" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-            <Button mnemonicParsing="false" onAction="#gaaTilArrangementliste" text="Se alle arrangementer" GridPane.rowIndex="1" />
       </children>
    </GridPane>
       <Pane fx:id="vindu" layoutY="50.0" prefHeight="550.0" prefWidth="900.0" />

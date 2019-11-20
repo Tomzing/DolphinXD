@@ -28,7 +28,7 @@ public class ArrangementlisteController {
     private ListView<Arrangement> lvArrangementer;
 
     @FXML
-    private CheckBox ckbxUtlopteArrangementer;
+    private CheckBox chkbxUtlopteArrangementer;
 
     @FXML
     private ComboBox<String> cbSortering;
@@ -84,7 +84,7 @@ public class ArrangementlisteController {
         sorterListe();
         visInfo();
 
-        if (ckbxUtlopteArrangementer.isSelected()) {
+        if (chkbxUtlopteArrangementer.isSelected()) {
 
         }
         else {

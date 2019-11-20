@@ -30,16 +30,16 @@
                   <TextField fx:id="txtEtternavn" promptText="Etternavn" />
                </children>
             </VBox>
+            <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
+                <children>
+                    <Label text="Kjønn" />
+                    <ChoiceBox fx:id="cbKjonn" prefHeight="31.0" prefWidth="205.0" />
+                </children>
+            </VBox>
             <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <children>
                   <Label text="Fødselsdato" />
                   <DatePicker fx:id="dpFodselsdato" />
-               </children>
-            </VBox>
-            <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
-               <children>
-                  <Label text="Kjønn" />
-                  <ChoiceBox fx:id="cbKjonn" prefHeight="31.0" prefWidth="205.0" />
                </children>
             </VBox>
             <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="2">

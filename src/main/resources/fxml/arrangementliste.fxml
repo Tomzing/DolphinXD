@@ -41,10 +41,10 @@
             <Text fx:id="txtSluttid" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
             </children>
         </GridPane>
+        <ComboBox fx:id="cbSortering" layoutX="14.0" layoutY="74.0" onAction="#sorterListe" prefHeight="40.0" prefWidth="250.0" />
+        <CheckBox fx:id="chkbxUtlopteArrangementer" layoutX="14.0" layoutY="124.0" mnemonicParsing="false" onAction="#visUtgatteArrangementer" text="Vis utgåtte arrangementer" />
         <ListView fx:id="lvArrangementer" layoutX="14.0" layoutY="150.0" prefHeight="325.0" prefWidth="302.0" />
         <Button fx:id="btnMerInfo" layoutX="329.0" layoutY="436.0" mnemonicParsing="false" onAction="#visMerInfo" text="Mer informasjon" />
-        <CheckBox fx:id="ckbxUtlopteArrangementer" layoutX="14.0" layoutY="124.0" mnemonicParsing="false" onAction="#visUtgatteArrangementer" text="Vis utgåtte arrangementer" />
-        <ComboBox fx:id="cbSortering" layoutX="14.0" layoutY="74.0" onAction="#sorterListe" prefHeight="40.0" prefWidth="250.0" />
       <Text fx:id="txtNavn" layoutX="335.0" layoutY="163.0" strokeType="OUTSIDE" strokeWidth="0.0">
          <font>
             <Font size="36.0" />
