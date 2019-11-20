@@ -5,6 +5,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -19,6 +21,8 @@ public class DataHandler {
 
     private static final String filnavnAdmin = "src/main/resources/Database/administratorer.csv";
     private static final String filnavnDeltagere = "src/main/resources/Database/deltagere.csv";
+
+    private static final Charset karaktersett = StandardCharsets.UTF_8;
 
     // Indexen til arrangement- og brukerverdiene i deltagerlisten og adminlisten.
     private static final int arrangementIndex = 0;
@@ -59,7 +63,7 @@ public class DataHandler {
         boolean erHeader = true;
 
         try {
-            br = new BufferedReader(new FileReader(filnavn));
+            br = new BufferedReader(new InputStreamReader(new FileInputStream(new File(filnavn)), karaktersett));
             while ((line = br.readLine()) != null) {
                 if (erHeader) {
                     erHeader = false;
@@ -123,7 +127,7 @@ public class DataHandler {
         boolean erHeader = true;
 
         try {
-            br = new BufferedReader(new FileReader(filnavnArrangementer));
+            br = new BufferedReader(new InputStreamReader(new FileInputStream(new File(filnavnArrangementer)), karaktersett));
             while ((line = br.readLine()) != null) {
                 if (erHeader) {
                     erHeader = false;
@@ -301,7 +305,7 @@ public class DataHandler {
         String line;
 
         try {
-            br = new BufferedReader(new FileReader(filnavn));
+            br = new BufferedReader(new InputStreamReader(new FileInputStream(new File(filnavn)), karaktersett));
             while ((line = br.readLine()) != null) {
                 liste.add(line);
             }

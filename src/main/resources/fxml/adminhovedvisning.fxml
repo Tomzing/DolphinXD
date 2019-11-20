@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <AnchorPane prefHeight="550.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Dolphin.Controller.AdminHovedvisningController">
    <children>
       <ImageView fx:id="adminBilde" fitHeight="62.0" fitWidth="48.0" layoutX="938.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
@@ -12,8 +10,8 @@
       <ListView fx:id="arrangementListView" layoutX="501.0" layoutY="14.0" prefHeight="436.0" prefWidth="377.0" />
       <Button layoutX="54.0" layoutY="457.0" mnemonicParsing="false" onAction="#endreBruker" text="Endre bruker" />
       <Button layoutX="243.0" layoutY="457.0" mnemonicParsing="false" onAction="#slettBruker" text="Slett bruker" />
-      <Button layoutX="712.0" layoutY="457.0" mnemonicParsing="false" onAction="#endreArrangement" text="Endre arrangement" />
-      <Button layoutX="501.0" layoutY="457.0" mnemonicParsing="false" onAction="#slettArrangement" text="Slett arrangement" />
+      <Button layoutX="501.0" layoutY="457.0" mnemonicParsing="false" onAction="#endreArrangement" text="Endre arrangement" />
+      <Button layoutX="711.0" layoutY="457.0" mnemonicParsing="false" onAction="#slettArrangement" text="Slett arrangement" />
       <Button layoutX="54.0" layoutY="496.0" mnemonicParsing="false" onAction="#gaaTilBrukerprofil" text="Gå til brukerprofil" />
       <Button layoutX="501.0" layoutY="496.0" mnemonicParsing="false" onAction="#gaaTilArrangement" text="Gå til arrangement" />
    </children>

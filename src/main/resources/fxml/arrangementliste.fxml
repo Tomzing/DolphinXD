@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-
 <AnchorPane prefHeight="550.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Dolphin.Controller.ArrangementlisteController">
     <children>
         <Text layoutX="14.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Arrangementer">
@@ -12,7 +10,7 @@
                 <Font size="48.0" />
             </font>
         </Text>
-        <GridPane fx:id="gpInformasjon" layoutX="407.0" layoutY="203.0" prefHeight="225.0" prefWidth="533.0">
+        <GridPane fx:id="gpInformasjon" layoutX="335.0" layoutY="193.0" prefHeight="225.0" prefWidth="533.0">
             <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="391.0" minWidth="10.0" prefWidth="130.0" />
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="669.0" minWidth="10.0" prefWidth="455.0" />
@@ -43,15 +41,15 @@
             <Text fx:id="txtSluttid" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
             </children>
         </GridPane>
-        <ListView fx:id="arrangementListView" layoutX="14.0" layoutY="121.0" prefHeight="354.0" prefWidth="368.0" />
-        <Button fx:id="btnMerInfo" layoutX="401.0" layoutY="436.0" mnemonicParsing="false" onAction="#visMerInfo" text="Mer informasjon" />
-        <CheckBox fx:id="utlopteArrangementerChkBx" layoutX="14.0" layoutY="485.0" mnemonicParsing="false" onAction="#gjemUtgatteArrangementer" text="Vis utgåtte arrangementer" />
-        <ComboBox fx:id="velgSorteringCB" layoutX="14.0" layoutY="74.0" onAction="#sorterListe" prefHeight="40.0" prefWidth="250.0" />
-      <Text fx:id="txtNavn" layoutX="407.0" layoutY="163.0" strokeType="OUTSIDE" strokeWidth="0.0">
+        <ListView fx:id="lvArrangementer" layoutX="14.0" layoutY="150.0" prefHeight="325.0" prefWidth="302.0" />
+        <Button fx:id="btnMerInfo" layoutX="329.0" layoutY="436.0" mnemonicParsing="false" onAction="#visMerInfo" text="Mer informasjon" />
+        <CheckBox fx:id="ckbxUtlopteArrangementer" layoutX="14.0" layoutY="124.0" mnemonicParsing="false" onAction="#visUtgatteArrangementer" text="Vis utgåtte arrangementer" />
+        <ComboBox fx:id="cbSortering" layoutX="14.0" layoutY="74.0" onAction="#sorterListe" prefHeight="40.0" prefWidth="250.0" />
+      <Text fx:id="txtNavn" layoutX="335.0" layoutY="163.0" strokeType="OUTSIDE" strokeWidth="0.0">
          <font>
             <Font size="36.0" />
          </font>
       </Text>
-      <Text fx:id="txtArrangor" layoutX="407.0" layoutY="192.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Text fx:id="txtArrangor" layoutX="335.0" layoutY="192.0" strokeType="OUTSIDE" strokeWidth="0.0" />
     </children>
 </AnchorPane>

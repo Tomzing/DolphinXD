@@ -25,13 +25,13 @@ public class ArrangementlisteController {
     private Text txtNavn, txtArrangor, txtVanskelighetsgrad, txtKategori, txtLedigePlasser, txtSted, txtStarttid, txtSluttid, txtPris;
 
     @FXML
-    private ListView<Arrangement> arrangementListView;
+    private ListView<Arrangement> lvArrangementer;
 
     @FXML
-    private CheckBox utlopteArrangementerChkBx;
+    private CheckBox ckbxUtlopteArrangementer;
 
     @FXML
-    private ComboBox<String> velgSorteringCB;
+    private ComboBox<String> cbSortering;
 
     @FXML
     private Button btnMerInfo;
@@ -45,19 +45,22 @@ public class ArrangementlisteController {
 
         arrangementListe = DataHandler.hentArrangementer();
 
-        velgSorteringCB.setItems(FXCollections.observableArrayList("Sorter alfabetisk på navn",
-                "Sorter på type alfabetisk", "Sorter på antall plasser igjen"));
+        cbSortering.setItems(FXCollections.observableArrayList(
+                "Sorter alfabetisk på navn",
+                "Sorter alfabetisk på kategori",
+                "Sorter på antall ledige plasser"));
 
-        velgSorteringCB.getSelectionModel().select(0);
+        cbSortering.getSelectionModel().select(0);
 
         sorterListe();
 
-        arrangementListView.setItems(arrangementListe);
+        lvArrangementer.setItems(arrangementListe);
 
+        visUtgatteArrangementer();
         visInfo();
 
-        arrangementListView.getSelectionModel().selectedItemProperty().addListener((liste, gammel, ny) -> {
-            valgtArrangement = arrangementListView.getSelectionModel().getSelectedItem();
+        lvArrangementer.getSelectionModel().selectedItemProperty().addListener((liste, gammel, ny) -> {
+            valgtArrangement = lvArrangementer.getSelectionModel().getSelectedItem();
 
             minApplikasjon.setValgtArrangement(valgtArrangement);
 
@@ -76,14 +79,12 @@ public class ArrangementlisteController {
     }
 
     //Metode for å "fjerne" utgåtte datoer fra listviewet, returnerer true eller false basert på om sjekkboksen er sjekket av eller ikke.
-    public boolean gjemUtgatteArrangementer() {
+    public void visUtgatteArrangementer() {
         arrangementListe = DataHandler.hentArrangementer();
         sorterListe();
         visInfo();
 
-        if (utlopteArrangementerChkBx.isSelected()) {
-            arrangementListView.setItems(arrangementListe);
-            return false;
+        if (ckbxUtlopteArrangementer.isSelected()) {
 
         }
         else {
@@ -99,11 +100,10 @@ public class ArrangementlisteController {
             }
 
             arrangementListe = tempListe;
-            arrangementListView.setItems(arrangementListe);
+            lvArrangementer.setItems(arrangementListe);
             if (arrangementListe.contains(valgtArrangement)) {
-                arrangementListView.getSelectionModel().select(valgtArrangement);
+                lvArrangementer.getSelectionModel().select(valgtArrangement);
             }
-            return true;
         }
     }
 
@@ -130,15 +130,9 @@ public class ArrangementlisteController {
         visInfo();
         ObservableList<Comparator<Arrangement>> sorteringer = hentSorteringsListe();
 
-        arrangementListe.sort(sorteringer.get(velgSorteringCB.getSelectionModel().getSelectedIndex()));
+        arrangementListe.sort(sorteringer.get(cbSortering.getSelectionModel().getSelectedIndex()));
 
-        arrangementListView.setItems(arrangementListe);
-
-        /*
-        if (arrangementListe.contains(valgtArrangement)) {
-            arrangementListView.getSelectionModel().select(valgtArrangement);
-        }
-        */
+        lvArrangementer.setItems(arrangementListe);
     }
 
     private void visInfo() {
@@ -148,7 +142,7 @@ public class ArrangementlisteController {
         gpInformasjon.setVisible(vises);
         btnMerInfo.setVisible(vises);
         if (vises) {
-            arrangementListView.getSelectionModel().select(valgtArrangement);
+            lvArrangementer.getSelectionModel().select(valgtArrangement);
             fyllUtArrangementInfo(valgtArrangement);
         }
     }
