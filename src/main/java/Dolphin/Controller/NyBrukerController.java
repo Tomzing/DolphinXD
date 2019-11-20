@@ -2,8 +2,10 @@ package Dolphin.Controller;
 
 import Dolphin.DataHandler.DataHandler;
 import Dolphin.Main;
+import Dolphin.Model.Bruker;
 import Dolphin.Model.Person;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
@@ -51,6 +53,7 @@ public class NyBrukerController{
         cbKjonn.setItems(FXCollections.observableArrayList("Mann", "Kvinne","Annet"));
 
         cbKjonn.getSelectionModel().selectFirst();
+
     }
 
     private void fyllUtFeltene() {
@@ -72,11 +75,22 @@ public class NyBrukerController{
 
     @FXML
     private void lagreNyBruker() {
+        ObservableList<Bruker> listeMedAlleBrukere = DataHandler.hentListeMedAlleBrukere();
         if (valgtBruker != null) {
             endrePerson();
         }
         else {
-            nyPerson(txtFornavn.getText(), txtEtternavn.getText(), dpFodselsdato.getValue(), txtBrukernavn.getText(), txtPassord.getText(), cbKjonn.getValue(), false);
+            for(int i = 0; i < listeMedAlleBrukere.size() - 1; i++) {
+                if(txtBrukernavn.getText().equals(listeMedAlleBrukere.get(i).getBrukernavn())) {
+                    System.out.println("Bruker eksisterer allerede");
+                    alertErrorDuplikatBruker();
+                    break;
+                }
+                else {
+                    nyPerson(txtFornavn.getText(), txtEtternavn.getText(), dpFodselsdato.getValue(), txtBrukernavn.getText(), txtPassord.getText(), cbKjonn.getValue(), false);
+                    break;
+                }
+            }
         }
     }
 
@@ -126,6 +140,16 @@ public class NyBrukerController{
 
         alert.showAndWait();
         }
+
+    @FXML
+    private void alertErrorDuplikatBruker(){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Feil!");
+        alert.setHeaderText("Bruker eksisterer allerede");
+        alert.setContentText("Brukernavnet du prøver å lage brukeren med, er allerede i bruk.");
+
+        alert.showAndWait();
+    }
 
     @FXML
     private void avbryt() {
