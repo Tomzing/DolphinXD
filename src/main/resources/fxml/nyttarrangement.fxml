@@ -60,7 +60,7 @@
             <Label text="Sluttid:" GridPane.rowIndex="7" />
             <TextField fx:id="txtSluttid" promptText="yyyy-MM-dd HH:mm" GridPane.columnIndex="1" GridPane.rowIndex="7" />
             <Label text="Beskrivelse:" GridPane.rowIndex="8" />
-            <TextArea fx:id="txtBeskrivelse" prefHeight="167.0" prefWidth="669.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+            <TextArea fx:id="txtBeskrivelse" prefHeight="167.0" prefWidth="669.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="8" />
          </children>
       </GridPane>
       <TextField fx:id="txtAdminBrukernavn" layoutX="612.0" layoutY="84.0" prefHeight="39.0" prefWidth="120.0" promptText="Brukernavn" />

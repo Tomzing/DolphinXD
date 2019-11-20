@@ -76,6 +76,7 @@ public class HovedVinduController {
 
     public void gaaTilInnlogging() {
         minApplikasjon.setAktivBruker(null);
+        minApplikasjon.setValgtBruker(null);
         minApplikasjon.setValgtArrangement(null);
         oppdaterBruker();
         aapneLoggInn();
