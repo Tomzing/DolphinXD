@@ -118,7 +118,8 @@ public class ArrangementController {
     private void meldPaa() {
         Bruker aktivBruker = minApplikasjon.getAktivBruker();
         if (aktivBruker instanceof Person) {
-            if (!erAdmin() && !erPaameldt()) {
+            if (!erAdmin() && !erPaameldt() && !erFullt()) {
+                //Bør gi alert boks, gjør det under refaktorering av kode
                 if (!erOpptatt() && !erUtgaatt()) {
                     if (valgtArrangement.getPris() == 0 || betalForArrangement()) {
                         valgtArrangement.leggTilNyDeltager((Person) aktivBruker);
@@ -184,6 +185,13 @@ public class ArrangementController {
             if (aktivBruker.getBrukernavn().equals(deltager.getBrukernavn())) {
                 return true;
             }
+        }
+        return false;
+    }
+    private boolean erFullt(){
+        int plasser = valgtArrangement.getLedigePlasser();
+        if(plasser<=0){
+            return true;
         }
         return false;
     }
