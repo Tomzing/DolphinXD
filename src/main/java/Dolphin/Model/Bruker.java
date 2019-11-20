@@ -12,7 +12,6 @@ public abstract class Bruker {
 
     public Bruker(String brukernavn, String passord) {
         this.brukerId = teller.incrementAndGet();
-        //System.out.println(teller);
         this.brukernavn = brukernavn;
         this.passord = passord;
     }
@@ -22,13 +21,8 @@ public abstract class Bruker {
         if (brukerId > teller.get()) {
             teller.set(brukerId);
         }
-        System.out.println(brukerId + " -- " + teller);
         this.brukernavn = brukernavn;
         this.passord = passord;
-    }
-
-    public int getTeller() {
-        return teller.get();
     }
 
     public int getBrukerId() {

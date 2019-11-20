@@ -83,20 +83,21 @@ public class ArrangementController {
         bekreftBetaling.setWidth(250);
         bekreftBetaling.setHeight(250);
 
-        ButtonType bekreftBetalingBtn = new ButtonType("Bekreft betaling");
+        ButtonType bekreftBetalingBtn = new ButtonType("Bekreft betaling (Godkjent)");
+        ButtonType betalingFeiletBtn = new ButtonType("Bekreft betaling (Feil)");
         ButtonType avbrytBetalingBtn = new ButtonType("Avbryt", ButtonBar.ButtonData.CANCEL_CLOSE);
 
-        bekreftBetaling.getButtonTypes().setAll(bekreftBetalingBtn,avbrytBetalingBtn);
+        bekreftBetaling.getButtonTypes().setAll(bekreftBetalingBtn,betalingFeiletBtn,avbrytBetalingBtn);
+        bekreftBetaling.showAndWait();
 
-        Optional<ButtonType> resultat = bekreftBetaling.showAndWait();
-        if(resultat.get() == bekreftBetalingBtn){
+        if(bekreftBetaling.getResult() == bekreftBetalingBtn){
             betalingsSystem(true);
             bekreftBetaling.close();
             return true;
         }
-        else if(resultat.get() == avbrytBetalingBtn){
+        else if(bekreftBetaling.getResult() == betalingFeiletBtn){
             betalingsSystem(false);
-
+            bekreftBetaling.close();
         }
         return false;
     }
