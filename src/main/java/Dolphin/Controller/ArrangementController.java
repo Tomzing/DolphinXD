@@ -190,10 +190,7 @@ public class ArrangementController {
     }
     private boolean erFullt(){
         int plasser = valgtArrangement.getLedigePlasser();
-        if(plasser<=0){
-            return true;
-        }
-        return false;
+        return plasser <= 0;
     }
 
     //Sjekker om et arrangament allerede har skjedd
