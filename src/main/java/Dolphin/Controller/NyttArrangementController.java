@@ -22,6 +22,7 @@ public class NyttArrangementController {
     private ObservableList<Person> adminliste = FXCollections.observableArrayList();
     private Bruker aktivBruker;
     private Arrangement valgtArrangement;
+    private ObservableList<String> kategorier;
 
     @FXML
     private Text txtOverskrift;
@@ -45,7 +46,9 @@ public class NyttArrangementController {
         aktivBruker =  minApplikasjon.getAktivBruker();
         valgtArrangement = minApplikasjon.getValgtArrangement();
 
-        cbSportskategori.setItems(FXCollections.observableArrayList("Fotballkamp", "Sykkelritt", "løp", "Annet"));
+        kategorier = FXCollections.observableArrayList("Fotballkamp", "Sykkelritt", "Løp", "Annet");
+
+        cbSportskategori.setItems(kategorier);
         cbVanskelighetsgrad.setItems(FXCollections.observableArrayList("Lett", "Middels", "Vanskelig"));
 
         if (valgtArrangement != null) {
@@ -59,7 +62,13 @@ public class NyttArrangementController {
 
     private void fyllUtFeltene() {
         txtNavn.setText(valgtArrangement.getNavn());
-        cbSportskategori.getSelectionModel().select(valgtArrangement.getType());
+        if (erEgendefinertKategori()) {
+            txtKategoriAnnet.setText(valgtArrangement.getType());
+            cbSportskategori.getSelectionModel().select("Annet");
+        }
+        else {
+            cbSportskategori.getSelectionModel().select(valgtArrangement.getType());
+        }
         cbVanskelighetsgrad.getSelectionModel().select(valgtArrangement.getVanskelighetsgrad());
         txtAntallPlasser.setText(Integer.toString(valgtArrangement.getAntallPlasser()));
         txtPris.setText(Long.toString(valgtArrangement.getPris()));
@@ -69,6 +78,18 @@ public class NyttArrangementController {
         txtBeskrivelse.setText(valgtArrangement.getBeskrivelse());
         adminliste.setAll(valgtArrangement.getAdministratorer());
         lvAdminliste.setItems(adminliste);
+    }
+
+    private boolean erEgendefinertKategori() {
+        if (valgtArrangement != null) {
+            for (String s : kategorier) {
+                if (valgtArrangement.getType().equals(s)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
     }
 
     public void avbryt() {
