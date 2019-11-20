@@ -1,5 +1,6 @@
 package Dolphin.Model;
 
+import java.util.Comparator;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class Bruker {
@@ -10,17 +11,24 @@ public abstract class Bruker {
     private String passord;
 
     public Bruker(String brukernavn, String passord) {
-        System.out.println(teller);
         this.brukerId = teller.incrementAndGet();
+        //System.out.println(teller);
         this.brukernavn = brukernavn;
         this.passord = passord;
     }
 
     public Bruker(int brukerId, String brukernavn, String passord) {
         this.brukerId = brukerId;
-        teller.incrementAndGet();
+        if (brukerId > teller.get()) {
+            teller.set(brukerId);
+        }
+        System.out.println(brukerId + " -- " + teller);
         this.brukernavn = brukernavn;
         this.passord = passord;
+    }
+
+    public int getTeller() {
+        return teller.get();
     }
 
     public int getBrukerId() {

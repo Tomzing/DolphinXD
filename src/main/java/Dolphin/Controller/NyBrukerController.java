@@ -75,21 +75,16 @@ public class NyBrukerController{
 
     @FXML
     private void lagreNyBruker() {
-        ObservableList<Bruker> listeMedAlleBrukere = DataHandler.hentListeMedAlleBrukere();
         if (valgtBruker != null) {
             endrePerson();
         }
         else {
-            for(int i = 0; i < listeMedAlleBrukere.size() - 1; i++) {
-                if(txtBrukernavn.getText().equals(listeMedAlleBrukere.get(i).getBrukernavn())) {
-                    System.out.println("Bruker eksisterer allerede");
-                    alertErrorDuplikatBruker();
-                    break;
-                }
-                else {
-                    nyPerson(txtFornavn.getText(), txtEtternavn.getText(), dpFodselsdato.getValue(), txtBrukernavn.getText(), txtPassord.getText(), cbKjonn.getValue(), false);
-                    break;
-                }
+            if (brukernavnErTatt()) {
+                System.out.println("Bruker eksisterer allerede");
+                alertErrorDuplikatBruker();
+            }
+            else {
+                nyPerson(txtFornavn.getText(), txtEtternavn.getText(), dpFodselsdato.getValue(), txtBrukernavn.getText(), txtPassord.getText(), cbKjonn.getValue(), false);
             }
         }
     }
@@ -116,6 +111,16 @@ public class NyBrukerController{
             }
         }
         return true;
+    }
+
+    private boolean brukernavnErTatt() {
+        ObservableList<Bruker> listeMedAlleBrukere = DataHandler.hentListeMedAlleBrukere();
+        for(Bruker b : listeMedAlleBrukere) {
+            if(txtBrukernavn.getText().equals(b.getBrukernavn())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void endrePerson() {
