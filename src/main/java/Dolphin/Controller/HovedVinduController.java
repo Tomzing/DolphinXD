@@ -58,6 +58,7 @@ public class HovedVinduController {
         aapneArrangementliste();
     }
 
+
     @FXML
     private void gaaTilVindu() {
         Bruker aktiv = minApplikasjon.getAktivBruker();

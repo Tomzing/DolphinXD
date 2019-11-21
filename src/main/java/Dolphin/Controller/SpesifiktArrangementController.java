@@ -110,13 +110,12 @@ public class SpesifiktArrangementController {
         return false;
     }
 
-    //Melder en bruker på et arrangament
-    // bør ble reformatert for å splitte metode og JavaFX
+    //Melder en bruker på et arrangament via med betaling via JavaFX
     @FXML
     private void meldPaa() {
         Bruker aktivBruker = minApplikasjon.getAktivBruker();
         Arrangement aktivtArrangement = valgtArrangement;
-        String meldPaa = meldPaaBruker(aktivBruker, aktivtArrangement, false);
+        String meldPaa = meldPaaBruker(aktivBruker, aktivtArrangement);
 
 
         if (meldPaa.equals("meldPaa") && (valgtArrangement.getPris() == 0 || betalForArrangement())) {
@@ -167,9 +166,8 @@ public class SpesifiktArrangementController {
             }
         }
     }
-
-    //testboolean åpner for mulighet til å unngå betaling via "hacking, men er bare ment som midlertidig testbarhet til et større betalingsystem ville vært implentert
-    public String meldPaaBruker(Bruker bruker, Arrangement arrangement, boolean testBoolean) {
+    //Sier om en bruker kan melde seg på et arrangement, og om nei, hvorfor via return statement
+    public String meldPaaBruker(Bruker bruker, Arrangement arrangement) {
 
         String returnMelding = "feilMelding";
         boolean erAdmin = erArrangor(arrangement, bruker);

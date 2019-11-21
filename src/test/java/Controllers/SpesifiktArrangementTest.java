@@ -106,7 +106,7 @@ public class SpesifiktArrangementTest {
                "Vanskelig",1000,200, fraDato, tilDato, "Stedesen 8",
                "Stryke raskt og fort med utrolige varmer!");
 
-        assertEquals("meldPaa",controller.meldPaaBruker(testbruker, testArran, true));
+        assertEquals("meldPaa",controller.meldPaaBruker(testbruker, testArran));
     }
     @AfterAll
     static void leggTilbakeCSVInnhold() {
