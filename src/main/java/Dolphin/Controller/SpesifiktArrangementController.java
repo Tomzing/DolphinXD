@@ -282,13 +282,13 @@ public class SpesifiktArrangementController {
 
     //Henter bruker og arrangement fra JavaFX og sender til meldAvBruker()
     @FXML
-    private void meldAv() {
-        meldAvBruker(aktivBruker, valgtArrangement);
+    private void meldAvBruker() {
+        meldAv(aktivBruker, valgtArrangement);
         oppdaterListe();
         }
 
         //Melder en bruker av et arrangement
-    public boolean meldAvBruker(Bruker bruker, Arrangement arrangement) {
+    public boolean meldAv(Bruker bruker, Arrangement arrangement) {
         if (bruker != null) {
             arrangement.fjernDeltager(bruker);
             DataHandler.fjernPaameldingTilArrangement(arrangement, bruker);
