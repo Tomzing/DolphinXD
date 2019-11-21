@@ -9,6 +9,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+//Sjekket for splitting av JavaFX og metoder. Kunne vært mulig å gjøre sletting av ting til egne metoder som ikke henger sammen med JavaFX, ellers ok
 public class AdminHovedvisningController {
 
     private static final String bildefil = "Bilder/cooldude.jpg";
@@ -76,4 +77,4 @@ public class AdminHovedvisningController {
         arrangementListView.setItems(DataHandler.hentArrangementer());
     }
 }
-//Sjekket for splitting av JavaFX og metoder. Kunne vært mulig å gjøre sletting av ting til egne metoder som ikke henger sammen med JavaFX, ellers ok
+

@@ -136,6 +136,27 @@ public class ArrangementController {
                     alert.showAndWait();
                 }
             }
+            else{
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Feil!");
+                String headerText = "";
+                String contentText = "";
+                if(erAdmin()){
+                    headerText = "Du ar Admin";
+                    contentText = "Du kan ikke melde deg på et arrangement når du er Admin. Bytt bruker til en non-admin bruker";
+                }
+                else if(erPaameldt()){
+                    headerText = "Du er allerede påmeldt";
+                    contentText = "Du har allerede meldt deg på dette arrangementet";
+                }
+                else if(erFullt()){
+                    headerText = "Det er fullt!";
+                    contentText ="Dette arrangementet har desverre ingen plasser igjen";
+                }
+                alert.setHeaderText(headerText);
+                alert.setContentText(contentText);
+                alert.showAndWait();
+            }
         }
         else if (aktivBruker == null) {
             if (skalGaaTilLoggInn()) {
