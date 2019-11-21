@@ -1,5 +1,1 @@
-ID;FORNAVN;ETTERNAVN;ALDER;KJØNN;BRUKERNAVN;PASSORD
-2;Test;Testesen;1996-06-09;Kvinne;test;test
-3;Arne Bjarne;Berntsen;1997-03-15;Mann;arne97;hunter42
-4;Rolf;Rolfesen;1994-09-08;Mann;rolf;abakus
-5;Gustav;Gustavson;1999-02-03;Mann;gustav;abc123
+FORNAVN;ETTERNAVN;ALDER;KJØNN;BRUKERNAVN;PASSORD
