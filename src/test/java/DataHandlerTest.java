@@ -147,6 +147,12 @@ class DataHandlerTest {
 
         assertEquals(liste.get(0).getBrukernavn(), testbruker.getBrukernavn());
     }
+    @Test
+    void slettBruker(){
+        DataHandler.lagrePerson(testbruker);
+        DataHandler.slettPerson(testbruker);
+        assertTrue(DataHandler.hentListeMedPersoner().isEmpty());
+    }
 
 
     @AfterAll

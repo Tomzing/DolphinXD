@@ -56,6 +56,7 @@ public class AdminHovedvisningController {
         minApplikasjon.aapneNyBruker();
     }
 
+    //Henter informasjon om bruker fra JavaFX og sender til slettPerson() i datahandler
     @FXML
     private void slettBruker() {
         Person valgtBruker = brukerListView.getSelectionModel().getSelectedItem();
