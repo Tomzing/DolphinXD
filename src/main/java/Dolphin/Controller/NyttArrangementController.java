@@ -102,36 +102,38 @@ public class NyttArrangementController {
     }
 
     public boolean lagre() {
-        String navnTest = txtNavn.getText();
-        String sportsKategoriTest = String.valueOf(cbSportskategori.getSelectionModel().getSelectedItem());
-        String vanskelighetsgradTest = cbVanskelighetsgrad.getSelectionModel().getSelectedItem();
-        String antallPlasserTest = String.valueOf(txtAntallPlasser.getText());
-        String prisTest = String.valueOf(txtPris.getText());
-        String stedTest = txtSted.getText();
-        String startTidTest = txtStarttid.getText();
-        String sluttTidTest = txtSluttid.getText();
-        String beskrivelseTest = txtBeskrivelse.getText();
+        String navn = txtNavn.getText();
+        String sportsKategori = String.valueOf(cbSportskategori.getSelectionModel().getSelectedItem());
+        String vanskelighetsgrad = cbVanskelighetsgrad.getSelectionModel().getSelectedItem();
+        String antallPlasser = String.valueOf(txtAntallPlasser.getText());
+        String pris = String.valueOf(txtPris.getText());
+        String sted = txtSted.getText();
+        String startTid = txtStarttid.getText();
+        String sluttTid = txtSluttid.getText();
+        String beskrivelse = txtBeskrivelse.getText();
 
         boolean erTest = false;
 
-        if(ingenTommeFelter(navnTest,
-                sportsKategoriTest,
-                vanskelighetsgradTest,
-                antallPlasserTest,
-                prisTest,
-                stedTest,
-                startTidTest,
-                sluttTidTest,
-                beskrivelseTest,
+        if(ingenTommeFelter(navn,
+                sportsKategori,
+                vanskelighetsgrad,
+                antallPlasser,
+                pris,
+                sted,
+                startTid,
+                sluttTid,
+                beskrivelse,
                 erTest))
         {
             if (valgtArrangement != null) {
 
-                endreArrangement();
+                endreArrangement(valgtArrangement, navn, sportsKategori, vanskelighetsgrad,
+                        Integer.parseInt(antallPlasser), pris,
+                        sted, LocalDateTime.parse(startTid),
+                        LocalDateTime.parse(sluttTid), beskrivelse);
                 return true;
             }
             else {
-                lagArrangement();
                 return true;
             }
         }
@@ -142,13 +144,13 @@ public class NyttArrangementController {
 
     public boolean ingenTommeFelter(String navnTest, String sportsKategori, String vanskelighetsgradTest,
                                    String antallPlasserTest, String prisTest, String stedTest, String startTidTest,
-                                   String sluttTidTest, String beskrivelseTest, boolean erTest)
+                                   String sluttTidTest, String beskrivelseTest, boolean testBoolean)
     {
         if(navnTest.equals("") || sportsKategori.equals("") || vanskelighetsgradTest.equals("")
                 || antallPlasserTest.equals("") || prisTest.equals("") || stedTest.equals("") || startTidTest.equals("")
                 || sluttTidTest.equals("") || beskrivelseTest.equals(""))
         {
-            if(!erTest) {
+            if(!testBoolean) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Feil!");
                 alert.setHeaderText("Tomme felter oppdaget!");
@@ -194,26 +196,22 @@ public class NyttArrangementController {
         minApplikasjon.aapneArrangementliste();
     }
 
-    private void endreArrangement() {
-        valgtArrangement.setNavn(txtNavn.getText());
-        valgtArrangement.setType(cbSportskategori.getSelectionModel().getSelectedItem());
-        valgtArrangement.setVanskelighetsgrad(cbVanskelighetsgrad.getSelectionModel().getSelectedItem());
-        valgtArrangement.setAntallPlasser(Integer.parseInt(txtAntallPlasser.getText()));
-        valgtArrangement.setPris(Integer.parseInt(txtPris.getText()));
-        valgtArrangement.setSted(txtSted.getText());
-        valgtArrangement.setStarttid(LocalDateTime.parse(txtStarttid.getText()));
-        valgtArrangement.setSluttid(LocalDateTime.parse(txtSluttid.getText()));
-        valgtArrangement.setBeskrivelse(txtBeskrivelse.getText());
-        valgtArrangement.setAdministratorer(new ArrayList<>(adminliste));
+    static void endreArrangement(Arrangement arrangement, String navn, String kategori,
+                                  String vansklighetsgrad, int plasser, String pris,
+                                  String sted, LocalDateTime startTid, LocalDateTime sluttTid,
+                                  String beskrivelse) {
+        arrangement.setNavn(navn);
+        arrangement.setType(kategori);
+        arrangement.setVanskelighetsgrad(vansklighetsgrad);
+        arrangement.setAntallPlasser(plasser);
+        arrangement.setPris(Integer.parseInt(pris));
+        arrangement.setSted(sted);
+        arrangement.setStarttid(startTid);
+        arrangement.setSluttid(sluttTid);
+        arrangement.setBeskrivelse(beskrivelse);
+        arrangement.setAdministratorer(arrangement.getAdministratorer());
 
-        DataHandler.endreArrangement(valgtArrangement);
-
-        if (aktivBruker instanceof SystemAdmin) {
-            minApplikasjon.aapneAdminHovedvisning();
-        }
-        else {
-            minApplikasjon.aapneArrangementliste();
-        }
+        DataHandler.endreArrangement(arrangement);
     }
 
     public void leggTilAdmin() {

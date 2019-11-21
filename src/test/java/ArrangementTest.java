@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ArrangementTest {
 
     @Test
-    public void lagNyAnnetArrangement() {
+    void lagNyAnnetArrangement() {
         LocalDateTime fraDato = DataHandler.formaterDato("2002-06-28 20:00");
         LocalDateTime  tilDato = DataHandler.formaterDato("2002-06-30 20:00");
 
@@ -26,7 +26,7 @@ class ArrangementTest {
         assertNotNull(test1);
     }
     @Test
-    public void leggTillBrukerIarrangement(){
+    void leggTillBrukerIarrangement(){
         LocalDateTime fraDato = DataHandler.formaterDato("2002-06-28 20:00");
         LocalDateTime  tilDato = DataHandler.formaterDato("2002-06-30 20:00");
 
@@ -42,7 +42,7 @@ class ArrangementTest {
     }
     //Sjekker om (det veldig sofistikerte) betalingsystemet fungerer
     @Test
-    public void betalingsSystem(){
+    void betalingsSystem(){
         SpesifiktArrangementController test = new SpesifiktArrangementController();
         assertTrue(SpesifiktArrangementController.betalingsSystem(true));
         assertFalse(SpesifiktArrangementController.betalingsSystem(false));
