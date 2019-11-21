@@ -12,11 +12,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
 public class NyttArrangementController {
@@ -137,10 +134,12 @@ public class NyttArrangementController {
                 return true;
             }
             else {
+                lagArrangement();
                 return true;
             }
         }
-        else {
+        else
+            {
             return false;
         }
     }
