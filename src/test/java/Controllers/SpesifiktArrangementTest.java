@@ -107,14 +107,14 @@ public class SpesifiktArrangementTest {
     void meldAavArrangement(){
         DataHandler.lagreDeltager(testbruker, testArrangement);
         SpesifiktArrangementController controller = new SpesifiktArrangementController();
-        assertTrue(controller.meldAvBruker(testbruker,testArrangement));
+        assertTrue(controller.meldAv(testbruker,testArrangement));
     }
     @Test
     void meldAavArrangementFeilet(){
         SpesifiktArrangementController controller = new SpesifiktArrangementController();
 
         //null her vil si at en bruker ikke er blitt selektert i viewet
-        assertFalse(controller.meldAvBruker(null,testArrangement));
+        assertFalse(controller.meldAv(null,testArrangement));
     }
 
     @AfterAll

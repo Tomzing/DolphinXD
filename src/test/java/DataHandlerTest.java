@@ -154,10 +154,6 @@ class DataHandlerTest {
         DataHandler.slettPerson(testbruker);
         assertTrue(DataHandler.hentListeMedPersoner().isEmpty());
     }
-    @Test
-    void endreArrangement(){
-        DataHandler.endreArrangement(testArrangement);
-    }
 
     @Test
     void slettArrangement(){
