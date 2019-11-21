@@ -1,7 +1,7 @@
 import Dolphin.DataHandler.DataHandler;
 import Dolphin.Model.Arrangement;
-import Dolphin.Model.Bruker;
 import Dolphin.Model.Person;
+import Dolphin.Model.SystemAdmin;
 import org.junit.jupiter.api.*;
 
 import java.io.*;
@@ -17,6 +17,8 @@ class DataHandlerTest {
     private LocalDateTime  tilDato = DataHandler.formaterDato("2002-06-30 20:00");
 
     private Person testbruker;
+
+    private SystemAdmin testadmin;
 
     private Arrangement testArrangement;
 
@@ -49,6 +51,7 @@ class DataHandlerTest {
         leggInnInnholdICSVFil(filDeltagere, headerDeltagereOgAdministratorer);
         leggInnInnholdICSVFil(filAdministratorer, headerDeltagereOgAdministratorer);
 
+        testadmin = new SystemAdmin(1,"admintest","admintest");
         testbruker = new Person("Test","Testesen", LocalDate.parse("2000-12-12"),"Mann","Test","test");
         testArrangement = new Arrangement("Kult Arrangement",testbruker,"Sykkelritt",
                 "Vanskelig",1000,200, fraDato, tilDato, "Stedesen 8",
@@ -96,7 +99,6 @@ class DataHandlerTest {
         DataHandler.lagrePerson(testbruker);
 
         assertEquals(DataHandler.hentListeMedPersoner().get(0).getBrukernavn(), testbruker.getBrukernavn());
-
     }
 
     @Test
@@ -104,7 +106,7 @@ class DataHandlerTest {
         DataHandler.lagreArrangement(testArrangement);
 
         assertEquals(DataHandler.hentArrangementer().get(0).getNavn(),testArrangement.getNavn());
-    }
+}
 
     //Sjekker lister returnert fra DataHandler er tomme. Dette skal aldri være tilfelle, og tyder
     //på en eventuell feil hvis disse feiler.
@@ -121,6 +123,16 @@ class DataHandlerTest {
         DataHandler.lagrePerson(testbruker);
 
         assertFalse(DataHandler.hentListeMedPersoner().isEmpty());
+    }
+
+    //Implementasjonen av adminlisten er litt annerledes, litt kronglete
+    @Test
+    void faaAdminListeFraCsv() {
+        leggInnInnholdICSVFil(filAdministratorer,"1;admintest;admintest");
+
+        hentCSVInnhold(filAdministratorer);
+
+        assertFalse(DataHandler.hentListeMedSysAdmin().isEmpty());
     }
 
     //Tester om man kan legge til bruker i arrangement brukerlistene
