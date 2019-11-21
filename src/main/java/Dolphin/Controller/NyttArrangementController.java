@@ -12,8 +12,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
 public class NyttArrangementController {
@@ -158,13 +161,23 @@ public class NyttArrangementController {
 
                 alert.showAndWait();
             }
-
-
             return false;
         }
         return true;
     }
 
+    //Stub av å parse et gyldig localdatetime
+    public static boolean ldtGyldigFormat(String localDateTime) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");;
+
+        LocalDateTime formatertLDT = LocalDateTime.parse(localDateTime, formatter);
+
+        System.out.println(formatertLDT);
+
+        return true;
+    }
+
+    //Henter informasjon fra JavaFX og sender videre til en allerede testet metode i datahandler
     private void lagArrangement() {
         String navn = txtNavn.getText();
         Bruker arrangor = aktivBruker;

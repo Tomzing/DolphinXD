@@ -6,6 +6,8 @@ import Dolphin.Model.*;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 import java.time.LocalDate;
 
@@ -17,6 +19,9 @@ public class LoggInnController {
     @FXML
     private TextField txtPassord;
 
+    @FXML
+    private ImageView logoIV;
+
     private Main minApplikasjon = Main.getInstance();
 
     private Arrangement valgtArrangement;
@@ -24,6 +29,8 @@ public class LoggInnController {
     //Alt inne i initialize kan slettes, blitt brukt til å teste innhenting av alle arrangementene
     public void initialize() {
         valgtArrangement = minApplikasjon.getValgtArrangement();
+
+        logoIV.setImage((new Image("Bilder/runningdude.png")));
     }
 
     //Dårlig innlogging til programmet
