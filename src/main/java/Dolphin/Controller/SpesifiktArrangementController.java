@@ -147,6 +147,9 @@ public class SpesifiktArrangementController {
                     headerText = "Det er fullt!";
                     contentText = "Dette arrangementet har desverre ingen plasser igjen";
                     break;
+                case "erOpptatt":
+                    headerText = "Du er opptatt";
+                    contentText = "Du er allerede påmeldt et arrangement i denne perioden. Kontakt arrangør for å bli meldt på manuelt";
             }
 
             if(!meldPaa.equals("null")) {
@@ -168,37 +171,35 @@ public class SpesifiktArrangementController {
     //testboolean åpner for mulighet til å unngå betaling via "hacking, men er bare ment som midlertidig testbarhet til et større betalingsystem ville vært implentert
     public String meldPaaBruker(Bruker bruker, Arrangement arrangement, boolean testBoolean) {
 
-        String returnMelding = "";
+        String returnMelding = "feilMelding";
         boolean erAdmin = erArrangor(arrangement, bruker);
-
+        boolean erOpptatt = erOpptatt(arrangement, bruker);
         boolean erPaameldt = erPaameldt(arrangement, bruker);
         boolean erFullt = erFullt(arrangement);
         boolean erUtgaatt = erUtgaatt(arrangement);
 
+
         if (bruker instanceof Person) {
-            if (!erAdmin && !erPaameldt && !erFullt) {
-                if (!erOpptatt(arrangement, bruker) && !erUtgaatt(arrangement)) {
-                    returnMelding = "meldPaa";
-                }
-            }
-            else if (erUtgaatt) {
-                returnMelding = "erUtgatt";
-            }
-            else {
+            if (!erAdmin && !erPaameldt && !erFullt && !erOpptatt && !erUtgaatt) {
+                returnMelding = "meldPaa";
+            } else {
                 if (erAdmin) {
                     returnMelding = "erArrangor";
-                }
-                else if (erPaameldt) {
+                } else if (erUtgaatt) {
+                    returnMelding = "erUtgatt";
+                } else if (erPaameldt) {
                     returnMelding = "erPaameldt";
-                }
-                else if (erFullt) {
+                } else if (erOpptatt) {
+                    returnMelding = "erOpptatt";
+                } else if (erFullt) {
                     returnMelding = "erFullt";
                 }
             }
-
         }
         return returnMelding;
     }
+
+
 
 
     private boolean skalGaaTilLoggInn() {

@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SpesifiktArrangementTest {
     private LocalDateTime fraDato = DataHandler.formaterDato("2002-06-28 20:00");
-    private LocalDateTime  tilDato = DataHandler.formaterDato("2002-06-30 20:00");
+    private LocalDateTime  tilDato = DataHandler.formaterDato("2100-06-30 20:00");
 
     private Person testbruker;
 
@@ -100,8 +100,6 @@ public class SpesifiktArrangementTest {
 
    @Test
     public void meldPaaArrangement() {
-
-
 
        SpesifiktArrangementController controller = new SpesifiktArrangementController();
        Arrangement testArran = new Arrangement("Kult Arrangement",testadmin,"Sykkelritt",
