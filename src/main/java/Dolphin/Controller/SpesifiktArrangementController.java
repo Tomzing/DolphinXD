@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Optional;
 
-public class ArrangementController {
+public class SpesifiktArrangementController {
 
     private Main minApplikasjon = Main.getInstance();
 
@@ -163,7 +163,7 @@ public class ArrangementController {
     }
 
 
-    private String meldPaaBruker(Bruker bruker) {
+    public String meldPaaBruker(Bruker bruker) {
         String returnMelding = "";
         if (bruker instanceof Person) {
             if (!erAdmin() && !erPaameldt() && !erFullt()) {

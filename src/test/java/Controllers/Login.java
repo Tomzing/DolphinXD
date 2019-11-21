@@ -6,7 +6,6 @@ import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class Login {
-
     private static LoggInnController testLoggInn;
 
     @BeforeAll
@@ -16,7 +15,7 @@ public class Login {
 
     @Test
     public void loggerBrukerInn() {
-        assertTrue(testLoggInn.loggInnKjorer("t", "t", true));
+        assertTrue(testLoggInn.loggInnKjorer("test", "test", true));
 
         //Test testesen er en bruker som allerede eksister, og er ment til å bare være en del av prototypen
     }

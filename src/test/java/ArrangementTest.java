@@ -1,4 +1,4 @@
-import Dolphin.Controller.ArrangementController;
+import Dolphin.Controller.SpesifiktArrangementController;
 import Dolphin.DataHandler.DataHandler;
 import Dolphin.Model.Arrangement;
 
@@ -43,8 +43,8 @@ class ArrangementTest {
     //Sjekker om (det veldig sofistikerte) betalingsystemet fungerer
     @Test
     public void betalingsSystem(){
-        ArrangementController test = new ArrangementController();
-        assertTrue(ArrangementController.betalingsSystem(true));
-        assertFalse(ArrangementController.betalingsSystem(false));
+        SpesifiktArrangementController test = new SpesifiktArrangementController();
+        assertTrue(SpesifiktArrangementController.betalingsSystem(true));
+        assertFalse(SpesifiktArrangementController.betalingsSystem(false));
     }
 }
