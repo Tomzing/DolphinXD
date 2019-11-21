@@ -103,7 +103,13 @@ public class NyttArrangementController {
 
     public boolean lagre() {
         String navn = txtNavn.getText();
-        String sportsKategori = String.valueOf(cbSportskategori.getSelectionModel().getSelectedItem());
+        String sportsKategori;
+        if (cbSportskategori.getSelectionModel().getSelectedItem().equals("Annet")) {
+            sportsKategori = txtKategoriAnnet.getText();
+        }
+        else {
+            sportsKategori = cbSportskategori.getSelectionModel().getSelectedItem();
+        }
         String vanskelighetsgrad = cbVanskelighetsgrad.getSelectionModel().getSelectedItem();
         String antallPlasser = String.valueOf(txtAntallPlasser.getText());
         String pris = String.valueOf(txtPris.getText());
