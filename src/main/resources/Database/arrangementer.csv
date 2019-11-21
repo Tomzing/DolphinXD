@@ -1,5 +1,3 @@
 ID;NAVN;ARRANGØR-ID;SPORTSKATEGORI;VANSKELIGHETSGRAD;ANTALL PLASSER;PRIS;STARTTID;SLUTTID;STED;BESKRIVELSE
-1;Stort løp;2;Løp;Vanskelig;20;120;2019-12-12T13:00;2019-12-12T15:30;Halden;Dette er et stort løp!
-2;Svømming!;3;Annet;Middels;15;200;2020-01-23T15:00;2020-01-23T16:30;Halden;Svømming er artig.
-3;Kuli;2;Løp;Lett;5;5;2020-02-09T16:00;2020-02-09T17:00;greg;Kult
-4;dqw;2;Fotballkamp;Lett;5;5;2019-02-02T16:00;2019-02-02T16:00;fwe;re
+1;Stort løp;3;Løp;Vanskelig;20;120;2019-12-12T13:00;2019-12-12T15:30;Halden;Dette er et stort løp!
+2;Svømming!;3;Annet;Middels;0;200;2020-01-23T15:00;2020-01-23T16:30;Halden;Svømming er artig.

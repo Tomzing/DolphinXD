@@ -58,8 +58,10 @@ public class SpesifiktArrangementController {
     private void deaktiverKnapper() {
         if (aktivBruker == null) {
             btnMeldAvBruker.setVisible(false);
+            btnMeldPaa.setVisible(false);
+            btnMeldAv.setVisible(false);
         } else if (aktivBruker instanceof Person) {
-            if (erAdmin()) {
+            if (erArrangor(valgtArrangement, aktivBruker)) {
                 btnMeldPaa.setVisible(false);
                 btnMeldAv.setVisible(false);
             } else {
@@ -108,12 +110,12 @@ public class SpesifiktArrangementController {
         return false;
     }
 
-    //Melder en bruker på et arrangament
-    // bør ble reformatert for å splitte metode og JavaFX
+    //Melder en bruker på et arrangament via med betaling via JavaFX
     @FXML
     private void meldPaa() {
         Bruker aktivBruker = minApplikasjon.getAktivBruker();
-        String meldPaa = meldPaaBruker(aktivBruker);
+        Arrangement aktivtArrangement = valgtArrangement;
+        String meldPaa = meldPaaBruker(aktivBruker, aktivtArrangement);
 
 
         if (meldPaa.equals("meldPaa") && (valgtArrangement.getPris() == 0 || betalForArrangement())) {
@@ -132,8 +134,8 @@ public class SpesifiktArrangementController {
                     headerText ="Utgått arrangement";
                     contentText ="Arrangementet du prøver å melde deg på er utgått dessverre.";
                     break;
-                case "erAdmin":
-                    headerText = "Du ar Admin";
+                case "erArrangor":
+                    headerText = "Du er Arrangor";
                     contentText = "Du kan ikke melde deg på et arrangement når du er Admin. Bytt bruker til en non-admin bruker";
                     break;
                 case "erPaameldt":
@@ -144,6 +146,9 @@ public class SpesifiktArrangementController {
                     headerText = "Det er fullt!";
                     contentText = "Dette arrangementet har desverre ingen plasser igjen";
                     break;
+                case "erOpptatt":
+                    headerText = "Du er opptatt";
+                    contentText = "Du er allerede påmeldt et arrangement i denne perioden. Kontakt arrangør for å bli meldt på manuelt";
             }
 
             if(!meldPaa.equals("null")) {
@@ -161,34 +166,38 @@ public class SpesifiktArrangementController {
             }
         }
     }
+    //Sier om en bruker kan melde seg på et arrangement, og om nei, hvorfor via return statement
+    public String meldPaaBruker(Bruker bruker, Arrangement arrangement) {
+
+        String returnMelding = "feilMelding";
+        boolean erAdmin = erArrangor(arrangement, bruker);
+        boolean erOpptatt = erOpptatt(arrangement, bruker);
+        boolean erPaameldt = erPaameldt(arrangement, bruker);
+        boolean erFullt = erFullt(arrangement);
+        boolean erUtgaatt = erUtgaatt(arrangement);
 
 
-    public String meldPaaBruker(Bruker bruker) {
-        String returnMelding = "";
         if (bruker instanceof Person) {
-            if (!erAdmin() && !erPaameldt() && !erFullt()) {
-                if (!erOpptatt() && !erUtgaatt()) {
-                    returnMelding = "meldPaa";
-                }
-            }
-            else if (erUtgaatt()) {
-                returnMelding = "erUtgatt";
-            }
-            else {
-                if (erAdmin()) {
-                    returnMelding = "erAdmin";
-                } else if (erPaameldt()) {
+            if (!erAdmin && !erPaameldt && !erFullt && !erOpptatt && !erUtgaatt) {
+                returnMelding = "meldPaa";
+            } else {
+                if (erAdmin) {
+                    returnMelding = "erArrangor";
+                } else if (erUtgaatt) {
+                    returnMelding = "erUtgatt";
+                } else if (erPaameldt) {
                     returnMelding = "erPaameldt";
-                } else if (erFullt()) {
+                } else if (erOpptatt) {
+                    returnMelding = "erOpptatt";
+                } else if (erFullt) {
                     returnMelding = "erFullt";
                 }
             }
         }
-        else if (bruker == null) {
-                returnMelding = "null";
-            }
         return returnMelding;
     }
+
+
 
 
     private boolean skalGaaTilLoggInn() {
@@ -208,10 +217,10 @@ public class SpesifiktArrangementController {
 
     //Sjekker om en bruker er administrator
     // kan bli reformatert for å splitte metode og JavaFX
-    private boolean erAdmin() {
-        Bruker arrangor = valgtArrangement.getArrangor();
-        ArrayList<Person> administratorer = valgtArrangement.getAdministratorer();
-        if (aktivBruker.getBrukernavn().equals(arrangor.getBrukernavn())) {
+    private boolean erArrangor(Arrangement arrangement, Bruker bruker) {
+        Bruker arrangor = arrangement.getArrangor();
+        ArrayList<Person> administratorer = arrangement.getAdministratorer();
+        if (bruker.getBrukernavn().equals(arrangor.getBrukernavn())) {
             return true;
         }
         for (Bruker admin : administratorer) {
@@ -224,42 +233,42 @@ public class SpesifiktArrangementController {
 
     //Sjekker om en bruker er allerede påmeldt til et arrangement
     // kan reformatert for å splitte metode og JavaFX
-    private boolean erPaameldt() {
-        ArrayList<Person> deltagere = valgtArrangement.getDeltakereOppmeldt();
+    private boolean erPaameldt(Arrangement arrangement, Bruker bruker) {
+        ArrayList<Person> deltagere = arrangement.getDeltakereOppmeldt();
 
         for (Person deltager : deltagere) {
-            if (aktivBruker.getBrukernavn().equals(deltager.getBrukernavn())) {
+            if (bruker.getBrukernavn().equals(deltager.getBrukernavn())) {
                 return true;
             }
         }
         return false;
     }
-    private boolean erFullt(){
-        int plasser = valgtArrangement.getLedigePlasser();
+    private boolean erFullt(Arrangement arrangement){
+        int plasser = arrangement.getLedigePlasser();
         return plasser <= 0;
     }
 
     //Sjekker om et arrangament allerede har skjedd
     // kan bli reformatert for å splitte metode og JavaFX
-    private boolean erUtgaatt() {
-        LocalDateTime sluttid = valgtArrangement.getSluttid();
+    private boolean erUtgaatt(Arrangement arrangement) {
+        LocalDateTime sluttid = arrangement.getSluttid();
         LocalDateTime naa = LocalDateTime.now();
         return sluttid.compareTo(naa) < 0;
     }
 
     //Sjekker om bruker er allerede påmeldt et arrangement som foregår på samme tid som det de prøver å melde seg på
     //Bør bli reformatert for å splitte metode og JavaFX
-    private boolean erOpptatt() {
+    private boolean erOpptatt(Arrangement arrangement, Bruker bruker) {
         ArrayList<Arrangement> arrangementer = new ArrayList<>(DataHandler.hentArrangementer());
 
         for (Arrangement a2 : arrangementer) {
             ArrayList<Person> deltagere = a2.getDeltakereOppmeldt();
             for (Person deltager : deltagere) {
-                if (!aktivBruker.getBrukernavn().equals(deltager.getBrukernavn())) {
+                if (!bruker.getBrukernavn().equals(deltager.getBrukernavn())) {
                     continue;
                 }
-                LocalDateTime a1Start = valgtArrangement.getStarttid();
-                LocalDateTime a1Slutt = valgtArrangement.getSluttid();
+                LocalDateTime a1Start = arrangement.getStarttid();
+                LocalDateTime a1Slutt = arrangement.getSluttid();
                 LocalDateTime a2Start = a2.getStarttid();
                 LocalDateTime a2Slutt = a2.getSluttid();
                 if (a1Start.compareTo(a2Slutt) < 0 && a1Slutt.compareTo(a2Start) > 0) {

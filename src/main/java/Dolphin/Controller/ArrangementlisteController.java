@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+//Metoder her kunne blitt reformatert for å splitte JavaFX og metoden, men de er ikke "kjernemetoder", og er derfor ikke høyt prioritert
 public class ArrangementlisteController {
 
     private Main minApplikasjon = Main.getInstance();

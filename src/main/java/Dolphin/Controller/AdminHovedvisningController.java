@@ -34,6 +34,7 @@ public class AdminHovedvisningController {
         arrangementListView.setItems(DataHandler.hentArrangementer());
     }
 
+
     @FXML
     private void gaaTilBrukerprofil() {
         Person bruker = brukerListView.getSelectionModel().getSelectedItem();
