@@ -1,6 +1,5 @@
 package Dolphin.Model;
 
-import java.util.Comparator;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class Bruker {
@@ -53,4 +52,5 @@ public abstract class Bruker {
     public String toString() {
         return brukernavn;
     }
+
 }

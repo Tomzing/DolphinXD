@@ -12,6 +12,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+
+//Store deler av Datahandler blir testet via andre metoder
 public class DataHandler {
 
     private static final String filnavnPerson = "src/main/resources/Database/personer.csv";

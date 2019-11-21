@@ -14,6 +14,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class NyBrukerController{
 
@@ -123,18 +124,31 @@ public class NyBrukerController{
         return false;
     }
 
-    private void endrePerson() {
-        valgtBruker.setFornavn(txtFornavn.getText());
-        valgtBruker.setEtternavn(txtEtternavn.getText());
-        valgtBruker.setFodselsdato(dpFodselsdato.getValue());
-        valgtBruker.setKjonn(cbKjonn.getValue());
-        valgtBruker.setBrukernavn(txtBrukernavn.getText());
-        valgtBruker.setPassord(txtPassord.getText());
-
-        DataHandler.endrePerson(valgtBruker);
-
+    //Henter info fra JavaFX og sender det til endreEnPerson()
+    private void endrePerson(){
+        ArrayList<String> nyInfo = new ArrayList<String>();
+        nyInfo.add(txtFornavn.getText());
+        nyInfo.add(txtEtternavn.getText());
+        nyInfo.add(cbKjonn.getValue());
+        nyInfo.add(txtBrukernavn.getText());
+        nyInfo.add(txtPassord.getText());
+        endreEnPerson(valgtBruker, nyInfo, dpFodselsdato.getValue());
         minApplikasjon.aapneAdminHovedvisning();
     }
+
+    //Endrer informasjonen til en person
+    public void endreEnPerson(Person person, ArrayList<String> info, LocalDate fDato) {
+        person.setFornavn(info.get(0));
+        person.setEtternavn(info.get(1));
+        person.setFodselsdato(fDato);
+        person.setKjonn(info.get(2));
+        person.setBrukernavn(info.get(3));
+        person.setPassord(info.get(4));
+
+        DataHandler.endrePerson(person);
+
+    }
+
 
     @FXML
     private void alertError(){
