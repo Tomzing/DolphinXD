@@ -6,6 +6,7 @@ import Dolphin.DataHandler.DataHandler;
 import Dolphin.Model.Arrangement;
 import Dolphin.Model.Person;
 import Dolphin.Model.SystemAdmin;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -108,5 +109,12 @@ public class SpesifiktArrangementTest {
                "Stryke raskt og fort med utrolige varmer!");
 
         assertEquals("meldPaa",controller.meldPaaBruker(testbruker, testArran, true));
+    }
+    @AfterAll
+    static void leggTilbakeCSVInnhold() {
+        leggInnInnholdICSVFil(filArrangementer, arrangementerCSVInnhold);
+        leggInnInnholdICSVFil(filBrukere, brukereCSVInnhold);
+        leggInnInnholdICSVFil(filDeltagere, deltagerCSVInnhold);
+        leggInnInnholdICSVFil(filAdministratorer, administratorerCSVInnhold);
     }
 }

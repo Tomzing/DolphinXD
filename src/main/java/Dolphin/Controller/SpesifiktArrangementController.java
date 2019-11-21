@@ -58,6 +58,8 @@ public class SpesifiktArrangementController {
     private void deaktiverKnapper() {
         if (aktivBruker == null) {
             btnMeldAvBruker.setVisible(false);
+            btnMeldPaa.setVisible(false);
+            btnMeldAv.setVisible(false);
         } else if (aktivBruker instanceof Person) {
             if (erArrangor(valgtArrangement, aktivBruker)) {
                 btnMeldPaa.setVisible(false);
@@ -167,13 +169,14 @@ public class SpesifiktArrangementController {
     public String meldPaaBruker(Bruker bruker, Arrangement arrangement, boolean testBoolean) {
 
         String returnMelding = "";
-        boolean erArrangor = erArrangor(arrangement, bruker);
+        boolean erAdmin = erArrangor(arrangement, bruker);
+
         boolean erPaameldt = erPaameldt(arrangement, bruker);
         boolean erFullt = erFullt(arrangement);
         boolean erUtgaatt = erUtgaatt(arrangement);
 
         if (bruker instanceof Person) {
-            if (!erArrangor && !erPaameldt && !erFullt) {
+            if (!erAdmin && !erPaameldt && !erFullt) {
                 if (!erOpptatt(arrangement, bruker) && !erUtgaatt(arrangement)) {
                     returnMelding = "meldPaa";
                 }
@@ -182,18 +185,18 @@ public class SpesifiktArrangementController {
                 returnMelding = "erUtgatt";
             }
             else {
-                if (erArrangor) {
+                if (erAdmin) {
                     returnMelding = "erArrangor";
-                } else if (erPaameldt) {
+                }
+                else if (erPaameldt) {
                     returnMelding = "erPaameldt";
-                } else if (erFullt) {
+                }
+                else if (erFullt) {
                     returnMelding = "erFullt";
                 }
             }
+
         }
-        else if (bruker == null) {
-                returnMelding = "null";
-            }
         return returnMelding;
     }
 
