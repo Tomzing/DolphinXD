@@ -80,8 +80,13 @@ public class AdminHovedvisningController {
     @FXML
     private void slettArrangement() {
         Arrangement valgtArrangement = arrangementListView.getSelectionModel().getSelectedItem();
-        DataHandler.slettArrangement(valgtArrangement);
-        arrangementListView.setItems(DataHandler.hentArrangementer());
+        if(valgtArrangement == null){
+            System.out.println("Du må velge et arrangement du vil slette.");
+        }
+        else {
+            DataHandler.slettArrangement(valgtArrangement);
+            arrangementListView.setItems(DataHandler.hentArrangementer());
+        }
     }
 }
 
