@@ -60,9 +60,14 @@ public class AdminHovedvisningController {
     @FXML
     private void slettBruker() {
         Person valgtBruker = brukerListView.getSelectionModel().getSelectedItem();
-        DataHandler.slettPerson(valgtBruker);
-        brukerListView.setItems(DataHandler.hentListeMedPersoner());
-        arrangementListView.setItems(DataHandler.hentArrangementer());
+        if(valgtBruker == null){
+            System.out.println("Du må velge en bruker du vil slette.");
+        }
+        else {
+            DataHandler.slettPerson(valgtBruker);
+            brukerListView.setItems(DataHandler.hentListeMedPersoner());
+            arrangementListView.setItems(DataHandler.hentArrangementer());
+        }
     }
 
     @FXML
