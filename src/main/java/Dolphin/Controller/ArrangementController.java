@@ -58,23 +58,21 @@ public class ArrangementController {
     private void deaktiverKnapper() {
         if (aktivBruker == null) {
             btnMeldAvBruker.setVisible(false);
-        }
-        else if (aktivBruker instanceof Person) {
+        } else if (aktivBruker instanceof Person) {
             if (erAdmin()) {
                 btnMeldPaa.setVisible(false);
                 btnMeldAv.setVisible(false);
             } else {
                 btnMeldAvBruker.setVisible(false);
             }
-        }
-        else {
+        } else {
             btnMeldPaa.setVisible(false);
             btnMeldAv.setVisible(false);
         }
     }
 
     //Betalingsmetode hvor hvis man "betaler" så returnerer den true, hvis ikke false
-    private boolean  betalForArrangement() {
+    private boolean betalForArrangement() {
         Alert bekreftBetaling = new Alert(Alert.AlertType.CONFIRMATION);
         bekreftBetaling.setTitle("Betaling");
         bekreftBetaling.setHeaderText("Bekreft betaling for påmelding");
@@ -86,15 +84,14 @@ public class ArrangementController {
         ButtonType bekreftBetalingBtn = new ButtonType("Bekreft betaling");
         ButtonType avbrytBetalingBtn = new ButtonType("Avbryt", ButtonBar.ButtonData.CANCEL_CLOSE);
 
-        bekreftBetaling.getButtonTypes().setAll(bekreftBetalingBtn,avbrytBetalingBtn);
+        bekreftBetaling.getButtonTypes().setAll(bekreftBetalingBtn, avbrytBetalingBtn);
 
         Optional<ButtonType> resultat = bekreftBetaling.showAndWait();
-        if(resultat.get() == bekreftBetalingBtn){
+        if (resultat.get() == bekreftBetalingBtn) {
             betalingsSystem(true);
             bekreftBetaling.close();
             return true;
-        }
-        else if(resultat.get() == avbrytBetalingBtn){
+        } else if (resultat.get() == avbrytBetalingBtn) {
             betalingsSystem(false);
 
         }
@@ -102,11 +99,10 @@ public class ArrangementController {
     }
 
     //I et ferdig produkt ville dette systemet vært ekstremt utvidet, derfor er det en egen metode
-    public static boolean betalingsSystem(boolean bekreftelse){
-        if(bekreftelse) {
+    public static boolean betalingsSystem(boolean bekreftelse) {
+        if (bekreftelse) {
             return true;
-        }
-        else  {
+        } else {
             System.out.println("Betaling feilet, du er ikke meldt på");
         }
         return false;
@@ -117,54 +113,83 @@ public class ArrangementController {
     @FXML
     private void meldPaa() {
         Bruker aktivBruker = minApplikasjon.getAktivBruker();
-        if (aktivBruker instanceof Person) {
-            if (!erAdmin() && !erPaameldt() && !erFullt()) {
-                //Bør gi alert boks, gjør det under refaktorering av kode
-                if (!erOpptatt() && !erUtgaatt()) {
-                    if (valgtArrangement.getPris() == 0 || betalForArrangement()) {
-                        valgtArrangement.leggTilNyDeltager((Person) aktivBruker);
-                        oppdaterListe();
-                        DataHandler.lagreDeltager(aktivBruker, valgtArrangement);
-                    }
-                }
-                else if(erUtgaatt()) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Feil!");
-                    alert.setHeaderText("Utgått arrangement");
-                    alert.setContentText("Arrangementet du prøver å melde deg på er utgått dessverre.");
+        String meldPaa = meldPaaBruker(aktivBruker);
 
-                    alert.showAndWait();
-                }
-            }
-            else{
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Feil!");
-                String headerText = "";
-                String contentText = "";
-                if(erAdmin()){
+
+        if (meldPaa.equals("meldPaa") && (valgtArrangement.getPris() == 0 || betalForArrangement())) {
+            valgtArrangement.leggTilNyDeltager((Person) aktivBruker);
+            oppdaterListe();
+            DataHandler.lagreDeltager(aktivBruker, valgtArrangement);
+        }
+
+        else {
+            //Åpner for mulige meldingsbugs, men lar oss gi riktig feilmelding hvor arrangement ikke er betalt for, ettersom switch case ikke lett lar oss gjøre dette
+            //Hvis betalForArrangement() var i meldPaaBruker ville vi ikke kunnet lage en test pga. JavaFX
+            String headerText = "Ikke betalt";
+            String contentText = "Du har ikke betalt for arrangementet";
+            switch (meldPaa) {
+                case "erUtgaatt":
+                    headerText ="Utgått arrangement";
+                    contentText ="Arrangementet du prøver å melde deg på er utgått dessverre.";
+                    break;
+                case "erAdmin":
                     headerText = "Du ar Admin";
                     contentText = "Du kan ikke melde deg på et arrangement når du er Admin. Bytt bruker til en non-admin bruker";
-                }
-                else if(erPaameldt()){
+                    break;
+                case "erPaameldt":
                     headerText = "Du er allerede påmeldt";
                     contentText = "Du har allerede meldt deg på dette arrangementet";
-                }
-                else if(erFullt()){
+                    break;
+                case "erFullt":
                     headerText = "Det er fullt!";
-                    contentText ="Dette arrangementet har desverre ingen plasser igjen";
-                }
+                    contentText = "Dette arrangementet har desverre ingen plasser igjen";
+                    break;
+            }
+
+            if(!meldPaa.equals("null")) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Feil!");
                 alert.setHeaderText(headerText);
                 alert.setContentText(contentText);
                 alert.showAndWait();
             }
         }
-        else if (aktivBruker == null) {
+        if (meldPaa.equals("null")) {
             if (skalGaaTilLoggInn()) {
                 minApplikasjon.setValgtArrangement(valgtArrangement);
                 minApplikasjon.aapneLoggInn();
             }
         }
     }
+
+
+    private String meldPaaBruker(Bruker bruker) {
+        String returnMelding = "";
+        if (bruker instanceof Person) {
+            if (!erAdmin() && !erPaameldt() && !erFullt()) {
+                if (!erOpptatt() && !erUtgaatt()) {
+                    returnMelding = "meldPaa";
+                }
+            }
+            else if (erUtgaatt()) {
+                returnMelding = "erUtgatt";
+            }
+            else {
+                if (erAdmin()) {
+                    returnMelding = "erAdmin";
+                } else if (erPaameldt()) {
+                    returnMelding = "erPaameldt";
+                } else if (erFullt()) {
+                    returnMelding = "erFullt";
+                }
+            }
+        }
+        else if (bruker == null) {
+                returnMelding = "null";
+            }
+        return returnMelding;
+    }
+
 
     private boolean skalGaaTilLoggInn() {
         ButtonType btnJa = new ButtonType("Ja", ButtonBar.ButtonData.YES);
