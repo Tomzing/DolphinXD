@@ -88,17 +88,6 @@ class DataHandlerTest {
         }
     }
 
-    //Sjekker nedover om lister returnert fra DataHandler er tomme. Dette skal aldri være tilfelle, og tyder
-    //på en eventuell feil hvis disse feiler.
-    @Test
-    void faaArrangementerFraCsv() {
-        assertTrue(DataHandler.hentArrangementer().isEmpty());
-    }
-
-    @Test
-    void faaBrukerlisteFraCsv() {
-        assertTrue(DataHandler.hentListeMedPersoner().isEmpty());
-    }
 
     //Sjekker om man kan lagre en ny bruker som blir skrevet til csv og sjekker om brukeren kan bli lest fra listen
     //med brukere
@@ -115,6 +104,23 @@ class DataHandlerTest {
         DataHandler.lagreArrangement(testArrangement);
 
         assertEquals(DataHandler.hentArrangementer().get(0).getNavn(),testArrangement.getNavn());
+    }
+
+    //Sjekker lister returnert fra DataHandler er tomme. Dette skal aldri være tilfelle, og tyder
+    //på en eventuell feil hvis disse feiler.
+    @Test
+    void faaArrangementerFraCsv() {
+        DataHandler.lagreArrangement(testArrangement);
+
+
+        assertFalse(DataHandler.hentArrangementer().isEmpty());
+    }
+
+    @Test
+    void faaBrukerlisteFraCsv() {
+        DataHandler.lagrePerson(testbruker);
+
+        assertFalse(DataHandler.hentListeMedPersoner().isEmpty());
     }
 
     //Tester om man kan legge til bruker i arrangement brukerlistene
@@ -138,5 +144,4 @@ class DataHandlerTest {
         leggInnInnholdICSVFil(filDeltagere, deltagerCSVInnhold);
         leggInnInnholdICSVFil(filAdministratorer, administratorerCSVInnhold);
     }
-
 }
