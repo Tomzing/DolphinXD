@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Rectangle?>
-<?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="550.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Dolphin.Controller.LoggInnController">
+<AnchorPane prefHeight="550.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Dolphin.Controller.LoggInnController">
    <children>
       <TextField id="inputBrukernavn" fx:id="txtBrukernavn" layoutX="338.0" layoutY="100.0" promptText="Brukernavn" />
       <TextField id="inputPassord" fx:id="txtPassord" layoutX="338.0" layoutY="176.0" promptText="Passord" />
@@ -18,9 +15,10 @@
       <Button layoutX="699.0" layoutY="177.0" mnemonicParsing="false" onAction="#skrivInnPersonInfo" text="Person" />
       <Button layoutX="671.0" layoutY="216.0" mnemonicParsing="false" onAction="#skrivInnAdminInfo" text="SystemAdmin" />
       <Button layoutX="355.0" layoutY="257.0" mnemonicParsing="false" onAction="#loggInnBruker" text="Logg inn som bruker" />
-      <Button layoutX="326.0" layoutY="340.0" mnemonicParsing="false" onAction="#loggInnAdmin" text="Logg inn som system admin" />
+      <Button layoutX="336.0" layoutY="336.0" mnemonicParsing="false" onAction="#loggInnAdmin" text="Logg inn som system admin" />
       <Button layoutX="783.0" layoutY="497.0" mnemonicParsing="false" onAction="#gaaTilNyBruker" text="Ny bruker" />
       <Label layoutX="338.0" layoutY="79.0" text="Brukernavn:" />
       <Label layoutX="338.0" layoutY="156.0" text="Passord:" />
+      <ImageView fx:id="logoIV" fitHeight="313.0" fitWidth="257.0" layoutX="34.0" layoutY="49.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>
