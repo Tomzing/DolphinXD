@@ -101,13 +101,66 @@ public class NyttArrangementController {
         }
     }
 
-    public void lagre() {
-        if (valgtArrangement != null) {
-            endreArrangement();
+    public boolean lagre() {
+        String navnTest = txtNavn.getText();
+        String sportsKategoriTest = String.valueOf(cbSportskategori.getSelectionModel().getSelectedItem());
+        String vanskelighetsgradTest = cbVanskelighetsgrad.getSelectionModel().getSelectedItem();
+        String antallPlasserTest = String.valueOf(txtAntallPlasser.getText());
+        String prisTest = String.valueOf(txtPris.getText());
+        String stedTest = txtSted.getText();
+        String startTidTest = txtStarttid.getText();
+        String sluttTidTest = txtSluttid.getText();
+        String beskrivelseTest = txtBeskrivelse.getText();
+
+        boolean erTest = false;
+
+        if(ingenTommeFelter(navnTest,
+                sportsKategoriTest,
+                vanskelighetsgradTest,
+                antallPlasserTest,
+                prisTest,
+                stedTest,
+                startTidTest,
+                sluttTidTest,
+                beskrivelseTest,
+                erTest))
+        {
+            if (valgtArrangement != null) {
+
+                endreArrangement();
+                return true;
+            }
+            else {
+                lagArrangement();
+                return true;
+            }
         }
         else {
-            lagArrangement();
+            return false;
         }
+    }
+
+    public boolean ingenTommeFelter(String navnTest, String sportsKategori, String vanskelighetsgradTest,
+                                   String antallPlasserTest, String prisTest, String stedTest, String startTidTest,
+                                   String sluttTidTest, String beskrivelseTest, boolean erTest)
+    {
+        if(navnTest.equals("") || sportsKategori.equals("") || vanskelighetsgradTest.equals("")
+                || antallPlasserTest.equals("") || prisTest.equals("") || stedTest.equals("") || startTidTest.equals("")
+                || sluttTidTest.equals("") || beskrivelseTest.equals(""))
+        {
+            if(!erTest) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Feil!");
+                alert.setHeaderText("Tomme felter oppdaget!");
+                alert.setContentText("Vennligst fyll inn alle felt i tekstfeltene");
+
+                alert.showAndWait();
+            }
+
+
+            return false;
+        }
+        return true;
     }
 
     private void lagArrangement() {
