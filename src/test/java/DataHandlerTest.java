@@ -8,6 +8,7 @@ import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -158,6 +159,15 @@ class DataHandlerTest {
         DataHandler.endreArrangement(testArrangement);
     }
 
+    @Test
+    void slettArrangement(){
+        DataHandler.lagreArrangement(testArrangement);
+        List arrangementerFoor = DataHandler.hentArrangementer();
+        DataHandler.slettArrangement(testArrangement);
+        List arrangementerEtter = DataHandler.hentArrangementer();
+        assertNotEquals(arrangementerFoor, arrangementerEtter);
+
+    }
 
     @AfterAll
     static void leggTilbakeCSVInnhold() {

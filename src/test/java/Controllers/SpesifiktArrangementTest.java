@@ -104,18 +104,19 @@ public class SpesifiktArrangementTest {
        assertEquals("meldPaa",controller.meldPaaBruker(testbruker, testArrangement));
     }
     @Test
-    public void meldAavArrangement(){
+    void meldAavArrangement(){
         DataHandler.lagreDeltager(testbruker, testArrangement);
         SpesifiktArrangementController controller = new SpesifiktArrangementController();
         assertTrue(controller.meldAvBruker(testbruker,testArrangement));
     }
     @Test
-    public void meldAavArrangementFeilet(){
+    void meldAavArrangementFeilet(){
         SpesifiktArrangementController controller = new SpesifiktArrangementController();
 
         //null her vil si at en bruker ikke er blitt selektert i viewet
         assertFalse(controller.meldAvBruker(null,testArrangement));
     }
+
     @AfterAll
     static void leggTilbakeCSVInnhold() {
         leggInnInnholdICSVFil(filArrangementer, arrangementerCSVInnhold);
