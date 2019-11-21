@@ -113,7 +113,7 @@ public class SpesifiktArrangementTest {
     public void meldAavArrangementFeilet(){
         SpesifiktArrangementController controller = new SpesifiktArrangementController();
 
-        //null her vil si at en bruker ikke er blitt selektert
+        //null her vil si at en bruker ikke er blitt selektert i viewet
         assertFalse(controller.meldAvBruker(null,testArrangement));
     }
     @AfterAll
