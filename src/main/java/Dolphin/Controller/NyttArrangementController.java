@@ -196,7 +196,7 @@ public class NyttArrangementController {
         minApplikasjon.aapneArrangementliste();
     }
 
-    static void endreArrangement(Arrangement arrangement, String navn, String kategori,
+    static public void endreArrangement(Arrangement arrangement, String navn, String kategori,
                                   String vansklighetsgrad, int plasser, String pris,
                                   String sted, LocalDateTime startTid, LocalDateTime sluttTid,
                                   String beskrivelse) {

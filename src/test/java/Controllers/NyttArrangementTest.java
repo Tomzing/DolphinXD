@@ -1,15 +1,18 @@
 package Controllers;
+
 import Dolphin.Controller.NyttArrangementController;
 import Dolphin.DataHandler.DataHandler;
 import Dolphin.Model.Arrangement;
 import Dolphin.Model.Person;
 import Dolphin.Model.SystemAdmin;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -140,6 +143,16 @@ public class NyttArrangementTest {
                 sluttTidTest,
                 beskrivelseTest,
                 erTest));
+    }
+    @Test
+    void endreArrangementTest(){
+        NyttArrangementController.endreArrangement(testArrangement,"Ikke så kult Arrangement","Sykkelritt",
+                "Vanskelig",1000,"200","Stedesen 8", fraDato, tilDato,
+                "Stryke raskt og fort med utrolige varmer!");
+        //Nytt navn
+      assertEquals("Ikke så kult Arrangement",testArrangement.getNavn());
+      //Sjekker at det ikke er gammelt navn
+      assertNotEquals("Kult Arrangement",testArrangement.getNavn());
     }
 
 
