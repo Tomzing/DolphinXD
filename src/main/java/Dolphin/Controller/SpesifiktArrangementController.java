@@ -249,7 +249,7 @@ public class SpesifiktArrangementController {
     }
 
     //Sjekker om et arrangament allerede har skjedd
-    // kan bli reformatert for å splitte metode og JavaFX
+
     private boolean erUtgaatt(Arrangement arrangement) {
         LocalDateTime sluttid = arrangement.getSluttid();
         LocalDateTime naa = LocalDateTime.now();
@@ -257,7 +257,7 @@ public class SpesifiktArrangementController {
     }
 
     //Sjekker om bruker er allerede påmeldt et arrangement som foregår på samme tid som det de prøver å melde seg på
-    //Bør bli reformatert for å splitte metode og JavaFX
+
     private boolean erOpptatt(Arrangement arrangement, Bruker bruker) {
         ArrayList<Arrangement> arrangementer = new ArrayList<>(DataHandler.hentArrangementer());
 
@@ -279,27 +279,23 @@ public class SpesifiktArrangementController {
         return false;
     }
 
-    //Melder en bruker av et arrangement
-    //kan bli reformatert for å splitte metode og JavaFX
+
+    //Henter bruker og arrangement fra JavaFX og sender til meldAvBruker()
     @FXML
     private void meldAv() {
-        if (aktivBruker != null) {
-            valgtArrangement.fjernDeltager(aktivBruker);
-            DataHandler.fjernPaameldingTilArrangement(valgtArrangement, aktivBruker);
-            oppdaterListe();
+        meldAvBruker(aktivBruker, valgtArrangement);
+        oppdaterListe();
         }
-    }
 
-    //Melder en bruker av et arrangement
-    //kan bli reformatert for å splitte metode og JavaFX
-    @FXML
-    private void meldAvBruker() {
-        Bruker valgtBruker = deltagere.getSelectionModel().getSelectedItem();
-        if (valgtBruker != null) {
-            valgtArrangement.fjernDeltager(valgtBruker);
-            DataHandler.fjernPaameldingTilArrangement(valgtArrangement, valgtBruker);
-            oppdaterListe();
+        //Melder en bruker av et arrangement
+    public boolean meldAvBruker(Bruker bruker, Arrangement arrangement) {
+        if (bruker != null) {
+            arrangement.fjernDeltager(bruker);
+            DataHandler.fjernPaameldingTilArrangement(arrangement, bruker);
+
+            return true;
         }
+        return false;
     }
 
     //Oppdaterer listviweet i JavaFX med valgt objekt

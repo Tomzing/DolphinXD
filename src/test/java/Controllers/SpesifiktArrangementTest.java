@@ -15,8 +15,7 @@ import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
+import static org.junit.jupiter.api.Assertions.*;
 
 
 public class SpesifiktArrangementTest {
@@ -60,7 +59,7 @@ public class SpesifiktArrangementTest {
 
         testadmin = new SystemAdmin(1,"admintest","admintest");
         testbruker = new Person("Test","Testesen", LocalDate.parse("2000-12-12"),"Mann","Test","test");
-        testArrangement = new Arrangement("Kult Arrangement",testbruker,"Sykkelritt",
+        testArrangement = new Arrangement("Kult Arrangement",testadmin,"Sykkelritt",
                 "Vanskelig",1000,200, fraDato, tilDato, "Stedesen 8",
                 "Stryke raskt og fort med utrolige varmer!");
     }
@@ -102,11 +101,20 @@ public class SpesifiktArrangementTest {
     public void meldPaaArrangement() {
 
        SpesifiktArrangementController controller = new SpesifiktArrangementController();
-       Arrangement testArran = new Arrangement("Kult Arrangement",testadmin,"Sykkelritt",
-               "Vanskelig",1000,200, fraDato, tilDato, "Stedesen 8",
-               "Stryke raskt og fort med utrolige varmer!");
+       assertEquals("meldPaa",controller.meldPaaBruker(testbruker, testArrangement));
+    }
+    @Test
+    public void meldAavArrangement(){
+        DataHandler.lagreDeltager(testbruker, testArrangement);
+        SpesifiktArrangementController controller = new SpesifiktArrangementController();
+        assertTrue(controller.meldAvBruker(testbruker,testArrangement));
+    }
+    @Test
+    public void meldAavArrangementFeilet(){
+        SpesifiktArrangementController controller = new SpesifiktArrangementController();
 
-        assertEquals("meldPaa",controller.meldPaaBruker(testbruker, testArran));
+        //null her vil si at en bruker ikke er blitt selektert i viewet
+        assertFalse(controller.meldAvBruker(null,testArrangement));
     }
     @AfterAll
     static void leggTilbakeCSVInnhold() {
